@@ -15,7 +15,6 @@ public class C64MazeThing {
 					return;
 				}
 				mazeFrame.setVisible(true);
-				mazeFrame.runMazeProgram();
 			}			
 		});
 	}
