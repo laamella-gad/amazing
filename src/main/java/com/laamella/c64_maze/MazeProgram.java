@@ -7,37 +7,26 @@ import static com.laamella.c64_maze.C64.RND;
 
 import javax.swing.SwingWorker;
 
-public class MazeProgram extends SwingWorker<String, Object>{
+public class MazeProgram extends SwingWorker<String, Object> {
 	private int X;
-
 	private int H;
-
 	private float S;
-
 	private int[] L;
-
 	private int[] R;
-
 	private int I;
-
 	private int Z;
-
 	private int P;
-
 	private int A;
-
 	private int Y;
-
 	private int U;
-
 	private String Q$;
 
 	private final C64 c64;
 
-	public MazeProgram(final C64 c64){
-		this.c64=c64;
+	public MazeProgram(final C64 c64) {
+		this.c64 = c64;
 	}
-	
+
 	private void GOSUB20() {
 		// 20 P=A-1
 		P = A - 1;
@@ -142,24 +131,23 @@ public class MazeProgram extends SwingWorker<String, Object>{
 			for (A = X; A >= 1; A--) {
 				if (R[A] == A - 1 || RND(1) < S) {
 					Z = 0;
-					// TODO goto 250
+				} else {
+
+					// 220 IFR(A)THENGOSUB20
+					if (DEBOOL(R[A])) {
+						GOSUB20();
+					}
+
+					// 230 IFL(A-1)THENGOSUB50
+					if (DEBOOL(L[A - 1])) {
+						GOSUB50();
+					}
+
+					// 240 R(A)=A-1:L(A-1)=A:Z=2
+					R[A] = A - 1;
+					L[A - 1] = A;
+					Z = 2;
 				}
-
-				// 220 IFR(A)THENGOSUB20
-				if (DEBOOL(R[A])) {
-					GOSUB20();
-				}
-
-				// 230 IFL(A-1)THENGOSUB50
-				if (DEBOOL(L[A - 1])) {
-					GOSUB50();
-				}
-
-				// 240 R(A)=A-1:L(A-1)=A:Z=2
-				R[A] = A - 1;
-				L[A - 1] = A;
-				Z = 2;
-
 				// 250 IFL(A)+R(A) AND
 				// RND(1)>STHENL(R(A))=L(A):R(L(A))=R(A):L(A)=0:R(A)=0:Z=Z+1
 				if (DEBOOL(L[A] + R[A]) && RND(1) > S) {
@@ -173,19 +161,20 @@ public class MazeProgram extends SwingWorker<String, Object>{
 				// 260 PRINTC$(Z);:NEXT:PRINTSPC(39-X);"]";:NEXT
 				c64.PRINT_POKE_SEMICOLON(C$[Z]);
 			}
+			c64.PRINT_SPC_SEMICOLON(39 - X);
+			c64.PRINT_POKE_SEMICOLON(0xE1);
+		}
+		// 270 U=INT(RND(1)*X)+1:FORA=XTO1STEP-1
+		U = INT(RND(1) * X) + 1;
+		for (A = X; A <= X; X--) {
 
-			// 270 U=INT(RND(1)*X)+1:FORA=XTO1STEP-1
-			U = INT(RND(1) * X) + 1;
-			for (A = X; A <= X; X--) {
-
-				// 280
-				// IFR(A)=A-1ORR(A)ANDRND(1)<STHENPRINTC$(1+(A=U));:NEXT:GOTO300
-				if (R[A] == A - 1 || DEBOOL(R[A]) && RND(1) < S) {
-					c64.PRINT_POKE_SEMICOLON(C$[1 + (ENBOOL(A == U))]);
-					// NEXT ???
-					GOTO300();
-				}
+			// 280
+			// IFR(A)=A-1ORR(A)ANDRND(1)<STHENPRINTC$(1+(A=U));:NEXT:GOTO300
+			if (R[A] == A - 1 || DEBOOL(R[A]) && RND(1) < S) {
+				c64.PRINT_POKE_SEMICOLON(C$[1 + (ENBOOL(A == U))]);
 			}
+			// NEXT ???
+			GOTO300();
 
 			// 290 GOSUB20:PRINTC$(3+(A=U));:NEXT
 			GOSUB20();
