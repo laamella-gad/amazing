@@ -11,6 +11,7 @@ public class MazeFrame extends JFrame {
 
 	public MazeFrame() throws IOException {
 		setSize(700, 500);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		c64 = new C64();
 		setContentPane(c64);
 		c64.PRINT();
@@ -19,7 +20,7 @@ public class MazeFrame extends JFrame {
 		c64.PRINT(" 64K RAM SYSTEM 38911 BASIC BYTES FREE");
 		c64.PRINT();
 		c64.PRINT("READY.");
-		MazeProgram mazeProgram = new MazeProgram(c64);
+		RefactoredMazeProgram mazeProgram = new RefactoredMazeProgram(c64);
 		mazeProgram.execute();
 	}
 

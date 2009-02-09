@@ -15,23 +15,14 @@ import javax.swing.Timer;
 
 public class C64 extends JPanel {
 	private static final int START_OF_SCREEN_MEMORY = 1024;
-
 	private static final long serialVersionUID = 1L;
-
 	private static final int ScreenWidth = 40;
-
 	private static final int ScreenHeight = 25;
-
 	public static final int TRUE = -1;
-
 	public static final int FALSE = 0;
-
 	private final int[] memory = new int[0x10000];
-
 	private int cursorX = 0;
-
 	private int cursorY = 0;
-
 	private final BufferedImage characterSet;
 
 	public C64() throws IOException {
@@ -58,7 +49,6 @@ public class C64 extends JPanel {
 	public int BarLeft4Pixels = 0x61;
 
 	protected void paintComponent(Graphics g) {
-		System.out.println("repaint");
 		super.paintComponent(g);
 		final Graphics2D graphics = (Graphics2D) g;
 		for (int x = 0; x < ScreenWidth; x++) {
@@ -164,11 +154,11 @@ public class C64 extends JPanel {
 		}
 	}
 
-	public static float RND(int i) {
+	public static double RND(int i) {
 		return (float) Math.random();
 	}
 
-	public static int INT(float i) {
+	public static int INT(double i) {
 		return (int) i;
 	}
 
