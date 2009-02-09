@@ -84,8 +84,8 @@ public class MazeProgram extends SwingWorker<String, Object> {
 		C$[3] = 0x62;
 		c64.POKE(53281, 0);
 
-		X = 20;
-		H = 15;
+		X = 39;
+		H = 22;
 		S = 0.5f;
 		Q$ = "J";
 		// // 150
@@ -166,21 +166,21 @@ public class MazeProgram extends SwingWorker<String, Object> {
 		}
 		// 270 U=INT(RND(1)*X)+1:FORA=XTO1STEP-1
 		U = INT(RND(1) * X) + 1;
-		for (A = X; A <= X; X--) {
+		for (A = X; A >= 1; A--) {
 
 			// 280
-			// IFR(A)=A-1ORR(A)ANDRND(1)<STHENPRINTC$(1+(A=U));:NEXT:GOTO300
+			// IF R(A)=A-1 OR R(A) AND RND(1)<S
+			// THENPRINTC$(1+(A=U));:NEXT:GOTO300
 			if (R[A] == A - 1 || DEBOOL(R[A]) && RND(1) < S) {
 				c64.PRINT_POKE_SEMICOLON(C$[1 + (ENBOOL(A == U))]);
+
+			} else {
+				// 290 GOSUB20:PRINTC$(3+(A=U));:NEXT
+				GOSUB20();
+				c64.PRINT_POKE_SEMICOLON(C$[3 + (ENBOOL(A == U))]);
 			}
-			// NEXT ???
-			GOTO300();
-
-			// 290 GOSUB20:PRINTC$(3+(A=U));:NEXT
-			GOSUB20();
-			c64.PRINT_POKE_SEMICOLON(C$[3 + (ENBOOL(A == U))]);
 		}
-
+		GOTO300();
 	}
 
 	private void GOTO300() {
