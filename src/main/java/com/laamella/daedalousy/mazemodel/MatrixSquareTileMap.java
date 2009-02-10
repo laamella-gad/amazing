@@ -1,6 +1,6 @@
 package com.laamella.daedalousy.mazemodel;
 
-public class MatrixSquareTileMap implements SquareTileMap {
+public class MatrixSquareTileMap implements OrthogonalTileMap {
 
 	private final int width;
 	private final int height;

@@ -1,14 +1,15 @@
 package com.laamella.daedalousy.generators;
 
-import com.laamella.daedalousy.mazemodel.SquareGrid;
+import com.laamella.daedalousy.mazemodel.OrthogonalGrid;
 
 /**
- * 
+ * Converted from a BASIC type in listing, which I typed in somewhere in the
+ * eighties.
  */
-public class EllerC64 {
-	private final SquareGrid model;
+public class Eller {
+	private final OrthogonalGrid model;
 
-	public EllerC64(final SquareGrid model) {
+	public Eller(final OrthogonalGrid model) {
 		this.model = model;
 	}
 
@@ -35,8 +36,8 @@ public class EllerC64 {
 	}
 
 	private void setSquareOpenRightAndBottom(int x, int y, boolean openRight, boolean openBottom) {
-		model.setMazeWall(x, y, SquareGrid.Wall.EAST, !openRight);
-		model.setMazeWall(x, y, SquareGrid.Wall.SOUTH, !openBottom);
+		model.setMazeWall(x, y, OrthogonalGrid.Wall.EAST, !openRight);
+		model.setMazeWall(x, y, OrthogonalGrid.Wall.SOUTH, !openBottom);
 	}
 
 	public void createMaze(double steepness) {

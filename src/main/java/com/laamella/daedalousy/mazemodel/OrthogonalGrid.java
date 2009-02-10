@@ -1,6 +1,6 @@
 package com.laamella.daedalousy.mazemodel;
 
-public interface SquareGrid {
+public interface OrthogonalGrid {
 	public static enum Wall {
 		NORTH, SOUTH, EAST, WEST
 	}

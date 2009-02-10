@@ -1,10 +1,10 @@
 package com.laamella.daedalousy.mazemodel;
 
-public class TileMapToSquareGridAdapter implements SquareGrid {
+public class OrtogonalTileMapToGridAdapter implements OrthogonalGrid {
 
-	private final SquareTileMap tileMap;
+	private final OrthogonalTileMap tileMap;
 
-	public TileMapToSquareGridAdapter(final SquareTileMap tileMap) {
+	public OrtogonalTileMapToGridAdapter(final OrthogonalTileMap tileMap) {
 		this.tileMap = tileMap;
 	}
 
