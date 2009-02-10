@@ -1,18 +1,15 @@
-package com.laamella.c64_maze;
+package com.laamella.daedalousy.generators;
 
-import javax.swing.SwingWorker;
+import com.laamella.daedalousy.mazemodel.SquareGrid;
 
-public class RefactoredMazeProgram extends SwingWorker<String, Object> {
-	private static final int BarBottom = 0x62;
-	private static final int BlockBottomRight = 0x6C;
-	private static final int BarRightBottom = 0xFE;
-	private static final int BarRight = 0xE1;
+/**
+ * 
+ */
+public class EllerC64 {
+	private final SquareGrid model;
 
-	private final C64 c64;
-	private final int[] mazeBlock = new int[] { BarRight, BarRightBottom, BlockBottomRight, BarBottom };
-
-	public RefactoredMazeProgram(final C64 c64) {
-		this.c64 = c64;
+	public EllerC64(final SquareGrid model) {
+		this.model = model;
 	}
 
 	private void messWithLR_0(int x, int[] l, int[] r) {
@@ -37,35 +34,32 @@ public class RefactoredMazeProgram extends SwingWorker<String, Object> {
 		l[pos] = l[x - 1];
 	}
 
-	private int getMazeBlock(boolean openRight, boolean openBottom) {
-		int block = openRight ? 2 : 0;
-		block += openBottom ? 0 : 1;
-		return mazeBlock[block];
-	}
-
 	private void setSquareOpenRightAndBottom(int x, int y, boolean openRight, boolean openBottom) {
-		c64.setCharAt(x, y, getMazeBlock(openRight, openBottom));
+		model.setMazeWall(x, y, SquareGrid.Wall.EAST, !openRight);
+		model.setMazeWall(x, y, SquareGrid.Wall.SOUTH, !openBottom);
 	}
 
-	public void createMaze(int width, int height, double steepness) {
-		final int[] l = new int[width + 1];
-		final int[] r = new int[width + 1];
+	public void createMaze(double steepness) {
+		final int width = model.getWidthInSquares();
+		final int height = model.getHeightInSquares();
+		final int[] left = new int[width + 1];
+		final int[] right = new int[width + 1];
 		final int entranceX = random(width);
 
 		// Print upper maze border
 		setSquareOpenRightAndBottom(0, 0, true, true);
 		for (int x = 1; x <= width; x++) {
 			setSquareOpenRightAndBottom(x, 0, true, x == entranceX);
-			l[x] = 0;
-			r[x] = 0;
+			left[x] = 0;
+			right[x] = 0;
 		}
 
 		// Print maze
 		for (int y = 2; y <= height; y++) {
 			setSquareOpenRightAndBottom(0, y - 1, false, true);
 			for (int x = width; x >= 1; x--) {
-				final boolean openRight = isOpenToTheRight(steepness, l, r, x);
-				final boolean openBottom = isOpenAtTheBottom(steepness, l, r, x);
+				final boolean openRight = isOpenToTheRight(steepness, left, right, x);
+				final boolean openBottom = isOpenAtTheBottom(steepness, left, right, x);
 				setSquareOpenRightAndBottom(width - x + 1, y - 1, openRight, openBottom);
 			}
 		}
@@ -75,10 +69,10 @@ public class RefactoredMazeProgram extends SwingWorker<String, Object> {
 		final int exitX = random(width);
 
 		for (int x = width; x >= 1; x--) {
-			if (r[x] == x - 1 || (r[x] != 0) && randomVertical(steepness)) {
+			if (right[x] == x - 1 || (right[x] != 0) && randomVertical(steepness)) {
 				setSquareOpenRightAndBottom(width - x + 1, height, false, x == exitX);
 			} else {
-				messWithLR_0(x, l, r);
+				messWithLR_0(x, left, right);
 				setSquareOpenRightAndBottom(width - x + 1, height, true, x == exitX);
 			}
 		}
@@ -121,12 +115,4 @@ public class RefactoredMazeProgram extends SwingWorker<String, Object> {
 	private boolean randomVertical(double steepness) {
 		return Math.random() < steepness;
 	}
-
-	@Override
-	protected String doInBackground() throws Exception {
-		c64.CLS();
-		createMaze(30, 20, 0.6);
-		return "";
-	}
-
 }
