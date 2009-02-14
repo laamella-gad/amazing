@@ -1,15 +1,16 @@
 package com.laamella.daedalousy.generators;
 
-import com.laamella.daedalousy.mazemodel.OrthogonalGrid;
+import com.laamella.daedalousy.mazemodel.orthogonal.Grid;
+import com.laamella.daedalousy.mazemodel.orthogonal.Square;
 
 /**
  * Converted from a BASIC type in listing, which I typed in somewhere in the
  * eighties.
  */
 public class Eller {
-	private final OrthogonalGrid model;
+	private final Grid model;
 
-	public Eller(final OrthogonalGrid model) {
+	public Eller(final Grid model) {
 		this.model = model;
 	}
 
@@ -36,13 +37,13 @@ public class Eller {
 	}
 
 	private void setSquareOpenRightAndBottom(int x, int y, boolean openRight, boolean openBottom) {
-		model.setMazeWall(x, y, OrthogonalGrid.Wall.EAST, !openRight);
-		model.setMazeWall(x, y, OrthogonalGrid.Wall.SOUTH, !openBottom);
+		model.getSquare(x, y).getWall(Square.Direction.EAST).setSolid(!openRight);
+		model.getSquare(x, y).getWall(Square.Direction.SOUTH).setSolid(!openBottom);
 	}
 
 	public void createMaze(double steepness) {
-		final int width = model.getWidthInSquares();
-		final int height = model.getHeightInSquares();
+		final int width = model.getWidthInSquares() - 1;
+		final int height = model.getHeightInSquares() - 1;
 		final int[] left = new int[width + 1];
 		final int[] right = new int[width + 1];
 		final int entranceX = random(width);

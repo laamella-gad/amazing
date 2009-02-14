@@ -23,5 +23,6 @@ package com.laamella.daedalousy.generators;
  * versa, the result is basically another binary tree.
  */
 public class BinaryTree {
+	// TODO BinaryTree 
 
 }
