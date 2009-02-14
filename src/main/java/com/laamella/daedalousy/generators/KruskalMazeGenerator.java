@@ -21,6 +21,6 @@ package com.laamella.daedalousy.generators;
  * runs reasonably fast, but not as fast as either of the above two, because of
  * the edge list and set management.
  */
-public class Kruskal {
+public class KruskalMazeGenerator {
 
 }

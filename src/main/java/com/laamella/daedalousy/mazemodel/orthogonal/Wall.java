@@ -1,8 +1,12 @@
 package com.laamella.daedalousy.mazemodel.orthogonal;
 
 public interface Wall extends State {
-	void setSolid(boolean solid);
+	void setOpened(boolean opened);
 
-	boolean isSolid();
+	void open();
+
+	void close();
+
+	boolean isOpen();
 
 }

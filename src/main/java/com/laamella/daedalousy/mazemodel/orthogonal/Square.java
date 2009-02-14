@@ -5,5 +5,7 @@ public interface Square extends State {
 		NORTH, SOUTH, EAST, WEST
 	}
 
-	Wall getWall(Direction wall);
+	Wall getWall(Direction direction);
+
+//	Square getSquare(Direction direction);
 }

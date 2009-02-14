@@ -17,6 +17,6 @@ package com.laamella.daedalousy.generators;
  * a short direct solution. If you randomly pick among the most recent cells, the
  * Maze will have a low "river" factor but a long windy solution.
  */
-public class GrowingTree {
+public class GrowingTreeMazeGenerator {
 
 }

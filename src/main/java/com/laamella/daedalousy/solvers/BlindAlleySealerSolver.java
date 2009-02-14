@@ -17,6 +17,6 @@ package com.laamella.daedalousy.solvers;
  * technique can be used to help solve hypermazes, by sealing off space between
  * branches that connect with each other.
  */
-public class BlindAlleySealer {
+public class BlindAlleySealerSolver {
 
 }

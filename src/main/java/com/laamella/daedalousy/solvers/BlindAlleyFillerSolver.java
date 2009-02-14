@@ -17,6 +17,6 @@ package com.laamella.daedalousy.solvers;
  * fill in everything the cul-de-sac filler will and then some, however the
  * collision solver will fill in everything this algorithm will and then some.
  */
-public class BlindAlleyFiller {
+public class BlindAlleyFillerSolver {
 
 }

@@ -3,10 +3,9 @@ package com.laamella.daedalousy.mazemodel.orthogonal;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.laamella.daedalousy.mazemodel.orthogonal.GridManipulator.Visitor2dArray;
+import com.laamella.daedalousy.mazemodel.ArrayUtilities;
 
 public class GridDefault implements Grid {
-
 	private final int widthInSquares;
 	private final int heightInSquares;
 	private final Square[][] cells;
@@ -17,28 +16,19 @@ public class GridDefault implements Grid {
 		cells = new SquareDefault[widthInSquares][heightInSquares];
 		final Wall[][] horizontalWalls = new Wall[widthInSquares][heightInSquares + 1];
 		final Wall[][] verticalWalls = new Wall[widthInSquares + 1][heightInSquares];
-		GridManipulator.visit2dArray(horizontalWalls, new Visitor2dArray() {
+		ArrayUtilities.visit2dArray(horizontalWalls, new ArrayUtilities.Visitor2dArray() {
 			public void visit(int x, int y) {
 				horizontalWalls[x][y] = new WallDefault(false);
 			}
-
-			public void newRow() {
-			}
 		});
-		GridManipulator.visit2dArray(verticalWalls, new Visitor2dArray() {
+		ArrayUtilities.visit2dArray(verticalWalls, new ArrayUtilities.Visitor2dArray() {
 			public void visit(int x, int y) {
 				verticalWalls[x][y] = new WallDefault(false);
 			}
-
-			public void newRow() {
-			}
 		});
-		GridManipulator.visit2dArray(cells, new Visitor2dArray() {
+		ArrayUtilities.visit2dArray(cells, new ArrayUtilities.Visitor2dArray() {
 			public void visit(int x, int y) {
 				cells[x][y] = new SquareDefault(horizontalWalls[x][y], verticalWalls[x + 1][y], horizontalWalls[x][y + 1], verticalWalls[x][y]);
-			}
-
-			public void newRow() {
 			}
 		});
 	}
@@ -99,11 +89,11 @@ public class GridDefault implements Grid {
 			this.state = 0;
 		}
 
-		public boolean isSolid() {
+		public boolean isOpen() {
 			return solid;
 		}
 
-		public void setSolid(boolean solid) {
+		public void setOpened(boolean solid) {
 			this.solid = solid;
 		}
 
@@ -113,6 +103,14 @@ public class GridDefault implements Grid {
 
 		public void setState(int newState) {
 			state = newState;
+		}
+
+		public void close() {
+			setOpened(false);
+		}
+
+		public void open() {
+			setOpened(true);
 		}
 
 	}

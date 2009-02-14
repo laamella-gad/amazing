@@ -7,10 +7,11 @@ import com.laamella.daedalousy.mazemodel.orthogonal.Square;
  * Converted from a BASIC type in listing, which I typed in somewhere in the
  * eighties.
  */
-public class Eller {
+// TODO convert to progressive row based algorithm
+public class EllerMazeGenerator {
 	private final Grid model;
 
-	public Eller(final Grid model) {
+	public EllerMazeGenerator(final Grid model) {
 		this.model = model;
 	}
 
@@ -37,8 +38,8 @@ public class Eller {
 	}
 
 	private void setSquareOpenRightAndBottom(int x, int y, boolean openRight, boolean openBottom) {
-		model.getSquare(x, y).getWall(Square.Direction.EAST).setSolid(!openRight);
-		model.getSquare(x, y).getWall(Square.Direction.SOUTH).setSolid(!openBottom);
+		model.getSquare(x, y).getWall(Square.Direction.EAST).setOpened(!openRight);
+		model.getSquare(x, y).getWall(Square.Direction.SOUTH).setOpened(!openBottom);
 	}
 
 	public void createMaze(double steepness) {

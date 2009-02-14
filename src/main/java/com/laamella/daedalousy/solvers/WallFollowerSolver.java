@@ -16,6 +16,6 @@ package com.laamella.daedalousy.solvers;
  * actually lead northwest and down lead southeast, and then applying normal wall
  * following rules.
  */
-public class WallFollower {
+public class WallFollowerSolver {
 
 }

@@ -19,6 +19,6 @@ package com.laamella.daedalousy.solvers;
  * return to their original locations and directions, then farther points along
  * the line are inaccessible, and the Maze is unsolvable.
  */
-public class Chain {
+public class ChainSolver {
 
 }

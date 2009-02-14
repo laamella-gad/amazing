@@ -10,6 +10,6 @@ package com.laamella.daedalousy.operations;
  * the Maze at this new point, and repeat until every section is filled. This
  * utility is used in the creation of braid and template Mazes.
  */
-public class IsolationRemover {
+public class IsolationRemoverOperation {
 
 }

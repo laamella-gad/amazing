@@ -18,6 +18,6 @@ package com.laamella.daedalousy.generators;
  * This can be done as a wall adder if you randomly teleport on occasion, to
  * avoid the issues the recursive backtracker has.
  */
-public class HuntAndKill {
+public class HuntAndKillMazeGenerator {
 
 }

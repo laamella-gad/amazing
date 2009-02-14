@@ -13,6 +13,6 @@ package com.laamella.daedalousy.operations;
  * creation of template Mazes, and can be used to convert a braid Maze to a
  * perfect Maze that still looks similar to the original.
  */
-public class LoopRemover {
+public class LoopRemoverOperation {
 
 }

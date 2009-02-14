@@ -17,6 +17,6 @@ package com.laamella.daedalousy.generators;
  * runs very fast when implemented right, with only Eller's algorithm being
  * faster.
  */
-public class Prim {
+public class PrimMazeGenerator {
 
 }

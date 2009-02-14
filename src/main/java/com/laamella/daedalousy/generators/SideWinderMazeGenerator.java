@@ -22,6 +22,6 @@ package com.laamella.daedalousy.generators;
  * path is very direct, but there are many long false paths leading down from the
  * top next to it.
  */
-public class SideWinder {
+public class SideWinderMazeGenerator {
 
 }

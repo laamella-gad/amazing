@@ -25,6 +25,6 @@ package com.laamella.daedalousy.solvers;
  * the Maze is unsolvable is if your turn total keeps increasing, although the
  * turn total can get to large numbers in solvable Mazes in a spiral passage.
  */
-public class Pledge {
+public class PledgeSolver {
 
 }

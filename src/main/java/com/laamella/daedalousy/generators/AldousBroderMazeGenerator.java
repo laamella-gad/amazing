@@ -1,5 +1,6 @@
 package com.laamella.daedalousy.generators;
 
+// TODO pass random generators!
 /**
  * The interesting thing about this algorithm is it generates all possible Mazes
  * of a given size with equal probability. It also requires no extra storage or
@@ -22,6 +23,6 @@ package com.laamella.daedalousy.generators;
  * the boundary wall teleportation allows quicker access to distant parts of the
  * Maze.
  */
-public class AldousBroder {
+public class AldousBroderMazeGenerator {
 	// TODO AldousBroder
 }

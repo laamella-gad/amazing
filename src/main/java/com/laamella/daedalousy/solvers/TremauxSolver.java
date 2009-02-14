@@ -20,6 +20,6 @@ package com.laamella.daedalousy.solvers;
  * solution, you'll find yourself back at the start with all passages marked
  * twice.
  */
-public class Tremaux {
+public class TremauxSolver {
 
 }

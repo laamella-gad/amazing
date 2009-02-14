@@ -15,6 +15,6 @@ package com.laamella.daedalousy.generators;
  * where the entire interior of the Maze is attached to the boundary by a single
  * stem.
  */
-public class RecursiveBacktracker {
+public class RecursiveBacktrackerMazeGenerator {
 
 }

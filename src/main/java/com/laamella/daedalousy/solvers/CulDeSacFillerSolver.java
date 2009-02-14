@@ -13,6 +13,6 @@ package com.laamella.daedalousy.solvers;
  * scan. This doesn't do much in complicated heavily braid Mazes, but will be
  * able to invalidate more than just the dead end filler.
  */
-public class CulDeSacFiller {
+public class CulDeSacFillerSolver {
 
 }

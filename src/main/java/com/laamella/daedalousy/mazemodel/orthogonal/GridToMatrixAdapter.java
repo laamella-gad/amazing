@@ -3,8 +3,8 @@ package com.laamella.daedalousy.mazemodel.orthogonal;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.laamella.daedalousy.mazemodel.ArrayUtilities;
 import com.laamella.daedalousy.mazemodel.Matrix;
-import com.laamella.daedalousy.mazemodel.orthogonal.GridManipulator.Visitor2dArray;
 
 public class GridToMatrixAdapter implements Grid {
 	private final int heightInSquares;
@@ -15,12 +15,9 @@ public class GridToMatrixAdapter implements Grid {
 		this.widthInSquares = mazeMatrix.getWidth() / 3;
 		this.heightInSquares = mazeMatrix.getHeight() / 3;
 		this.squares = new Square[widthInSquares][heightInSquares];
-		GridManipulator.visit2dArray(squares, new Visitor2dArray() {
+		ArrayUtilities.visit2dArray(squares, new ArrayUtilities.Visitor2dArray() {
 			public void visit(int x, int y) {
 				squares[x][y] = new MatrixSquare(squares, mazeMatrix, stateMatrix, x * 3 + 1, y * 3 + 1);
-			}
-
-			public void newRow() {
 			}
 		});
 	}
@@ -46,17 +43,13 @@ public class GridToMatrixAdapter implements Grid {
 	}
 
 	public static class MatrixSquare implements Square {
-
-//		private final Matrix mazeMatrix;
 		private final int x;
 		private final int y;
-		// private final Square[][] squares;
 		private final Matrix stateMatrix;
 		private final Map<Direction, MatrixWall> walls = new HashMap<Direction, MatrixWall>();
+		private final Map<Direction, MatrixSquare> squares=new HashMap<Direction, MatrixSquare>();
 
 		public MatrixSquare(final Square[][] squares, final Matrix mazeMatrix, final Matrix stateMatrix, final int x, final int y) {
-			// this.squares = squares;
-//			this.mazeMatrix = mazeMatrix;
 			this.stateMatrix = stateMatrix;
 			this.x = x;
 			this.y = y;
@@ -65,7 +58,7 @@ public class GridToMatrixAdapter implements Grid {
 			walls.put(Direction.SOUTH, new MatrixWall(mazeMatrix, stateMatrix, xForWall(Direction.SOUTH, x), yForWall(Direction.SOUTH, y)));
 			walls.put(Direction.WEST, new MatrixWall(mazeMatrix, stateMatrix, xForWall(Direction.WEST, x), yForWall(Direction.WEST, y)));
 		}
-
+		
 		private int yForWall(Direction wall, int y) {
 			switch (wall) {
 			case NORTH:
@@ -100,6 +93,11 @@ public class GridToMatrixAdapter implements Grid {
 		public void setState(int newState) {
 			stateMatrix.set(x, y, newState);
 		}
+
+		public Square getSquare(Direction direction) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 
 	public static class MatrixWall implements Wall {
@@ -115,11 +113,11 @@ public class GridToMatrixAdapter implements Grid {
 			this.y = y;
 		}
 
-		public boolean isSolid() {
+		public boolean isOpen() {
 			return mazeMatrix.get(x, y) == Matrix.SOLID;
 		}
 
-		public void setSolid(boolean solid) {
+		public void setOpened(boolean solid) {
 			mazeMatrix.set(x, y, solid ? Matrix.SOLID : Matrix.CLEAR);
 		}
 
@@ -129,6 +127,14 @@ public class GridToMatrixAdapter implements Grid {
 
 		public void setState(int newState) {
 			stateMatrix.set(x, y, newState);
+		}
+
+		public void close() {
+			setOpened(false);
+		}
+
+		public void open() {
+			setOpened(true);
 		}
 
 	}

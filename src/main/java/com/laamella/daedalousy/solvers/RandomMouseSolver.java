@@ -10,6 +10,6 @@ package com.laamella.daedalousy.solvers;
  * it will be just as hard to retrace your steps, but it's definitely simple and
  * doesn't require any extra memory to implement.
  */
-public class RandomMouse {
+public class RandomMouseSolver {
 
 }

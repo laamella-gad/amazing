@@ -14,6 +14,6 @@ package com.laamella.daedalousy.solvers;
  * wide passages that can be followed. Note this is basically the A* path finding
  * algorithm without a heuristic so all movement is given equal weight.
  */
-public class ShortestPathFinder {
+public class ShortestPathFinderSolver {
 
 }

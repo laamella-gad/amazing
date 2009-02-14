@@ -10,6 +10,6 @@ package com.laamella.daedalousy.operations;
  * following won't work to solve it. Many Maze creation methods, solving
  * methods, and other utilities involve "flooding" the Maze at certain points.
  */
-public class FloodFill {
+public class FloodFillOperation {
 
 }

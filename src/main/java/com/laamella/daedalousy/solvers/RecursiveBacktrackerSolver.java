@@ -13,6 +13,6 @@ package com.laamella.daedalousy.solvers;
  * basically a depth first search. This method will always find a solution if one
  * exists, but it won't necessarily be the shortest solution.
  */
-public class RecursiveBacktracker {
+public class RecursiveBacktrackerSolver {
 
 }

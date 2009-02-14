@@ -9,6 +9,6 @@ package com.laamella.daedalousy.solvers;
  * Mazes, but won't do much in heavily braid Mazes, and in fact won't do
  * anything useful at all for those Mazes without dead ends.
  */
-public class DeadEndFiller {
+public class DeadEndFillerSolver {
 
 }

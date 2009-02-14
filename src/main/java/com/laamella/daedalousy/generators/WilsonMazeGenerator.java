@@ -22,6 +22,6 @@ package com.laamella.daedalousy.generators;
  * boundary wall starts as part of the Maze, so the first walls are connected
  * much quicker.
  */
-public class Wilson {
+public class WilsonMazeGenerator {
 
 }
