@@ -5,10 +5,11 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
 
 /**
- * Converted from a BASIC type in listing, which I typed in somewhere in the
+ * Converted from a BASIC type in listing, which I found somewhere in the
  * eighties.
  */
 // TODO convert to progressive row based algorithm
+// TODO make 0,0 based
 public class EllerMazeGenerator implements MazeGenerator {
 	private final Grid model;
 	private final double steepness;

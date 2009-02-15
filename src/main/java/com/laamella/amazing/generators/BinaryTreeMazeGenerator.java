@@ -1,12 +1,10 @@
 package com.laamella.amazing.generators;
 
-import static com.laamella.amazing.mazemodel.orthogonal.Square.Direction.LEFT;
-import static com.laamella.amazing.mazemodel.orthogonal.Square.Direction.UP;
+import static com.laamella.amazing.mazemodel.orthogonal.Square.Direction.*;
 
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
 
@@ -36,9 +34,11 @@ import com.laamella.amazing.mazemodel.orthogonal.Square;
 public class BinaryTreeMazeGenerator implements MazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(BinaryTreeMazeGenerator.class);
 	private final Grid.GridUtilityWrapper grid;
+	private final RandomGenerator randomGenerator;
 
-	public BinaryTreeMazeGenerator(Grid grid) {
+	public BinaryTreeMazeGenerator(final Grid grid, final RandomGenerator randomGenerator) {
 		this.grid = new Grid.GridUtilityWrapper(grid);
+		this.randomGenerator = randomGenerator;
 	}
 
 	public void generateMaze() {
@@ -52,16 +52,27 @@ public class BinaryTreeMazeGenerator implements MazeGenerator {
 						// Create upper left entrance
 						square.getWall(LEFT).open();
 					} else {
-						// Open the whole left column at the top
+						// Open the whole left column vertically
 						square.getWall(UP).open();
 					}
 					return;
 				}
 				if (grid.isBorderSquare(UP, position)) {
-
+					// Open the whole top row horizontally
+					square.getWall(LEFT).open();
+					return;
+				}
+				// Pick either left or up
+				if (randomGenerator.chance(0.5)) {
+					square.getWall(LEFT).open();
+				} else {
+					square.getWall(UP).open();
 				}
 			}
 		});
+
+		// Lower right exit
+		grid.getSquare(new Position(grid.getSize().width - 1, grid.getSize().height - 1)).getWall(RIGHT).open();
 
 		log.exit("createMaze");
 	}

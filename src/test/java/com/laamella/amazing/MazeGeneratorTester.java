@@ -9,6 +9,8 @@ import org.junit.Test;
 import com.laamella.amazing.generators.BinaryTreeMazeGenerator;
 import com.laamella.amazing.generators.EllerMazeGenerator;
 import com.laamella.amazing.generators.MazeGenerator;
+import com.laamella.amazing.generators.RandomGenerator;
+import com.laamella.amazing.generators.RandomGenerator.Default;
 import com.laamella.amazing.mazemodel.ArrayMatrix;
 import com.laamella.amazing.mazemodel.Matrix;
 import com.laamella.amazing.mazemodel.Position;
@@ -25,6 +27,7 @@ public class MazeGeneratorTester {
 	private MatrixUtilityWrapper stateMatrix;
 	private GridUtilityWrapper grid;
 	private GridMatrixStorageFactory storageFactory;
+	private Default randomGenerator;
 
 	@Before
 	public void before() {
@@ -32,11 +35,12 @@ public class MazeGeneratorTester {
 		stateMatrix = new Matrix.MatrixUtilityWrapper(new ArrayMatrix(new Size(15, 15)));
 		storageFactory = new GridMatrixStorageFactory(matrix, stateMatrix);
 		grid = new Grid.GridUtilityWrapper(new GridWithDecoupledStorage(storageFactory));
+		randomGenerator = new RandomGenerator.Default(0);
 	}
 
 	@Test
 	public void testBinaryTreeAlgorithm() {
-		final MazeGenerator mazeProgram = new BinaryTreeMazeGenerator(grid);
+		final MazeGenerator mazeProgram = new BinaryTreeMazeGenerator(grid, randomGenerator);
 		mazeProgram.generateMaze();
 		System.out.println(matrix);
 	}

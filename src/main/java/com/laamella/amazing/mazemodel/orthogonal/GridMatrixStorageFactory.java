@@ -12,8 +12,8 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 	public GridMatrixStorageFactory(final Matrix mazeMatrix, final Matrix stateMatrix) {
 		this.mazeMatrix = mazeMatrix;
 		this.stateMatrix = stateMatrix;
-		this.size = new Size(Math.min(mazeMatrix.getSize().width / 2 - 1, stateMatrix.getSize().width / 2 - 1), Math.min(mazeMatrix.getSize().height / 2 - 1,
-				stateMatrix.getSize().height / 2 - 1));
+		this.size = new Size(Math.min((mazeMatrix.getSize().width - 1) / 2, (stateMatrix.getSize().width - 1) / 2), Math.min(
+				(mazeMatrix.getSize().height - 1) / 2, (stateMatrix.getSize().height - 1) / 2));
 		new Matrix.MatrixUtilityWrapper(mazeMatrix).visitAllSquares(new Matrix.MatrixUtilityWrapper.MatrixVisitor() {
 			public void newRow() {
 			}
@@ -75,15 +75,15 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 	}
 
 	public WallStorage createHorizontalWallStorage(Position position) {
-		return new WallMatrixStorage(mazeMatrix, stateMatrix, position.scale(2).move(1,0));
+		return new WallMatrixStorage(mazeMatrix, stateMatrix, position.scale(2).move(1, 0));
 	}
 
 	public SquareStorage createSquareStorage(Position position) {
-		return new SquareMatrixStorage(stateMatrix, position.scale(2).move(1,1));
+		return new SquareMatrixStorage(stateMatrix, position.scale(2).move(1, 1));
 	}
 
 	public WallStorage createVerticalWallStorage(Position position) {
-		return new WallMatrixStorage(mazeMatrix, stateMatrix, position.scale(2).move(0,1));
+		return new WallMatrixStorage(mazeMatrix, stateMatrix, position.scale(2).move(0, 1));
 	}
 
 	public Size getSize() {
