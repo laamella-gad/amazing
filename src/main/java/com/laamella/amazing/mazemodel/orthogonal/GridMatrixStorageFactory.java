@@ -15,13 +15,16 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 		this.size = new Size(Math.min((mazeMatrix.getSize().width - 1) / 2, (stateMatrix.getSize().width - 1) / 2), Math.min(
 				(mazeMatrix.getSize().height - 1) / 2, (stateMatrix.getSize().height - 1) / 2));
 		new Matrix.MatrixUtilityWrapper(mazeMatrix).visitAllSquares(new Matrix.MatrixUtilityWrapper.MatrixVisitor() {
-			public void newRow() {
+			public void endRow() {
 			}
 
 			public void visit(Position position, int value) {
 				if (position.x % 2 == 0 && position.y % 2 == 0) {
 					mazeMatrix.set(position, Matrix.CLOSED);
 				}
+			}
+
+			public void startRow() {
 			}
 		});
 	}

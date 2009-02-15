@@ -20,16 +20,19 @@ public interface Matrix {
 		public interface MatrixVisitor {
 			void visit(Position position, int value);
 
-			void newRow();
+			void endRow();
+
+			void startRow();
 		}
 
 		public void visitAllSquares(final MatrixVisitor visitor) {
 			for (int y = 0; y < delegateMatrix.getSize().height; y++) {
+				visitor.startRow();
 				for (int x = 0; x < delegateMatrix.getSize().width; x++) {
 					final Position position = new Position(x, y);
 					visitor.visit(position, delegateMatrix.get(position));
 				}
-				visitor.newRow();
+				visitor.endRow();
 			}
 		}
 
@@ -37,12 +40,16 @@ public interface Matrix {
 		public String toString() {
 			final StringBuffer maze = new StringBuffer();
 			visitAllSquares(new MatrixVisitor() {
-				public void newRow() {
-					maze.append("\n");
+				public void endRow() {
+					maze.append("-\n");
 				}
 
 				public void visit(Position position, int value) {
 					maze.append(toChar(value));
+				}
+
+				public void startRow() {
+					maze.append("-");
 				}
 			});
 			return maze.toString();
@@ -51,7 +58,7 @@ public interface Matrix {
 		private char toChar(int value) {
 			switch (value) {
 			case 0:
-				return '.';
+				return ' ';
 			case 1:
 				return '#';
 			default:
@@ -70,6 +77,5 @@ public interface Matrix {
 		public void set(Position position, int value) {
 			delegateMatrix.set(position, value);
 		}
-
 	}
 }
