@@ -13,6 +13,10 @@ public class Position {
 		return new Position(x + dx, y + dy);
 	}
 
+	public Position move(Position position) {
+		return new Position(x + position.x, y + position.y);
+	}
+
 	public Position scale(int multiplier) {
 		return new Position(x * multiplier, y * multiplier);
 	}

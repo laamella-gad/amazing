@@ -4,7 +4,6 @@ import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
-import com.laamella.amazing.mazemodel.orthogonal.Square.Direction;
 
 public interface Grid {
 	Square getSquare(Position position);

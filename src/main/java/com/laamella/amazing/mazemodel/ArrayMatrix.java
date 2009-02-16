@@ -1,24 +1,32 @@
 package com.laamella.amazing.mazemodel;
 
-public class ArrayMatrix implements Matrix {
-	private final int[][] matrix;
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class ArrayMatrix<T> implements Matrix<T> {
+	private final List<T> matrix;
 	private final Size size;
 
 	public ArrayMatrix(Size size) {
-		this.size=size;
-		this.matrix = new int[size.width][size.height];
+		this.size = size;
+		this.matrix = new ArrayList<T>();
+		for (int i = 0; i < size.area; i++) {
+			matrix.add(newItem());
+		}
 	}
 
-	public int get(Position position) {
-		return matrix[position.x][position.y];
+	protected abstract T newItem();
+
+	public T get(Position position) {
+		return matrix.get(position.x + position.y * size.width);
 	}
 
 	public Size getSize() {
 		return size;
 	}
 
-	public void set(Position position, int value) {
-		matrix[position.x][position.y] = value;
+	public void set(Position position, T value) {
+		matrix.set(position.x + position.y * size.width, value);
 	}
 
 }

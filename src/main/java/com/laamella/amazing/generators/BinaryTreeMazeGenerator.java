@@ -1,6 +1,6 @@
 package com.laamella.amazing.generators;
 
-import static com.laamella.amazing.mazemodel.orthogonal.Square.Direction.*;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
 
 import org.grlea.log.SimpleLogger;
 
@@ -42,14 +42,14 @@ public class BinaryTreeMazeGenerator implements MazeGenerator {
 	}
 
 	public void generateMaze() {
-		log.entry("createMaze");
+		log.entry("generateMaze");
 		grid.closeAllWalls();
 
 		grid.forAllSquares(new Grid.GridUtilityWrapper.SquareVisitor() {
 			public void visitSquare(Position position, Square square) {
 				if (grid.isBorderSquare(LEFT, position)) {
 					if (grid.isBorderSquare(UP, position)) {
-						// Create upper left entrance
+						log.ludicrous("Create upper left entrance");
 						square.getWall(LEFT).open();
 					} else {
 						// Open the whole left column vertically
@@ -71,9 +71,9 @@ public class BinaryTreeMazeGenerator implements MazeGenerator {
 			}
 		});
 
-		// Lower right exit
+		log.ludicrous("Lower right exit");
 		grid.getSquare(new Position(grid.getSize().width - 1, grid.getSize().height - 1)).getWall(RIGHT).open();
 
-		log.exit("createMaze");
+		log.exit("generateMaze");
 	}
 }

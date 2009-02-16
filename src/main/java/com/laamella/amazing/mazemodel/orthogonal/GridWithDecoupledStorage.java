@@ -1,12 +1,14 @@
 package com.laamella.amazing.mazemodel.orthogonal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.laamella.amazing.mazemodel.ArrayUtilities;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 
+/**
+ * Grid knows about relationships between squares and walls, but knows nothing
+ * about their state. That is delegated to objects returned from the
+ * storageFactory.
+ */
 public class GridWithDecoupledStorage implements Grid {
 	private final Square[][] squares;
 	private final Size size;
@@ -32,7 +34,22 @@ public class GridWithDecoupledStorage implements Grid {
 		ArrayUtilities.visit2dArray(squares, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
 				final SquareStorage squareStorage = storageFactory.createSquareStorage(position);
-				squares[position.x][position.y] = new SquareDefault(squareStorage, horizontalWalls[position.x][position.y], verticalWalls[position.x + 1][position.y], horizontalWalls[position.x][position.y + 1], verticalWalls[position.x][position.y]);
+				final DirectionMap<Wall> wallMap = new DirectionMap<Wall>(horizontalWalls[position.x][position.y], verticalWalls[position.x + 1][position.y],
+						horizontalWalls[position.x][position.y + 1], verticalWalls[position.x][position.y]);
+				final DirectionMap<Square> squareMap = new DirectionMap<Square>();
+				if (position.y > 0) {
+					squareMap.up = squares[position.x][position.y - 1];
+				}
+				if (position.x < size.width - 1) {
+					squareMap.right = squares[position.x + 1][position.y];
+				}
+				if (position.y < size.height - 1) {
+					squareMap.down = squares[position.x][position.y + 1];
+				}
+				if (position.x > 0) {
+					squareMap.left = squares[position.x - 1][position.y];
+				}
+				squares[position.x][position.y] = new SquareDefault(squareStorage, wallMap, squareMap);
 			}
 		});
 	}
@@ -47,15 +64,13 @@ public class GridWithDecoupledStorage implements Grid {
 
 	public static class SquareDefault implements Square {
 
-		private final Map<Direction, Wall> walls;
 		private final SquareStorage storage;
+		private final DirectionMap<Wall> wallMap;
+		private final DirectionMap<Square> squareMap;
 
-		public SquareDefault(final SquareStorage squareStorage, final Wall northWall, final Wall eastWall, final Wall southWall, final Wall westWall) {
-			walls = new HashMap<Direction, Wall>();
-			walls.put(Direction.UP, northWall);
-			walls.put(Direction.RIGHT, eastWall);
-			walls.put(Direction.DOWN, southWall);
-			walls.put(Direction.LEFT, westWall);
+		public SquareDefault(SquareStorage squareStorage, DirectionMap<Wall> wallMap, DirectionMap<Square> squareMap) {
+			this.wallMap = wallMap;
+			this.squareMap = squareMap;
 			this.storage = squareStorage;
 		}
 
@@ -68,7 +83,11 @@ public class GridWithDecoupledStorage implements Grid {
 		}
 
 		public Wall getWall(Direction wall) {
-			return walls.get(wall);
+			return wallMap.get(wall);
+		}
+
+		public Square getSquare(Direction direction) {
+			return squareMap.get(direction);
 		}
 	}
 

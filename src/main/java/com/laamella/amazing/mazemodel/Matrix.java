@@ -1,31 +1,31 @@
 package com.laamella.amazing.mazemodel;
 
-public interface Matrix {
-	public static final int OPENED = 0;
-	public static final int CLOSED = 1;
+public interface Matrix<T> {
+	public static final Integer OPENED = 0;
+	public static final Integer CLOSED = 1;
 
-	void set(Position position, int value);
+	void set(Position position, T value);
 
-	int get(Position position);
+	T get(Position position);
 
 	Size getSize();
 
-	public static class MatrixUtilityWrapper implements Matrix {
-		private final Matrix delegateMatrix;
+	public static class UtilityWrapper<T> implements Matrix<T> {
+		private final Matrix<T> delegateMatrix;
 
-		public MatrixUtilityWrapper(Matrix delegateMatrix) {
+		public UtilityWrapper(Matrix<T> delegateMatrix) {
 			this.delegateMatrix = delegateMatrix;
 		}
 
-		public interface MatrixVisitor {
-			void visit(Position position, int value);
+		public interface MatrixVisitor<T> {
+			void visit(Position position, T value);
 
 			void endRow();
 
 			void startRow();
 		}
 
-		public void visitAllSquares(final MatrixVisitor visitor) {
+		public void visitAllSquares(final MatrixVisitor<T> visitor) {
 			for (int y = 0; y < delegateMatrix.getSize().height; y++) {
 				visitor.startRow();
 				for (int x = 0; x < delegateMatrix.getSize().width; x++) {
@@ -36,37 +36,8 @@ public interface Matrix {
 			}
 		}
 
-		@Override
-		public String toString() {
-			final StringBuffer maze = new StringBuffer();
-			visitAllSquares(new MatrixVisitor() {
-				public void endRow() {
-					maze.append("-\n");
-				}
 
-				public void visit(Position position, int value) {
-					maze.append(toChar(value));
-				}
-
-				public void startRow() {
-					maze.append("-");
-				}
-			});
-			return maze.toString();
-		}
-
-		private char toChar(int value) {
-			switch (value) {
-			case 0:
-				return ' ';
-			case 1:
-				return '#';
-			default:
-				return (char) (value % 26 + 'A');
-			}
-		}
-
-		public int get(Position position) {
+		public T get(Position position) {
 			return delegateMatrix.get(position);
 		}
 
@@ -74,8 +45,13 @@ public interface Matrix {
 			return delegateMatrix.getSize();
 		}
 
-		public void set(Position position, int value) {
+		public void set(Position position, T value) {
 			delegateMatrix.set(position, value);
+		}
+
+		@Override
+		public String toString() {
+			return delegateMatrix.toString();
 		}
 	}
 }
