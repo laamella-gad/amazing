@@ -9,7 +9,7 @@ import org.grlea.log.SimpleLogger;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
-import com.laamella.amazing.mazemodel.orthogonal.Grid.GridUtilityWrapper;
+import com.laamella.amazing.mazemodel.orthogonal.Grid.UtilityWrapper;
 
 /**
  * Converted from a BASIC type in listing, which I found somewhere in the
@@ -18,12 +18,12 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid.GridUtilityWrapper;
 // TODO convert to progressive row based algorithm
 public class EllerMazeGenerator implements MazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(EllerMazeGenerator.class);
-	private final GridUtilityWrapper grid;
+	private final UtilityWrapper grid;
 	private final double steepness;
 
 	public EllerMazeGenerator(final Grid model, final double steepness) {
 		log.entry("EllerMazeGenerator()");
-		this.grid = new Grid.GridUtilityWrapper(model);
+		this.grid = new Grid.UtilityWrapper(model);
 		this.steepness = steepness;
 		log.exit("EllerMazeGenerator()");
 	}

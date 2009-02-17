@@ -1,5 +1,12 @@
 package com.laamella.amazing.generators;
 
+import org.grlea.log.SimpleLogger;
+
+import com.laamella.amazing.mazemodel.orthogonal.Direction;
+import com.laamella.amazing.mazemodel.orthogonal.Grid;
+import com.laamella.amazing.mazemodel.orthogonal.Square;
+import com.laamella.amazing.mazemodel.orthogonal.Grid.UtilityWrapper;
+
 // TODO pass random generators!
 /**
  * The interesting thing about this algorithm is it generates all possible Mazes
@@ -24,9 +31,35 @@ package com.laamella.amazing.generators;
  * Maze.
  */
 public class AldousBroderMazeGenerator implements MazeGenerator {
+	private static final SimpleLogger log = new SimpleLogger(AldousBroderMazeGenerator.class);
+	private final UtilityWrapper grid;
+	private final RandomGenerator randomGenerator;
+	private static final int UNCARVED = 0;
+	private static final int CARVED = 1;
 
+	public AldousBroderMazeGenerator(final Grid grid, final RandomGenerator randomGenerator) {
+		this.grid = new Grid.UtilityWrapper(grid);
+		this.randomGenerator = randomGenerator;
+	}
+
+	// TODO make entrance and exit
 	public void generateMaze() {
-		// TODO Auto-generated method stub
-		
+		grid.closeAllWalls();
+		for (int i = 0; i < grid.getSize().area-1; i++) {
+			log.debug("Cell " + i + " of " + grid.getSize().area);
+			boolean carvedACell = false;
+			while (!carvedACell) {
+				final Square sourceSquare = grid.randomSquare(randomGenerator);
+				final Direction carveDirection = Direction.random(randomGenerator);
+				final Square destinationSquare = sourceSquare.getSquare(carveDirection);
+				if (destinationSquare != null) {
+					if (destinationSquare.getState() == UNCARVED) {
+						sourceSquare.getWall(carveDirection).open();
+						destinationSquare.setState(CARVED);
+						carvedACell = true;
+					}
+				}
+			}
+		}
 	}
 }

@@ -12,12 +12,12 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid;
  */
 public class PeanoMazeGenerator implements MazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(PeanoMazeGenerator.class);
-	private final Grid.GridUtilityWrapper grid;
+	private final Grid.UtilityWrapper grid;
 	private final int degree;
 
 	public PeanoMazeGenerator(Grid grid, int degree) {
 		log.entry("PeanoMazeGenerator");
-		this.grid = new Grid.GridUtilityWrapper(grid);
+		this.grid = new Grid.UtilityWrapper(grid);
 		this.degree = degree;
 		log.exit("PeanoMazeGenerator");
 	}

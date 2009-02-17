@@ -33,11 +33,11 @@ import com.laamella.amazing.mazemodel.orthogonal.Square;
  */
 public class BinaryTreeMazeGenerator implements MazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(BinaryTreeMazeGenerator.class);
-	private final Grid.GridUtilityWrapper grid;
+	private final Grid.UtilityWrapper grid;
 	private final RandomGenerator randomGenerator;
 
 	public BinaryTreeMazeGenerator(final Grid grid, final RandomGenerator randomGenerator) {
-		this.grid = new Grid.GridUtilityWrapper(grid);
+		this.grid = new Grid.UtilityWrapper(grid);
 		this.randomGenerator = randomGenerator;
 	}
 
@@ -45,7 +45,7 @@ public class BinaryTreeMazeGenerator implements MazeGenerator {
 		log.entry("generateMaze");
 		grid.closeAllWalls();
 
-		grid.forAllSquares(new Grid.GridUtilityWrapper.SquareVisitor() {
+		grid.forAllSquares(new Grid.UtilityWrapper.SquareVisitor() {
 			public void visitSquare(Position position, Square square) {
 				if (grid.isBorderSquare(LEFT, position)) {
 					if (grid.isBorderSquare(UP, position)) {

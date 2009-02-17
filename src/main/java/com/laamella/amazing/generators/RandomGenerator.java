@@ -2,6 +2,10 @@ package com.laamella.amazing.generators;
 
 import java.util.Random;
 
+import com.laamella.amazing.mazemodel.Position;
+import com.laamella.amazing.mazemodel.Size;
+import com.laamella.amazing.mazemodel.orthogonal.Square;
+
 public interface RandomGenerator {
 
 	void reset();
@@ -26,5 +30,18 @@ public interface RandomGenerator {
 			random = new Random(seed);
 		}
 
+		public int random(int max) {
+			return random.nextInt(max);
+		}
+
+		public Position randomPosition(Size size) {
+			final int x = random(size.width);
+			final int y = random(size.height);
+			return new Position(x, y);
+		}
 	}
+
+	Position randomPosition(Size size);
+
+	int random(int max);
 }

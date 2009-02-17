@@ -6,38 +6,36 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.laamella.amazing.generators.AldousBroderMazeGenerator;
 import com.laamella.amazing.generators.BinaryTreeMazeGenerator;
 import com.laamella.amazing.generators.EllerMazeGenerator;
 import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.generators.PeanoMazeGenerator;
 import com.laamella.amazing.generators.RandomGenerator;
-import com.laamella.amazing.generators.RandomGenerator.Default;
 import com.laamella.amazing.mazemodel.Matrix;
 import com.laamella.amazing.mazemodel.MazeMatrix;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.StateMatrix;
-import com.laamella.amazing.mazemodel.Matrix.UtilityWrapper;
 import com.laamella.amazing.mazemodel.MazeMatrix.State;
 import com.laamella.amazing.mazemodel.orthogonal.Direction;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.GridMatrixStorageFactory;
 import com.laamella.amazing.mazemodel.orthogonal.GridWithDecoupledStorage;
-import com.laamella.amazing.mazemodel.orthogonal.Grid.GridUtilityWrapper;
 
 public class MazeGeneratorTester {
-	private UtilityWrapper<State> matrix;
-	private UtilityWrapper<Integer> stateMatrix;
-	private GridUtilityWrapper grid;
+	private Matrix.UtilityWrapper<State> matrix;
+	private Matrix.UtilityWrapper<Integer> stateMatrix;
+	private Grid.UtilityWrapper grid;
 	private GridMatrixStorageFactory storageFactory;
-	private Default randomGenerator;
+	private RandomGenerator.Default randomGenerator;
 
 	@Before
 	public void before() {
 		matrix = new Matrix.UtilityWrapper<State>(new MazeMatrix(new Size(15, 15)));
 		stateMatrix = new Matrix.UtilityWrapper<Integer>(new StateMatrix(new Size(15, 15)));
 		storageFactory = new GridMatrixStorageFactory(matrix, stateMatrix);
-		grid = new Grid.GridUtilityWrapper(new GridWithDecoupledStorage(storageFactory));
+		grid = new Grid.UtilityWrapper(new GridWithDecoupledStorage(storageFactory));
 		randomGenerator = new RandomGenerator.Default(0);
 	}
 
@@ -51,6 +49,13 @@ public class MazeGeneratorTester {
 	@Test
 	public void testEllerMazeGenerator() {
 		final MazeGenerator mazeProgram = new EllerMazeGenerator(grid, 0.5);
+		mazeProgram.generateMaze();
+		System.out.println(matrix);
+	}
+
+	@Test
+	public void testAldousBroderMazeGenerator() {
+		final MazeGenerator mazeProgram = new AldousBroderMazeGenerator(grid, randomGenerator);
 		mazeProgram.generateMaze();
 		System.out.println(matrix);
 	}
