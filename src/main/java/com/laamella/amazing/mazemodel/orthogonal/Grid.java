@@ -110,5 +110,32 @@ public interface Grid {
 		public Square getBottomRightSquare() {
 			return getSquare(new Position(getSize().width - 1, getSize().height - 1));
 		}
+
+		public void drawVerticalWall(int x, int y1, int y2) {
+			for (int y = y1; y <= y2; y++) {
+				getHorizontalWall(new Position(x, y)).close();
+			}
+		}
+
+		public void drawHorizontalWall(int y, int x1, int x2) {
+			for (int x = x1; x <= x2; x++) {
+				getVerticalWall(new Position(x, y)).close();
+			}
+		}
+
+		public Wall getHorizontalWall(Position position) {
+			if (position.x < delegateGrid.getSize().width) {
+				return getSquare(position).getWall(Direction.LEFT);
+			}
+			return getSquare(position.move(Direction.LEFT.getMove())).getWall(Direction.RIGHT);
+		}
+
+		public Wall getVerticalWall(Position position) {
+			if (position.y < delegateGrid.getSize().height) {
+				return getSquare(position).getWall(Direction.UP);
+			}
+			return getSquare(position.move(Direction.UP.getMove())).getWall(Direction.DOWN);
+		}
+
 	}
 }

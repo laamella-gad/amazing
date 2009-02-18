@@ -2,6 +2,8 @@ package com.laamella.amazing;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 import org.grlea.log.SimpleLogger;
@@ -14,6 +16,7 @@ import com.laamella.amazing.generators.EllerMazeGenerator;
 import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.generators.PeanoMazeGenerator;
 import com.laamella.amazing.generators.RandomGenerator;
+import com.laamella.amazing.generators.RecursiveDivisionMazeGenerator;
 import com.laamella.amazing.mazemodel.Matrix;
 import com.laamella.amazing.mazemodel.MazeMatrix;
 import com.laamella.amazing.mazemodel.Position;
@@ -37,17 +40,17 @@ public class MazeGeneratorTester {
 
 	@Before
 	public void before() {
-		matrix = new Matrix.UtilityWrapper<WallState>(new MazeMatrix(new Size(50, 15)));
-		stateMatrix = new Matrix.UtilityWrapper<Set<Object>>(new StateMatrix(new Size(50, 15)));
+		matrix = new Matrix.UtilityWrapper<WallState>(new MazeMatrix(new Size(20, 15)));
+		stateMatrix = new Matrix.UtilityWrapper<Set<Object>>(new StateMatrix(new Size(20, 15)));
 		storageFactory = new GridMatrixStorageFactory(matrix, stateMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledStorage(storageFactory));
 		randomGenerator = new RandomGenerator.Default();
 
-//		matrix.addObserver(new Observer() {
-//			public void update(Observable o, Object arg) {
-//				log.debug(matrix.toString());
-//			}
-//		});
+		matrix.addObserver(new Observer() {
+			public void update(Observable o, Object arg) {
+				log.debug(matrix.toString());
+			}
+		});
 	}
 
 	@Test
@@ -67,6 +70,13 @@ public class MazeGeneratorTester {
 	@Test
 	public void testAldousBroderMazeGenerator() {
 		final MazeGenerator mazeGenerator = new AldousBroderMazeGenerator(grid, randomGenerator);
+		mazeGenerator.generateMaze();
+		log.debug(matrix.toString());
+	}
+
+	@Test
+	public void testRecursiveDivisionMazeGenerator() {
+		final MazeGenerator mazeGenerator = new RecursiveDivisionMazeGenerator(grid, randomGenerator);
 		mazeGenerator.generateMaze();
 		log.debug(matrix.toString());
 	}

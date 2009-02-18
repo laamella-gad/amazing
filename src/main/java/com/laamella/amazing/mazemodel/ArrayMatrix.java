@@ -2,7 +2,6 @@ package com.laamella.amazing.mazemodel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
 public abstract class ArrayMatrix<T> implements Matrix<T> {
 	private final List<T> matrix;

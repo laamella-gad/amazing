@@ -17,16 +17,17 @@ public interface RandomGenerator {
 		private final long seed;
 		private Random random;
 
-		public Default(){
-			this.seed=new Date().getTime();
+		public Default() {
+			this.seed = new Date().getTime();
 			reset();
 		}
+
 		public Default(final long seed) {
 			this.seed = seed;
 			reset();
 		}
 
-		public boolean chance(double d) {
+		public boolean chance(final double d) {
 			return random.nextDouble() < 0.5;
 		}
 
@@ -34,18 +35,38 @@ public interface RandomGenerator {
 			random = new Random(seed);
 		}
 
-		public int random(int max) {
+		public int random(final int max) {
 			return random.nextInt(max);
 		}
 
-		public Position randomPosition(Size size) {
+		public Position randomPosition(final Size size) {
 			final int x = random(size.width);
 			final int y = random(size.height);
 			return new Position(x, y);
 		}
+
+		public int between(final int a, final int b) {
+			return a+random((b-a)-1)+1;
+		}
 	}
 
+	/**
+	 * 
+	 * @param size
+	 * @return a position in an area of size size.
+	 */
 	Position randomPosition(Size size);
 
+	/**
+	 * @param max
+	 * @return an integer between 0 and max, including 0, excluding max.
+	 */
 	int random(int max);
+
+	/**
+	 * @param a
+	 * @param b
+	 * @return an integer between a and b, excluding a and b.
+	 */
+	int between(int a, int b);
 }
