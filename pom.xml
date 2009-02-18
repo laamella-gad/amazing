@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.laamella.daedalousy</groupId>
-	<artifactId>daedalousy</artifactId>
+	<groupId>com.laamella.amazing</groupId>
+	<artifactId>amazing</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>Daedalousy</name>
-	<description>Daedalousy maze generator, solver and processor</description>
+	<name>Amazing</name>
+	<description>Amazing maze generator, solver and processor</description>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -20,4 +20,17 @@
 			<version>2.0.1</version>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<target>1.5</target>
+					<source>1.5</source>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
