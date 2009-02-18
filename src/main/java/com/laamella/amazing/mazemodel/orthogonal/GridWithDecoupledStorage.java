@@ -14,6 +14,8 @@ public class GridWithDecoupledStorage implements Grid {
 	private final Size size;
 	private final Wall[][] horizontalWalls;
 	private final Wall[][] verticalWalls;
+	private Square exit;
+	private Square entrance;
 
 	public GridWithDecoupledStorage(final GridStorageFactory storageFactory) {
 		this.size = storageFactory.getSize();
@@ -63,14 +65,6 @@ public class GridWithDecoupledStorage implements Grid {
 			this.grid = grid;
 		}
 
-		public int getState() {
-			return storage.getState();
-		}
-
-		public void setState(int newState) {
-			storage.setState(newState);
-		}
-
 		public Wall getWall(Direction wall) {
 			if (wallMap == null) {
 				wallMap = new DirectionMap<Wall>(grid.getHorizontalWall(position.x, position.y), grid.getVerticalWall(position.x + 1, position.y), grid
@@ -101,6 +95,14 @@ public class GridWithDecoupledStorage implements Grid {
 		public Position getPosition() {
 			return position;
 		}
+
+		public boolean hasState(int state) {
+			return storage.hasState(state);
+		}
+
+		public void setState(int newState, boolean hasOrNot) {
+			storage.setState(newState, hasOrNot);
+		}
 	}
 
 	public static class WallDefault implements Wall {
@@ -118,14 +120,6 @@ public class GridWithDecoupledStorage implements Grid {
 			storage.setOpened(open);
 		}
 
-		public int getState() {
-			return storage.getState();
-		}
-
-		public void setState(int newState) {
-			storage.setState(newState);
-		}
-
 		public void close() {
 			storage.setOpened(false);
 		}
@@ -134,11 +128,14 @@ public class GridWithDecoupledStorage implements Grid {
 			storage.setOpened(true);
 		}
 
-	}
+		public boolean hasState(int state) {
+			return storage.hasState(state);
+		}
 
-	public Position getEntrance() {
-		// TODO Auto-generated method stub
-		return null;
+		public void setState(int newState, boolean hasOrNot) {
+			setState(newState, hasOrNot);
+		}
+
 	}
 
 	public Wall getHorizontalWall(int x, int y) {
@@ -149,8 +146,20 @@ public class GridWithDecoupledStorage implements Grid {
 		return verticalWalls[x][y];
 	}
 
-	public Position getExit() {
-		// TODO Auto-generated method stub
-		return null;
+	public Square getEntrance() {
+		return entrance;
 	}
+
+	public Square getExit() {
+		return exit;
+	}
+
+	public void setEntrance(Square entrance) {
+		this.entrance = entrance;
+	}
+
+	public void setExit(Square exit) {
+		this.exit = exit;
+	}
+
 }

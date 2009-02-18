@@ -1,28 +1,35 @@
 package com.laamella.amazing.mazemodel;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.laamella.amazing.mazemodel.Matrix.UtilityWrapper.MatrixVisitor;
 
-public class StateMatrix extends ArrayMatrix<Integer> {
+public class StateMatrix extends ArrayMatrix<Set<Integer>> {
 
 	public StateMatrix(Size size) {
 		super(size);
 	}
 
 	@Override
-	protected Integer newItem() {
-		return 0;
+	protected Set<Integer> newItem() {
+		return new HashSet<Integer>();
 	}
 
 	@Override
 	public String toString() {
 		final StringBuffer maze = new StringBuffer();
-		new Matrix.UtilityWrapper<Integer>(this).visitAllSquares(new MatrixVisitor<Integer>() {
+		new Matrix.UtilityWrapper<Set<Integer>>(this).visitAllSquares(new MatrixVisitor<Set<Integer>>() {
 			public void endRow() {
 				maze.append("-\n");
 			}
 
-			public void visit(Position position, Integer value) {
-				maze.append(toChar(value));
+			public void visit(Position position, Set<Integer> states) {
+				int sum = 0;
+				for (Integer state : states) {
+					sum += state;
+				}
+				maze.append(toChar(sum));
 			}
 
 			public void startRow() {

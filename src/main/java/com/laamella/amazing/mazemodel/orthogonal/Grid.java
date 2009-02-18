@@ -1,7 +1,5 @@
 package com.laamella.amazing.mazemodel.orthogonal;
 
-import java.util.Observable;
-
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.RandomGenerator;
@@ -13,9 +11,13 @@ public interface Grid {
 
 	Size getSize();
 
-	Position getEntrance();
+	Square getEntrance();
 
-	Position getExit();
+	Square getExit();
+
+	void setEntrance(Square entrance);
+
+	void setExit(Square exit);
 
 	public static class UtilityWrapper implements Grid {
 		private static final SimpleLogger log = new SimpleLogger(UtilityWrapper.class);
@@ -81,16 +83,32 @@ public interface Grid {
 			return delegateGrid.getSquare(position);
 		}
 
-		public Position getEntrance() {
+		public Square getEntrance() {
 			return delegateGrid.getEntrance();
 		}
 
-		public Position getExit() {
+		public Square getExit() {
 			return delegateGrid.getExit();
 		}
 
 		public Square randomSquare(final RandomGenerator randomGenerator) {
 			return getSquare(randomGenerator.randomPosition(getSize()));
+		}
+
+		public void setEntrance(final Square entrance) {
+			delegateGrid.setEntrance(entrance);
+		}
+
+		public void setExit(final Square exit) {
+			delegateGrid.setExit(exit);
+		}
+
+		public Square getTopLeftSquare() {
+			return getSquare(new Position(0, 0));
+		}
+
+		public Square getBottomRightSquare() {
+			return getSquare(new Position(getSize().width - 1, getSize().height - 1));
 		}
 	}
 }

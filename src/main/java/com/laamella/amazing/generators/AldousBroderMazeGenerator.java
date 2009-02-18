@@ -2,7 +2,6 @@ package com.laamella.amazing.generators;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.orthogonal.Direction;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
@@ -35,7 +34,6 @@ public class AldousBroderMazeGenerator implements MazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(AldousBroderMazeGenerator.class);
 	private final UtilityWrapper grid;
 	private final RandomGenerator randomGenerator;
-	private static final int UNCARVED = 0;
 	private static final int CARVED = 1;
 
 	public AldousBroderMazeGenerator(final Grid grid, final RandomGenerator randomGenerator) {
@@ -46,24 +44,28 @@ public class AldousBroderMazeGenerator implements MazeGenerator {
 	// TODO make entrance and exit
 	public void generateMaze() {
 		grid.closeAllWalls();
-		final Square startSquare = grid.getSquare(new Position(0, 0));
-		startSquare.getWall(Direction.LEFT).open();
-		startSquare.setState(CARVED);
+
+		grid.setEntrance(grid.getTopLeftSquare());
+		grid.getEntrance().getWall(Direction.LEFT).open();
+		grid.getEntrance().setState(CARVED, true);
+		
+		grid.setExit(grid.getBottomRightSquare());
+		
 		for (int i = 1; i < grid.getSize().area; i++) {
 			log.debug("Cell " + i + " of " + grid.getSize().area);
 			boolean carvedACell = false;
 			while (!carvedACell) {
 				final Square sourceSquare = grid.randomSquare(randomGenerator);
-				if (sourceSquare.getState() == CARVED) {
+				if (sourceSquare.hasState(CARVED)) {
 					final Direction carveDirection = Direction.random(randomGenerator);
 					final Square destinationSquare = sourceSquare.getSquare(carveDirection);
 					if (sourceSquare.getPosition().x == 0) {
 						log.debug("Trying " + sourceSquare.getPosition() + " " + carveDirection.name());
 					}
 					if (destinationSquare != null) {
-						if (destinationSquare.getState() == UNCARVED) {
+						if (!destinationSquare.hasState(CARVED)) {
 							sourceSquare.getWall(carveDirection).open();
-							destinationSquare.setState(CARVED);
+							destinationSquare.setState(CARVED, true);
 							carvedACell = true;
 						}
 					}
