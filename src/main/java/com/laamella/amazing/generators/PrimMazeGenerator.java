@@ -18,10 +18,8 @@ package com.laamella.amazing.generators;
  * faster.
  */
 public class PrimMazeGenerator implements MazeGenerator{
-
 	public void generateMaze() {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

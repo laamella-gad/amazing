@@ -18,5 +18,4 @@ public class RecursiveDivisionMazeGenerator implements MazeGenerator{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

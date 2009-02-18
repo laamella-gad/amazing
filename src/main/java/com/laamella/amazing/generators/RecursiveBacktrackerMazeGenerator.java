@@ -16,10 +16,8 @@ package com.laamella.amazing.generators;
  * stem.
  */
 public class RecursiveBacktrackerMazeGenerator implements MazeGenerator{
-
 	public void generateMaze() {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

@@ -12,13 +12,15 @@ import com.laamella.amazing.mazemodel.Size;
 public class GridWithDecoupledStorage implements Grid {
 	private final Square[][] squares;
 	private final Size size;
+	private final Wall[][] horizontalWalls;
+	private final Wall[][] verticalWalls;
 
 	public GridWithDecoupledStorage(final GridStorageFactory storageFactory) {
 		this.size = storageFactory.getSize();
 		squares = new SquareDefault[size.width][size.height];
 
-		final Wall[][] horizontalWalls = new Wall[size.width][size.height + 1];
-		final Wall[][] verticalWalls = new Wall[size.width + 1][size.height];
+		horizontalWalls = new Wall[size.width][size.height + 1];
+		verticalWalls = new Wall[size.width + 1][size.height];
 		ArrayUtilities.visit2dArray(horizontalWalls, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
 				final WallStorage horizontalWallStorage = storageFactory.createHorizontalWallStorage(position);
@@ -34,22 +36,7 @@ public class GridWithDecoupledStorage implements Grid {
 		ArrayUtilities.visit2dArray(squares, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
 				final SquareStorage squareStorage = storageFactory.createSquareStorage(position);
-				final DirectionMap<Wall> wallMap = new DirectionMap<Wall>(horizontalWalls[position.x][position.y], verticalWalls[position.x + 1][position.y],
-						horizontalWalls[position.x][position.y + 1], verticalWalls[position.x][position.y]);
-				final DirectionMap<Square> squareMap = new DirectionMap<Square>();
-				if (position.y > 0) {
-					squareMap.up = squares[position.x][position.y - 1];
-				}
-				if (position.x < size.width - 1) {
-					squareMap.right = squares[position.x + 1][position.y];
-				}
-				if (position.y < size.height - 1) {
-					squareMap.down = squares[position.x][position.y + 1];
-				}
-				if (position.x > 0) {
-					squareMap.left = squares[position.x - 1][position.y];
-				}
-				squares[position.x][position.y] = new SquareDefault(squareStorage, wallMap, squareMap);
+				squares[position.x][position.y] = new SquareDefault(squareStorage, position, GridWithDecoupledStorage.this);
 			}
 		});
 	}
@@ -65,13 +52,15 @@ public class GridWithDecoupledStorage implements Grid {
 	public static class SquareDefault implements Square {
 
 		private final SquareStorage storage;
-		private final DirectionMap<Wall> wallMap;
-		private final DirectionMap<Square> squareMap;
+		private final Position position;
+		private final GridWithDecoupledStorage grid;
+		private DirectionMap<Wall> wallMap;
+		private DirectionMap<Square> squareMap;
 
-		public SquareDefault(SquareStorage squareStorage, DirectionMap<Wall> wallMap, DirectionMap<Square> squareMap) {
-			this.wallMap = wallMap;
-			this.squareMap = squareMap;
+		public SquareDefault(SquareStorage squareStorage, Position position, GridWithDecoupledStorage grid) {
 			this.storage = squareStorage;
+			this.position = position;
+			this.grid = grid;
 		}
 
 		public int getState() {
@@ -83,11 +72,34 @@ public class GridWithDecoupledStorage implements Grid {
 		}
 
 		public Wall getWall(Direction wall) {
+			if (wallMap == null) {
+				wallMap = new DirectionMap<Wall>(grid.getHorizontalWall(position.x, position.y), grid.getVerticalWall(position.x + 1, position.y), grid
+						.getHorizontalWall(position.x, position.y + 1), grid.getVerticalWall(position.x, position.y));
+			}
 			return wallMap.get(wall);
 		}
 
 		public Square getSquare(Direction direction) {
+			if (squareMap == null) {
+				squareMap = new DirectionMap<Square>();
+				if (position.y > 0) {
+					squareMap.up = grid.getSquare(position.move(Direction.UP.getMove()));
+				}
+				if (position.x < grid.getSize().width - 1) {
+					squareMap.right = grid.getSquare(position.move(Direction.RIGHT.getMove()));
+				}
+				if (position.y < grid.getSize().height - 1) {
+					squareMap.down = grid.getSquare(position.move(Direction.DOWN.getMove()));
+				}
+				if (position.x > 0) {
+					squareMap.left = grid.getSquare(position.move(Direction.LEFT.getMove()));
+				}
+			}
 			return squareMap.get(direction);
+		}
+
+		public Position getPosition() {
+			return position;
 		}
 	}
 
@@ -127,6 +139,14 @@ public class GridWithDecoupledStorage implements Grid {
 	public Position getEntrance() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public Wall getHorizontalWall(int x, int y) {
+		return horizontalWalls[x][y];
+	}
+
+	public Wall getVerticalWall(int x, int y) {
+		return verticalWalls[x][y];
 	}
 
 	public Position getExit() {

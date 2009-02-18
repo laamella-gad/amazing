@@ -1,5 +1,7 @@
 package com.laamella.amazing.mazemodel.orthogonal;
 
+import java.util.Observable;
+
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.RandomGenerator;

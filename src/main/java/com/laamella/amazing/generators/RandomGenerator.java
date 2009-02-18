@@ -1,10 +1,10 @@
 package com.laamella.amazing.generators;
 
+import java.util.Date;
 import java.util.Random;
 
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
-import com.laamella.amazing.mazemodel.orthogonal.Square;
 
 public interface RandomGenerator {
 
@@ -14,10 +14,14 @@ public interface RandomGenerator {
 
 	public static class Default implements RandomGenerator {
 
-		private final int seed;
+		private final long seed;
 		private Random random;
 
-		public Default(final int seed) {
+		public Default(){
+			this.seed=new Date().getTime();
+			reset();
+		}
+		public Default(final long seed) {
 			this.seed = seed;
 			reset();
 		}

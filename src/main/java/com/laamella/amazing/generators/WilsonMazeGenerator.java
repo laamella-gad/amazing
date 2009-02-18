@@ -1,5 +1,7 @@
 package com.laamella.amazing.generators;
 
+import java.util.Observable;
+
 /**
  * This is an improved version of the Aldous-Broder algorithm, in that it
  * produces Mazes exactly like that algorithm, with all possible Mazes generated
@@ -26,7 +28,6 @@ public class WilsonMazeGenerator implements MazeGenerator {
 
 	public void generateMaze() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 }

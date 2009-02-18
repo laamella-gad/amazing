@@ -2,6 +2,7 @@ package com.laamella.amazing.generators;
 
 import org.grlea.log.SimpleLogger;
 
+import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.orthogonal.Direction;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
@@ -45,18 +46,26 @@ public class AldousBroderMazeGenerator implements MazeGenerator {
 	// TODO make entrance and exit
 	public void generateMaze() {
 		grid.closeAllWalls();
-		for (int i = 0; i < grid.getSize().area-1; i++) {
+		final Square startSquare = grid.getSquare(new Position(0, 0));
+		startSquare.getWall(Direction.LEFT).open();
+		startSquare.setState(CARVED);
+		for (int i = 1; i < grid.getSize().area; i++) {
 			log.debug("Cell " + i + " of " + grid.getSize().area);
 			boolean carvedACell = false;
 			while (!carvedACell) {
 				final Square sourceSquare = grid.randomSquare(randomGenerator);
-				final Direction carveDirection = Direction.random(randomGenerator);
-				final Square destinationSquare = sourceSquare.getSquare(carveDirection);
-				if (destinationSquare != null) {
-					if (destinationSquare.getState() == UNCARVED) {
-						sourceSquare.getWall(carveDirection).open();
-						destinationSquare.setState(CARVED);
-						carvedACell = true;
+				if (sourceSquare.getState() == CARVED) {
+					final Direction carveDirection = Direction.random(randomGenerator);
+					final Square destinationSquare = sourceSquare.getSquare(carveDirection);
+					if (sourceSquare.getPosition().x == 0) {
+						log.debug("Trying " + sourceSquare.getPosition() + " " + carveDirection.name());
+					}
+					if (destinationSquare != null) {
+						if (destinationSquare.getState() == UNCARVED) {
+							sourceSquare.getWall(carveDirection).open();
+							destinationSquare.setState(CARVED);
+							carvedACell = true;
+						}
 					}
 				}
 			}

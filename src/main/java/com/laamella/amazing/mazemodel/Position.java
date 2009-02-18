@@ -20,4 +20,9 @@ public class Position {
 	public Position scale(int multiplier) {
 		return new Position(x * multiplier, y * multiplier);
 	}
+
+	@Override
+	public String toString() {
+		return "" + x + "," + y;
+	}
 }

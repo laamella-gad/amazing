@@ -3,6 +3,10 @@ package com.laamella.amazing;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import org.grlea.log.SimpleLogger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +28,8 @@ import com.laamella.amazing.mazemodel.orthogonal.GridMatrixStorageFactory;
 import com.laamella.amazing.mazemodel.orthogonal.GridWithDecoupledStorage;
 
 public class MazeGeneratorTester {
+	private static final SimpleLogger log = new SimpleLogger(MazeGeneratorTester.class);
+
 	private Matrix.UtilityWrapper<State> matrix;
 	private Matrix.UtilityWrapper<Integer> stateMatrix;
 	private Grid.UtilityWrapper grid;
@@ -36,7 +42,13 @@ public class MazeGeneratorTester {
 		stateMatrix = new Matrix.UtilityWrapper<Integer>(new StateMatrix(new Size(15, 15)));
 		storageFactory = new GridMatrixStorageFactory(matrix, stateMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledStorage(storageFactory));
-		randomGenerator = new RandomGenerator.Default(0);
+		randomGenerator = new RandomGenerator.Default();
+
+		matrix.addObserver(new Observer() {
+			public void update(Observable o, Object arg) {
+				log.debug(matrix.toString());
+			}
+		});
 	}
 
 	@Test
@@ -50,21 +62,21 @@ public class MazeGeneratorTester {
 	public void testEllerMazeGenerator() {
 		final MazeGenerator mazeProgram = new EllerMazeGenerator(grid, 0.5);
 		mazeProgram.generateMaze();
-		System.out.println(matrix);
+		log.debug(matrix.toString());
 	}
 
 	@Test
 	public void testAldousBroderMazeGenerator() {
-		final MazeGenerator mazeProgram = new AldousBroderMazeGenerator(grid, randomGenerator);
-		mazeProgram.generateMaze();
-		System.out.println(matrix);
+		final MazeGenerator mazeGenerator = new AldousBroderMazeGenerator(grid, randomGenerator);
+		mazeGenerator.generateMaze();
+		log.debug(matrix.toString());
 	}
 
 	@Test
 	public void testPeanoMazeGenerator() {
 		final MazeGenerator mazeProgram = new PeanoMazeGenerator(grid, 1);
 		mazeProgram.generateMaze();
-		System.out.println(matrix);
+		log.debug(matrix.toString());
 	}
 
 	@Test

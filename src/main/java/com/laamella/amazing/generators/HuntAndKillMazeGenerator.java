@@ -83,5 +83,4 @@ public class HuntAndKillMazeGenerator implements MazeGenerator{
 //		set(rnd(xsiz)*2 + 1, ymaz-2);
 //	}
 //
-
 }

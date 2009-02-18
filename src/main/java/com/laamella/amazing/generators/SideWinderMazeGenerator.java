@@ -23,10 +23,8 @@ package com.laamella.amazing.generators;
  * long false paths leading down from the top next to it.
  */
 public class SideWinderMazeGenerator implements MazeGenerator {
-
 	public void generateMaze() {
 		// TODO Auto-generated method stub
 		
 	}
-
 }

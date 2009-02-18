@@ -1,6 +1,8 @@
 package com.laamella.amazing.generators;
 
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.LEFT;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.RIGHT;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.UP;
 
 import org.grlea.log.SimpleLogger;
 

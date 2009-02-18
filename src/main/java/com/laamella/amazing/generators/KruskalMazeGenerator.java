@@ -22,7 +22,6 @@ package com.laamella.amazing.generators;
  * the edge list and set management.
  */
 public class KruskalMazeGenerator implements MazeGenerator{
-
 	public void generateMaze() {
 		// TODO Auto-generated method stub
 		

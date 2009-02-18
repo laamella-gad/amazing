@@ -7,7 +7,6 @@ public class HilbertMazeGenerator implements MazeGenerator {
 
 	public void generateMaze() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 }
