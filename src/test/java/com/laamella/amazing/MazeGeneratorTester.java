@@ -29,7 +29,7 @@ public class MazeGeneratorTester {
 	private static final SimpleLogger log = new SimpleLogger(MazeGeneratorTester.class);
 
 	private Matrix.UtilityWrapper<WallState> matrix;
-	private Matrix.UtilityWrapper<Set<Integer>> stateMatrix;
+	private Matrix.UtilityWrapper<Set<Object>> stateMatrix;
 	private Grid.UtilityWrapper grid;
 	private GridMatrixStorageFactory storageFactory;
 	private RandomGenerator.Default randomGenerator;
@@ -37,7 +37,7 @@ public class MazeGeneratorTester {
 	@Before
 	public void before() {
 		matrix = new Matrix.UtilityWrapper<WallState>(new MazeMatrix(new Size(15, 15)));
-		stateMatrix = new Matrix.UtilityWrapper<Set<Integer>>(new StateMatrix(new Size(15, 15)));
+		stateMatrix = new Matrix.UtilityWrapper<Set<Object>>(new StateMatrix(new Size(15, 15)));
 		storageFactory = new GridMatrixStorageFactory(matrix, stateMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledStorage(storageFactory));
 		randomGenerator = new RandomGenerator.Default();

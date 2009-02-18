@@ -52,7 +52,6 @@ public class GridWithDecoupledStorage implements Grid {
 	}
 
 	public static class SquareDefault implements Square {
-
 		private final SquareStorage storage;
 		private final Position position;
 		private final GridWithDecoupledStorage grid;
@@ -96,11 +95,11 @@ public class GridWithDecoupledStorage implements Grid {
 			return position;
 		}
 
-		public boolean hasState(int state) {
+		public boolean hasState(Object state) {
 			return storage.hasState(state);
 		}
 
-		public void setState(int newState, boolean hasOrNot) {
+		public void setState(Object newState, boolean hasOrNot) {
 			storage.setState(newState, hasOrNot);
 		}
 	}
@@ -128,11 +127,11 @@ public class GridWithDecoupledStorage implements Grid {
 			storage.setOpened(true);
 		}
 
-		public boolean hasState(int state) {
+		public boolean hasState(Object state) {
 			return storage.hasState(state);
 		}
 
-		public void setState(int newState, boolean hasOrNot) {
+		public void setState(Object newState, boolean hasOrNot) {
 			setState(newState, hasOrNot);
 		}
 

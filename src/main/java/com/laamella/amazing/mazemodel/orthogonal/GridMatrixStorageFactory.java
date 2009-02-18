@@ -7,14 +7,13 @@ import com.laamella.amazing.mazemodel.MazeMatrix;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.Matrix.UtilityWrapper;
-import com.laamella.amazing.mazemodel.MazeMatrix.WallState;
 
 public class GridMatrixStorageFactory implements GridStorageFactory {
 	private final Matrix<MazeMatrix.WallState> mazeMatrix;
-	private final UtilityWrapper<Set<Integer>> stateMatrix;
+	private final UtilityWrapper<Set<Object>> stateMatrix;
 	private final Size size;
 
-	public GridMatrixStorageFactory(final Matrix<MazeMatrix.WallState> mazeMatrix, final UtilityWrapper<Set<Integer>> stateMatrix) {
+	public GridMatrixStorageFactory(final Matrix<MazeMatrix.WallState> mazeMatrix, final UtilityWrapper<Set<Object>> stateMatrix) {
 		this.mazeMatrix = mazeMatrix;
 		this.stateMatrix = stateMatrix;
 		this.size = new Size(Math.min((mazeMatrix.getSize().width - 1) / 2, (stateMatrix.getSize().width - 1) / 2), Math.min(
@@ -37,10 +36,10 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 
 	private static class WallMatrixStorage implements WallStorage {
 		private final Matrix<MazeMatrix.WallState> mazeMatrix;
-		private final Matrix<Set<Integer>> stateMatrix;
+		private final Matrix<Set<Object>> stateMatrix;
 		private final Position position;
 
-		public WallMatrixStorage(Matrix<MazeMatrix.WallState> mazeMatrix, UtilityWrapper<Set<Integer>> stateMatrix, Position position) {
+		public WallMatrixStorage(Matrix<MazeMatrix.WallState> mazeMatrix, UtilityWrapper<Set<Object>> stateMatrix, Position position) {
 			this.mazeMatrix = mazeMatrix;
 			this.stateMatrix = stateMatrix;
 			this.position = position;
@@ -54,11 +53,11 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 			mazeMatrix.set(position, opened ? MazeMatrix.WallState.OPEN : MazeMatrix.WallState.CLOSED);
 		}
 
-		public boolean hasState(int state) {
+		public boolean hasState(Object state) {
 			return stateMatrix.get(position).contains(state);
 		}
 
-		public void setState(int newState, boolean hasOrNot) {
+		public void setState(Object newState, boolean hasOrNot) {
 			if (hasOrNot) {
 				stateMatrix.get(position).add(newState);
 			} else {
@@ -69,20 +68,19 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 	}
 
 	private static class SquareMatrixStorage implements SquareStorage {
-
-		private final Matrix<Set<Integer>> stateMatrix;
+		private final Matrix<Set<Object>> stateMatrix;
 		private final Position position;
 
-		private SquareMatrixStorage(UtilityWrapper<Set<Integer>> stateMatrix, Position position) {
+		private SquareMatrixStorage(UtilityWrapper<Set<Object>> stateMatrix, Position position) {
 			this.stateMatrix = stateMatrix;
 			this.position = position;
 		}
 
-		public boolean hasState(int state) {
+		public boolean hasState(Object state) {
 			return stateMatrix.get(position).contains(state);
 		}
 
-		public void setState(int newState, boolean hasOrNot) {
+		public void setState(Object newState, boolean hasOrNot) {
 			if (hasOrNot) {
 				stateMatrix.get(position).add(newState);
 			} else {

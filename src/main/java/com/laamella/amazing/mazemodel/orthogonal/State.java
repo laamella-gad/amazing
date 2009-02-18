@@ -1,8 +1,8 @@
 package com.laamella.amazing.mazemodel.orthogonal;
 
 public interface State {
-	boolean hasState(int state);
+	boolean hasState(Object state);
 
-	void setState(int newState, boolean hasOrNot);
+	void setState(Object newState, boolean hasOrNot);
 
 }
