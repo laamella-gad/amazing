@@ -10,45 +10,42 @@ import org.grlea.log.SimpleLogger;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.laamella.amazing.generators.AldousBroderMazeGenerator;
-import com.laamella.amazing.generators.BinaryTreeMazeGenerator;
-import com.laamella.amazing.generators.EllerMazeGenerator;
 import com.laamella.amazing.generators.MazeGenerator;
-import com.laamella.amazing.generators.PeanoMazeGenerator;
-import com.laamella.amazing.generators.RandomGenerator;
-import com.laamella.amazing.generators.RecursiveDivisionMazeGenerator;
-import com.laamella.amazing.mazemodel.Matrix;
-import com.laamella.amazing.mazemodel.MazeMatrix;
+import com.laamella.amazing.generators.Randomizer;
+import com.laamella.amazing.generators.perfect.AldousBroderMazeGenerator;
+import com.laamella.amazing.generators.perfect.BinaryTreeMazeGenerator;
+import com.laamella.amazing.generators.perfect.EllerMazeGenerator;
+import com.laamella.amazing.generators.perfect.PeanoMazeGenerator;
+import com.laamella.amazing.generators.perfect.RecursiveBacktrackerMazeGenerator;
+import com.laamella.amazing.generators.perfect.RecursiveDivisionMazeGenerator;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
-import com.laamella.amazing.mazemodel.StateMatrix;
-import com.laamella.amazing.mazemodel.MazeMatrix.WallState;
+import com.laamella.amazing.mazemodel.matrix.Matrix;
+import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 import com.laamella.amazing.mazemodel.orthogonal.Direction;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
-import com.laamella.amazing.mazemodel.orthogonal.GridMatrixStorageFactory;
-import com.laamella.amazing.mazemodel.orthogonal.GridWithDecoupledStorage;
+import com.laamella.amazing.mazemodel.orthogonal.implementation.GridMatrixStorageFactory;
+import com.laamella.amazing.mazemodel.orthogonal.implementation.GridWithDecoupledStorage;
 
 public class MazeGeneratorTester {
 	private static final SimpleLogger log = new SimpleLogger(MazeGeneratorTester.class);
 
-	private Matrix.UtilityWrapper<WallState> matrix;
-	private Matrix.UtilityWrapper<Set<Object>> stateMatrix;
+	private Matrix.UtilityWrapper<Set<Object>> mazeMatrix;
 	private Grid.UtilityWrapper grid;
 	private GridMatrixStorageFactory storageFactory;
-	
-	private RandomGenerator.Default randomGenerator;
+
+	private Randomizer.Default randomGenerator;
 
 	@Before
 	public void before() {
-		matrix = new Matrix.UtilityWrapper<WallState>(new MazeMatrix(new Size(20, 15)));
-		stateMatrix = new Matrix.UtilityWrapper<Set<Object>>(new StateMatrix(new Size(20, 15)));
-		storageFactory = new GridMatrixStorageFactory(matrix, stateMatrix);
+		mazeMatrix = new Matrix.UtilityWrapper<Set<Object>>(new StateMatrix(new Size(15, 15)));
+		storageFactory = new GridMatrixStorageFactory(mazeMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledStorage(storageFactory));
-		randomGenerator = new RandomGenerator.Default();
+		randomGenerator = new Randomizer.Default();
 
-		matrix.addObserver(new Observer() {
+		mazeMatrix.addObserver(new Observer() {
 			public void update(Observable o, Object arg) {
-				log.debug(matrix.toString());
+				log.debug(mazeMatrix.toString());
 			}
 		});
 	}
@@ -57,35 +54,42 @@ public class MazeGeneratorTester {
 	public void testBinaryTreeMazeGenerator() {
 		final MazeGenerator mazeProgram = new BinaryTreeMazeGenerator(grid, randomGenerator);
 		mazeProgram.generateMaze();
-		System.out.println(matrix);
+		System.out.println(mazeMatrix);
 	}
 
 	@Test
 	public void testEllerMazeGenerator() {
 		final MazeGenerator mazeProgram = new EllerMazeGenerator(grid, 0.5);
 		mazeProgram.generateMaze();
-		log.debug(matrix.toString());
+		log.debug(mazeMatrix.toString());
 	}
 
 	@Test
 	public void testAldousBroderMazeGenerator() {
 		final MazeGenerator mazeGenerator = new AldousBroderMazeGenerator(grid, randomGenerator);
 		mazeGenerator.generateMaze();
-		log.debug(matrix.toString());
+		log.debug(mazeMatrix.toString());
 	}
 
 	@Test
 	public void testRecursiveDivisionMazeGenerator() {
 		final MazeGenerator mazeGenerator = new RecursiveDivisionMazeGenerator(grid, randomGenerator);
 		mazeGenerator.generateMaze();
-		log.debug(matrix.toString());
+		log.debug(mazeMatrix.toString());
+	}
+
+	@Test
+	public void testRecursiveBacktrackerMazeGenerator() {
+		final MazeGenerator mazeGenerator = new RecursiveBacktrackerMazeGenerator(grid.getTopLeftSquare(), randomGenerator);
+		mazeGenerator.generateMaze();
+		log.debug(mazeMatrix.toString());
 	}
 
 	@Test
 	public void testPeanoMazeGenerator() {
 		final MazeGenerator mazeProgram = new PeanoMazeGenerator(grid, 1);
 		mazeProgram.generateMaze();
-		log.debug(matrix.toString());
+		log.debug(mazeMatrix.toString());
 	}
 
 	@Test
@@ -96,6 +100,6 @@ public class MazeGeneratorTester {
 	@Test
 	public void testMatrixStorage() {
 		grid.getSquare(new Position(4, 3)).setState(15, true);
-		assertTrue(stateMatrix.get(new Position(4 * 2 + 1, 3 * 2 + 1)).contains(15));
+		assertTrue(mazeMatrix.get(new Position(4 * 2 + 1, 3 * 2 + 1)).contains(15));
 	}
 }

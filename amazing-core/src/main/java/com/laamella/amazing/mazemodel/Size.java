@@ -1,5 +1,8 @@
 package com.laamella.amazing.mazemodel;
 
+/**
+ * A simple 2D size indicator.
+ */
 public class Size {
 	public final int width;
 	public final int height;

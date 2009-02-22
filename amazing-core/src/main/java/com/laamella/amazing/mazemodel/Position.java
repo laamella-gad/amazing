@@ -1,5 +1,8 @@
 package com.laamella.amazing.mazemodel;
 
+/**
+ * A position in 2D space.
+ */
 public class Position {
 	public final int x;
 	public final int y;

@@ -1,7 +1,8 @@
 package com.laamella.amazing.mazemodel.orthogonal;
 
-import com.laamella.amazing.generators.RandomGenerator;
+import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.Position;
+import com.laamella.amazing.mazemodel.orthogonal.implementation.DirectionMap;
 
 public enum Direction {
 	UP, DOWN, RIGHT, LEFT;
@@ -26,11 +27,11 @@ public enum Direction {
 		return TURN_RIGHT_MAP.get(this);
 	}
 
-	Position getMove() {
+	public Position getMove() {
 		return MOVE_MAP.get(this);
 	}
 
-	public static Direction random(RandomGenerator randomGenerator) {
+	public static Direction random(Randomizer randomGenerator) {
 		return RANDOM_MAP[randomGenerator.random(4)];
 	}
 	

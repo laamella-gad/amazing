@@ -1,12 +1,17 @@
 package com.laamella.amazing.mazemodel.orthogonal;
 
+import java.util.Set;
+
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.generators.RandomGenerator;
+import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
+import com.laamella.amazing.mazemodel.graph.Edge;
+import com.laamella.amazing.mazemodel.graph.Graph;
+import com.laamella.amazing.mazemodel.graph.Vertex;
 
-public interface Grid {
+public interface Grid extends Graph {
 	Square getSquare(Position position);
 
 	Size getSize();
@@ -91,7 +96,7 @@ public interface Grid {
 			return delegateGrid.getExit();
 		}
 
-		public Square randomSquare(final RandomGenerator randomGenerator) {
+		public Square randomSquare(final Randomizer randomGenerator) {
 			return getSquare(randomGenerator.randomPosition(getSize()));
 		}
 
@@ -135,6 +140,16 @@ public interface Grid {
 				return getSquare(position).getWall(Direction.UP);
 			}
 			return getSquare(position.move(Direction.UP.getMove())).getWall(Direction.DOWN);
+		}
+
+		@Override
+		public Set<Edge> getEdges() {
+			return delegateGrid.getEdges();
+		}
+
+		@Override
+		public Set<Vertex> getVertices() {
+			return delegateGrid.getVertices();
 		}
 
 	}

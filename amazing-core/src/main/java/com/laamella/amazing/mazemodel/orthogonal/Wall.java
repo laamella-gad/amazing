@@ -1,6 +1,8 @@
 package com.laamella.amazing.mazemodel.orthogonal;
 
-public interface Wall extends State {
+import com.laamella.amazing.mazemodel.graph.Edge;
+
+public interface Wall extends Edge {
 	void setOpened(boolean opened);
 
 	void open();
