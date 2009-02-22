@@ -14,7 +14,7 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 
 	public GridMatrixStorageFactory(final Matrix<Set<Object>> mazeMatrix) {
 		this.mazeMatrix = new Matrix.UtilityWrapper<Set<Object>>(mazeMatrix);
-		this.size=new Size(mazeMatrix.getSize().width/)
+		this.size = new Size((mazeMatrix.getSize().width - 1) / 2, (mazeMatrix.getSize().height - 1) / 2);
 		this.mazeMatrix.visitAllSquares(new Matrix.UtilityWrapper.MatrixVisitor<Set<Object>>() {
 			public void endRow() {
 			}
@@ -88,6 +88,6 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 	}
 
 	public Size getSize() {
-		return mazeMatrix.getSize();
+		return size;
 	}
 }
