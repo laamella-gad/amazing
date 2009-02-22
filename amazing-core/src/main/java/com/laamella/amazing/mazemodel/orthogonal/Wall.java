@@ -10,5 +10,4 @@ public interface Wall extends Edge {
 	void close();
 
 	boolean isOpen();
-
 }

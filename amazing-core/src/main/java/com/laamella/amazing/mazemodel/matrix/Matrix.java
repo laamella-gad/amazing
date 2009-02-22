@@ -39,7 +39,6 @@ public interface Matrix<T> {
 			}
 		}
 
-
 		public T get(Position position) {
 			return delegateMatrix.get(position);
 		}
@@ -56,7 +55,7 @@ public interface Matrix<T> {
 
 		@Override
 		public String toString() {
-			return delegateMatrix.toString();
+			return "\n" + delegateMatrix.toString();
 		}
 	}
 }

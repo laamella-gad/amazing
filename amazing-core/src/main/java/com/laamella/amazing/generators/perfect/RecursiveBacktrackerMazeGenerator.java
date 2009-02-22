@@ -1,7 +1,7 @@
 package com.laamella.amazing.generators.perfect;
 
-import static com.laamella.amazing.mazemodel.State.*;
-
+import static com.laamella.amazing.generators.GeneratorStates.*;
+import static com.laamella.amazing.mazemodel.MazeDefinitionStates.*;
 import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.graph.Edge;

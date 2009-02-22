@@ -1,11 +1,14 @@
 package com.laamella.amazing.mazemodel.matrix.implementation;
 
+import static com.laamella.amazing.mazemodel.MazeDefinitionStates.ENTRANCE;
+import static com.laamella.amazing.mazemodel.MazeDefinitionStates.EXIT;
+import static com.laamella.amazing.mazemodel.MazeDefinitionStates.OPEN;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
-import com.laamella.amazing.mazemodel.State;
 import com.laamella.amazing.mazemodel.matrix.Matrix;
 import com.laamella.amazing.mazemodel.matrix.Matrix.UtilityWrapper.MatrixVisitor;
 
@@ -49,11 +52,11 @@ public class StateMatrix extends ListMatrix<Set<Object>> {
 			}
 
 			public void visit(Position position, Set<Object> states) {
-				if (states.contains(State.ENTRANCE)) {
+				if (states.contains(ENTRANCE)) {
 					maze.append(">");
-				} else if (states.contains(State.EXIT)) {
+				} else if (states.contains(EXIT)) {
 					maze.append("E");
-				} else if (states.contains(State.OPEN)) {
+				} else if (states.contains(OPEN)) {
 					maze.append(' ');
 				} else {
 					maze.append('#');

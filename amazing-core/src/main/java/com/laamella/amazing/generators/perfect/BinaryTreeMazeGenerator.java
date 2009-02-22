@@ -1,5 +1,6 @@
 package com.laamella.amazing.generators.perfect;
 
+import static com.laamella.amazing.mazemodel.MazeDefinitionStates.EXIT;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.LEFT;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.RIGHT;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.UP;
@@ -9,7 +10,6 @@ import org.grlea.log.SimpleLogger;
 import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.State;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
 
@@ -79,7 +79,7 @@ public class BinaryTreeMazeGenerator implements MazeGenerator {
 		log.ludicrous("Lower right exit");
 		final Square exit = grid.getSquare(new Position(grid.getSize().width - 1, grid.getSize().height - 1));
 		exit.getWall(RIGHT).open();
-		exit.setState(State.EXIT, true);
+		exit.setState(EXIT, true);
 
 		log.exit("generateMaze");
 	}

@@ -1,5 +1,11 @@
 package com.laamella.amazing.mazemodel.orthogonal.implementation;
 
+import static com.laamella.amazing.mazemodel.MazeDefinitionStates.OPEN;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.DOWN;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.LEFT;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.RIGHT;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.UP;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,8 +19,6 @@ import com.laamella.amazing.mazemodel.orthogonal.Direction;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
 import com.laamella.amazing.mazemodel.orthogonal.Wall;
-
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
 
 /**
  * Grid knows about relationships between squares and walls, but knows nothing

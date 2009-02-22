@@ -1,8 +1,8 @@
 package com.laamella.amazing.generators.perfect;
 
-import org.grlea.log.SimpleLogger;
+import static com.laamella.amazing.generators.GeneratorStates.VISITED;
 
-import static com.laamella.amazing.mazemodel.State.*;
+import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.generators.Randomizer;

@@ -1,10 +1,11 @@
 package com.laamella.amazing.mazemodel.orthogonal.implementation;
 
+import static com.laamella.amazing.mazemodel.MazeDefinitionStates.OPEN;
+
 import java.util.Set;
 
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
-import com.laamella.amazing.mazemodel.State;
 import com.laamella.amazing.mazemodel.matrix.Matrix;
 import com.laamella.amazing.mazemodel.matrix.Matrix.UtilityWrapper;
 
@@ -21,7 +22,7 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 
 			public void visit(Position position, Set<Object> value) {
 				if (position.x % 2 == 1 && position.y % 2 == 1) {
-					GridMatrixStorageFactory.this.mazeMatrix.get(position).add(State.OPEN);
+					GridMatrixStorageFactory.this.mazeMatrix.get(position).add(OPEN);
 				}
 			}
 
