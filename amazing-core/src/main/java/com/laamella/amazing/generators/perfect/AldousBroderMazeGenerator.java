@@ -1,6 +1,9 @@
 package com.laamella.amazing.generators.perfect;
 
-import static com.laamella.amazing.generators.GeneratorStates.VISITED;
+import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.ENTRANCE;
+import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.EXIT;
+import static com.laamella.amazing.generators.MazeGenerator.GeneratorState.*;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.LEFT;
 
 import org.grlea.log.SimpleLogger;
 
@@ -43,16 +46,16 @@ public class AldousBroderMazeGenerator implements MazeGenerator {
 		this.randomGenerator = randomGenerator;
 	}
 
-	// TODO make entrance and exit
 	public void generateMaze() {
 		grid.closeAllWalls();
+		final Square entrance = grid.getTopLeftSquare();
+		entrance.setState(ENTRANCE, true);
+		entrance.getWall(LEFT).open();
+		entrance.setState(VISITED, true);
 
-		grid.setEntrance(grid.getTopLeftSquare());
-		grid.getEntrance().getWall(Direction.LEFT).open();
-		grid.getEntrance().setState(VISITED, true);
-		
-		grid.setExit(grid.getBottomRightSquare());
-		
+		final Square exit = grid.getBottomRightSquare();
+		exit.setState(EXIT, true);
+
 		for (int i = 1; i < grid.getSize().area; i++) {
 			log.debug("Cell " + i + " of " + grid.getSize().area);
 			boolean carvedACell = false;

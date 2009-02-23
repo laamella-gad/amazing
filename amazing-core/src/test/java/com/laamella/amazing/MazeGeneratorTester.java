@@ -20,12 +20,14 @@ import com.laamella.amazing.generators.perfect.RecursiveBacktrackerMazeGenerator
 import com.laamella.amazing.generators.perfect.RecursiveDivisionMazeGenerator;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
+import com.laamella.amazing.mazemodel.graph.Graph;
 import com.laamella.amazing.mazemodel.matrix.Matrix;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 import com.laamella.amazing.mazemodel.orthogonal.Direction;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.implementation.GridMatrixStorageFactory;
 import com.laamella.amazing.mazemodel.orthogonal.implementation.GridWithDecoupledStorage;
+import com.laamella.amazing.solvers.RecursiveBacktrackerSolver;
 
 public class MazeGeneratorTester {
 	private static final SimpleLogger log = new SimpleLogger(MazeGeneratorTester.class);
@@ -68,6 +70,7 @@ public class MazeGeneratorTester {
 	public void testAldousBroderMazeGenerator() {
 		final MazeGenerator mazeGenerator = new AldousBroderMazeGenerator(grid, randomGenerator);
 		mazeGenerator.generateMaze();
+		assertTrue(new RecursiveBacktrackerSolver().solve(new Graph.UtilityWrapper(grid).getEntrance()));
 		log.debug(mazeMatrix.toString());
 	}
 

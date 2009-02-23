@@ -13,7 +13,7 @@ public interface Matrix<T> {
 
 	Size getSize();
 
-	public static class UtilityWrapper<T> extends Observable implements Matrix<T> {
+	public static class UtilityWrapper<T> implements Matrix<T> {
 		private final Matrix<T> delegateMatrix;
 
 		public UtilityWrapper(Matrix<T> delegateMatrix) {
@@ -49,8 +49,6 @@ public interface Matrix<T> {
 
 		public void set(Position position, T value) {
 			delegateMatrix.set(position, value);
-			setChanged();
-			notifyObservers();
 		}
 
 		@Override

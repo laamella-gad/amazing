@@ -1,6 +1,6 @@
 package com.laamella.amazing.mazemodel.orthogonal.implementation;
 
-import static com.laamella.amazing.mazemodel.MazeDefinitionStates.OPEN;
+import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.OPEN;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.DOWN;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.LEFT;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.RIGHT;

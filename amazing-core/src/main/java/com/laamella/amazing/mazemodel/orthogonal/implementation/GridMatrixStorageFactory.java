@@ -1,6 +1,6 @@
 package com.laamella.amazing.mazemodel.orthogonal.implementation;
 
-import static com.laamella.amazing.mazemodel.MazeDefinitionStates.OPEN;
+import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.OPEN;
 
 import java.util.Set;
 
@@ -9,6 +9,12 @@ import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.matrix.Matrix;
 import com.laamella.amazing.mazemodel.matrix.Matrix.UtilityWrapper;
 
+//setChanged();
+//notifyObservers();
+//extends Observable 
+
+
+// TODO shouldn't be a factory
 public class GridMatrixStorageFactory implements GridStorageFactory {
 	private final Matrix.UtilityWrapper<Set<Object>> mazeMatrix;
 	private final Size size;

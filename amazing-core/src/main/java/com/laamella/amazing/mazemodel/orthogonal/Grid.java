@@ -16,14 +16,6 @@ public interface Grid extends Graph {
 
 	Size getSize();
 
-	Square getEntrance();
-
-	Square getExit();
-
-	void setEntrance(Square entrance);
-
-	void setExit(Square exit);
-
 	public static class UtilityWrapper implements Grid {
 		private static final SimpleLogger log = new SimpleLogger(UtilityWrapper.class);
 		private final Grid delegateGrid;
@@ -88,24 +80,8 @@ public interface Grid extends Graph {
 			return delegateGrid.getSquare(position);
 		}
 
-		public Square getEntrance() {
-			return delegateGrid.getEntrance();
-		}
-
-		public Square getExit() {
-			return delegateGrid.getExit();
-		}
-
 		public Square randomSquare(final Randomizer randomGenerator) {
 			return getSquare(randomGenerator.randomPosition(getSize()));
-		}
-
-		public void setEntrance(final Square entrance) {
-			delegateGrid.setEntrance(entrance);
-		}
-
-		public void setExit(final Square exit) {
-			delegateGrid.setExit(exit);
 		}
 
 		public Square getTopLeftSquare() {

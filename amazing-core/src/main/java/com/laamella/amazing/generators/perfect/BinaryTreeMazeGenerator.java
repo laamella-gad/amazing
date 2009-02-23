@@ -1,6 +1,6 @@
 package com.laamella.amazing.generators.perfect;
 
-import static com.laamella.amazing.mazemodel.MazeDefinitionStates.EXIT;
+import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.*;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.LEFT;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.RIGHT;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.UP;
