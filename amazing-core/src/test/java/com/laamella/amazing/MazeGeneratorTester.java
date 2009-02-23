@@ -25,8 +25,8 @@ import com.laamella.amazing.mazemodel.matrix.Matrix;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 import com.laamella.amazing.mazemodel.orthogonal.Direction;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
-import com.laamella.amazing.mazemodel.orthogonal.implementation.GridMatrixStorageFactory;
-import com.laamella.amazing.mazemodel.orthogonal.implementation.GridWithDecoupledStorage;
+import com.laamella.amazing.mazemodel.orthogonal.implementation.GridMatrixStorage;
+import com.laamella.amazing.mazemodel.orthogonal.implementation.GridWithDecoupledState;
 import com.laamella.amazing.solvers.RecursiveBacktrackerSolver;
 
 public class MazeGeneratorTester {
@@ -34,18 +34,18 @@ public class MazeGeneratorTester {
 
 	private Matrix.UtilityWrapper<Set<Object>> mazeMatrix;
 	private Grid.UtilityWrapper grid;
-	private GridMatrixStorageFactory storageFactory;
+	private GridMatrixStorage stateStorage;
 
 	private Randomizer.Default randomGenerator;
 
 	@Before
 	public void before() {
 		mazeMatrix = new Matrix.UtilityWrapper<Set<Object>>(new StateMatrix(new Size(15, 15)));
-		storageFactory = new GridMatrixStorageFactory(mazeMatrix);
-		grid = new Grid.UtilityWrapper(new GridWithDecoupledStorage(storageFactory));
+		stateStorage = new GridMatrixStorage(mazeMatrix);
+		grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
 		randomGenerator = new Randomizer.Default();
 
-		mazeMatrix.addObserver(new Observer() {
+		stateStorage.addObserver(new Observer() {
 			public void update(Observable o, Object arg) {
 				log.debug(mazeMatrix.toString());
 			}

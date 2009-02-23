@@ -25,7 +25,7 @@ import com.laamella.amazing.mazemodel.orthogonal.Wall;
  * about their state. That is delegated to objects returned from the
  * storageFactory.
  */
-public class GridWithDecoupledStorage implements Grid {
+public class GridWithDecoupledState implements Grid {
 	private final SquareDefault[][] squares;
 	private final Size size;
 	private final WallDefault[][] horizontalWalls;
@@ -35,8 +35,8 @@ public class GridWithDecoupledStorage implements Grid {
 	private Set<Edge> edges = new HashSet<Edge>();
 	private Set<Vertex> vertices = new HashSet<Vertex>();
 
-	public GridWithDecoupledStorage(final GridStorageFactory storageFactory) {
-		this.size = storageFactory.getSize();
+	public GridWithDecoupledState(final GridStateStorage stateStorage) {
+		this.size = stateStorage.getSize();
 		squares = new SquareDefault[size.width][size.height];
 
 		// TODO this is becoming a little dramatic
@@ -45,24 +45,21 @@ public class GridWithDecoupledStorage implements Grid {
 		verticalWalls = new WallDefault[size.width + 1][size.height];
 		ArrayUtilities.visit2dArray(horizontalWalls, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
-				final WallStorage horizontalWallStorage = storageFactory.createHorizontalWallStorage(position);
-				final WallDefault wall = new WallDefault(horizontalWallStorage);
+				final WallDefault wall = new WallDefault(stateStorage, position, true);
 				horizontalWalls[position.x][position.y] = wall;
 				edges.add(wall);
 			}
 		});
 		ArrayUtilities.visit2dArray(verticalWalls, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
-				final WallStorage verticalWallStorage = storageFactory.createVerticalWallStorage(position);
-				final WallDefault wall = new WallDefault(verticalWallStorage);
+				final WallDefault wall = new WallDefault(stateStorage, position, false);
 				verticalWalls[position.x][position.y] = wall;
 				edges.add(wall);
 			}
 		});
 		ArrayUtilities.visit2dArray(squares, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
-				final SquareStorage squareStorage = storageFactory.createSquareStorage(position);
-				final SquareDefault square = new SquareDefault(squareStorage, position);
+				final SquareDefault square = new SquareDefault(stateStorage, position);
 				squares[position.x][position.y] = square;
 				vertices.add(square);
 			}
@@ -90,7 +87,7 @@ public class GridWithDecoupledStorage implements Grid {
 		});
 		ArrayUtilities.visit2dArray(squares, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
-				squares[position.x][position.y].connect(GridWithDecoupledStorage.this);
+				squares[position.x][position.y].connect(GridWithDecoupledState.this);
 			}
 		});
 	}
@@ -138,18 +135,18 @@ public class GridWithDecoupledStorage implements Grid {
 	}
 
 	public static class SquareDefault implements Square {
-		private final SquareStorage storage;
 		private final Position position;
 		private DirectionMap<Wall> wallMap;
 		private DirectionMap<Square> squareMap;
 		private Set<Edge> edges;
+		private final GridStateStorage storage;
 
-		public SquareDefault(final SquareStorage squareStorage, final Position position) {
-			this.storage = squareStorage;
+		public SquareDefault(final GridStateStorage stateStorage, final Position position) {
+			this.storage = stateStorage;
 			this.position = position;
 		}
 
-		void connect(final GridWithDecoupledStorage grid) {
+		void connect(final GridWithDecoupledState grid) {
 			if (wallMap == null) {
 				wallMap = new DirectionMap<Wall>(grid.getHorizontalWall(position.x, position.y), grid.getVerticalWall(position.x + 1, position.y), grid
 						.getHorizontalWall(position.x, position.y + 1), grid.getVerticalWall(position.x, position.y));
@@ -204,11 +201,11 @@ public class GridWithDecoupledStorage implements Grid {
 		}
 
 		public boolean hasState(Object state) {
-			return storage.hasState(state);
+			return storage.getSquareState(position).hasState(state);
 		}
 
 		public void setState(Object newState, boolean hasOrNot) {
-			storage.setState(newState, hasOrNot);
+			storage.getSquareState(position).setState(newState, hasOrNot);
 		}
 
 		@Override
@@ -218,12 +215,17 @@ public class GridWithDecoupledStorage implements Grid {
 	}
 
 	public static class WallDefault implements Wall {
-		private final WallStorage storage;
 		private Square squareA;
 		private Square squareB;
 
-		public WallDefault(final WallStorage storage) {
-			this.storage = storage;
+		private final Position position;
+		private final boolean horizontal;
+		private final GridStateStorage stateStorage;
+
+		public WallDefault(GridStateStorage stateStorage, Position position, boolean horizontal) {
+			this.stateStorage = stateStorage;
+			this.position = position;
+			this.horizontal = horizontal;
 		}
 
 		void connect(Square squareA, Square squareB) {
@@ -232,11 +234,11 @@ public class GridWithDecoupledStorage implements Grid {
 		}
 
 		public boolean isOpen() {
-			return storage.hasState(OPEN);
+			return stateStorage.getWallState(position, horizontal).hasState(OPEN);
 		}
 
 		public void setOpened(boolean open) {
-			storage.setState(OPEN, open);
+			stateStorage.getWallState(position, horizontal).setState(OPEN, open);
 		}
 
 		public void close() {
@@ -248,11 +250,11 @@ public class GridWithDecoupledStorage implements Grid {
 		}
 
 		public boolean hasState(Object state) {
-			return storage.hasState(state);
+			return stateStorage.getWallState(position, horizontal).hasState(state);
 		}
 
 		public void setState(Object newState, boolean hasOrNot) {
-			storage.setState(newState, hasOrNot);
+			stateStorage.getWallState(position, horizontal).setState(newState, hasOrNot);
 		}
 
 		@Override

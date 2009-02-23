@@ -2,24 +2,23 @@ package com.laamella.amazing.mazemodel.orthogonal.implementation;
 
 import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.OPEN;
 
+import java.util.Observable;
 import java.util.Set;
 
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
+import com.laamella.amazing.mazemodel.State;
 import com.laamella.amazing.mazemodel.matrix.Matrix;
 import com.laamella.amazing.mazemodel.matrix.Matrix.UtilityWrapper;
 
 //setChanged();
 //notifyObservers();
-//extends Observable 
 
-
-// TODO shouldn't be a factory
-public class GridMatrixStorageFactory implements GridStorageFactory {
+public class GridMatrixStorage extends Observable implements GridStateStorage {
 	private final Matrix.UtilityWrapper<Set<Object>> mazeMatrix;
 	private final Size size;
 
-	public GridMatrixStorageFactory(final Matrix<Set<Object>> mazeMatrix) {
+	public GridMatrixStorage(final Matrix<Set<Object>> mazeMatrix) {
 		this.mazeMatrix = new Matrix.UtilityWrapper<Set<Object>>(mazeMatrix);
 		this.size = new Size((mazeMatrix.getSize().width - 1) / 2, (mazeMatrix.getSize().height - 1) / 2);
 		this.mazeMatrix.visitAllSquares(new Matrix.UtilityWrapper.MatrixVisitor<Set<Object>>() {
@@ -28,7 +27,7 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 
 			public void visit(Position position, Set<Object> value) {
 				if (position.x % 2 == 1 && position.y % 2 == 1) {
-					GridMatrixStorageFactory.this.mazeMatrix.get(position).add(OPEN);
+					GridMatrixStorage.this.mazeMatrix.get(position).add(OPEN);
 				}
 			}
 
@@ -82,11 +81,11 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 		}
 	}
 
-	public WallStorage createHorizontalWallStorage(Position position) {
+	public WallStorage getHorizontalWallState(Position position) {
 		return new WallMatrixStorage(mazeMatrix, position.scale(2).move(1, 0));
 	}
 
-	public SquareStorage createSquareStorage(Position position) {
+	public SquareStorage getSquareState(Position position) {
 		return new SquareMatrixStorage(mazeMatrix, position.scale(2).move(1, 1));
 	}
 
@@ -96,5 +95,9 @@ public class GridMatrixStorageFactory implements GridStorageFactory {
 
 	public Size getSize() {
 		return size;
+	}
+
+	@Override
+	public State getWallState(Position position, boolean horizontal) {
 	}
 }
