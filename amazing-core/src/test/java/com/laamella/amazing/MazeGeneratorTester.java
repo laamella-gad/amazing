@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 
 import org.grlea.log.SimpleLogger;
 import org.junit.Before;
@@ -21,7 +20,6 @@ import com.laamella.amazing.generators.perfect.RecursiveDivisionMazeGenerator;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.graph.Graph;
-import com.laamella.amazing.mazemodel.matrix.Matrix;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 import com.laamella.amazing.mazemodel.orthogonal.Direction;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
@@ -32,7 +30,7 @@ import com.laamella.amazing.solvers.RecursiveBacktrackerSolver;
 public class MazeGeneratorTester {
 	private static final SimpleLogger log = new SimpleLogger(MazeGeneratorTester.class);
 
-	private Matrix.UtilityWrapper<Set<Object>> mazeMatrix;
+	private StateMatrix mazeMatrix;
 	private Grid.UtilityWrapper grid;
 	private GridMatrixStorage stateStorage;
 
@@ -40,12 +38,12 @@ public class MazeGeneratorTester {
 
 	@Before
 	public void before() {
-		mazeMatrix = new Matrix.UtilityWrapper<Set<Object>>(new StateMatrix(new Size(15, 15)));
+		mazeMatrix = new StateMatrix(new Size(15, 15));
 		stateStorage = new GridMatrixStorage(mazeMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
 		randomGenerator = new Randomizer.Default();
 
-		stateStorage.addObserver(new Observer() {
+		mazeMatrix.addObserver(new Observer() {
 			public void update(Observable o, Object arg) {
 				log.debug(mazeMatrix.toString());
 			}
@@ -103,6 +101,6 @@ public class MazeGeneratorTester {
 	@Test
 	public void testMatrixStorage() {
 		grid.getSquare(new Position(4, 3)).setState(15, true);
-		assertTrue(mazeMatrix.get(new Position(4 * 2 + 1, 3 * 2 + 1)).contains(15));
+		assertTrue(mazeMatrix.get(new Position(4 * 2 + 1, 3 * 2 + 1)).hasState(15));
 	}
 }
