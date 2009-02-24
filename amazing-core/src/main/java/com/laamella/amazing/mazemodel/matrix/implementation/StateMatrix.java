@@ -26,39 +26,6 @@ public class StateMatrix extends Observable implements Observer, Matrix<Observab
 		};
 	}
 
-	public String getPrintableMaze() {
-		final StringBuffer maze = new StringBuffer("\n");
-		new Matrix.UtilityWrapper<ObservableObjectSetState>(this).visitAllSquares(new MatrixVisitor<ObservableObjectSetState>() {
-			public void endRow() {
-				maze.append("-\n");
-			}
-
-			public void visit(final Position position, final ObservableObjectSetState states) {
-				if (states.hasState(ENTRANCE)) {
-					maze.append(">");
-				} else if (states.hasState(EXIT)) {
-					maze.append("E");
-				} else if (states.hasState(SOLUTION)) {
-					maze.append('.');
-				} else if (states.hasState(PASSAGE)) {
-					maze.append(' ');
-				} else {
-					maze.append('#');
-				}
-			}
-
-			public void startRow() {
-				maze.append("-");
-			}
-		});
-		return maze.toString();
-	}
-
-	@Override
-	public String toString() {
-		return getPrintableMaze();
-	}
-
 	@Override
 	public void update(final Observable o, final Object arg) {
 		setChanged();

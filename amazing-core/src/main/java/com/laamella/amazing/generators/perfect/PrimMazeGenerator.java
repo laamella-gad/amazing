@@ -59,7 +59,7 @@ public class PrimMazeGenerator implements MazeGenerator {
 		in.add(startVertex);
 		out.remove(startVertex);
 
-		makeFrontier(frontier, out, startVertex);
+		makeFrontier(startVertex, frontier, out);
 
 		while (frontier.size() > 0) {
 			log.debug("in: " + in.size() + ", frontier: " + frontier.size() + ", out: " + out.size());
@@ -70,7 +70,7 @@ public class PrimMazeGenerator implements MazeGenerator {
 					edge.setState(PASSAGE, true);
 					in.add(currentFrontierVertex);
 					frontier.remove(currentFrontierVertex);
-					makeFrontier(frontier, out, currentFrontierVertex);
+					makeFrontier(currentFrontierVertex, frontier, out);
 					break;
 				}
 			}
@@ -78,7 +78,7 @@ public class PrimMazeGenerator implements MazeGenerator {
 		log.exit("generateMaze");
 	}
 
-	private void makeFrontier(final Set<Vertex> frontier, final Set<Vertex> out, final Vertex vertex) {
+	private void makeFrontier(final Vertex vertex, final Set<Vertex> frontier, final Set<Vertex> out) {
 		for (final Edge edge : vertex.getEdges()) {
 			final Vertex possibleFrontierVertex = edge.travel(vertex);
 			if (out.contains(possibleFrontierVertex)) {
