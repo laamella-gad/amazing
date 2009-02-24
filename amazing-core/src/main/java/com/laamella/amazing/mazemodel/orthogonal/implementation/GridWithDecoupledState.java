@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.mazemodel.*;
 import com.laamella.amazing.mazemodel.graph.*;
 import com.laamella.amazing.mazemodel.matrix.ArrayUtilities;
@@ -28,8 +29,6 @@ public class GridWithDecoupledState implements Grid {
 	private final Size size;
 	private final WallDefault[][] horizontalWalls;
 	private final WallDefault[][] verticalWalls;
-	private Square exit;
-	private Square entrance;
 	private Set<Edge> edges = new HashSet<Edge>();
 	private Set<Vertex> vertices = new HashSet<Vertex>();
 
@@ -60,6 +59,9 @@ public class GridWithDecoupledState implements Grid {
 				final SquareDefault square = new SquareDefault(stateStorage, position, GridWithDecoupledState.this);
 				squares[position.x][position.y] = square;
 				vertices.add(square);
+				if (position.x == 0 || position.y == 0 || position.x == size.width - 1 || position.y == size.height - 1) {
+					square.setState(MazeGenerator.POSSIBLE_EXIT, true);
+				}
 			}
 		});
 
@@ -104,22 +106,6 @@ public class GridWithDecoupledState implements Grid {
 
 	public Wall getVerticalWall(int x, int y) {
 		return verticalWalls[x][y];
-	}
-
-	public Square getEntrance() {
-		return entrance;
-	}
-
-	public Square getExit() {
-		return exit;
-	}
-
-	public void setEntrance(Square entrance) {
-		this.entrance = entrance;
-	}
-
-	public void setExit(Square exit) {
-		this.exit = exit;
 	}
 
 	@Override
