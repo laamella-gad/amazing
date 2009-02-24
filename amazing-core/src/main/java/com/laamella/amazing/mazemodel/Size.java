@@ -14,3 +14,4 @@ public class Size {
 		this.area = width * height;
 	}
 }
+

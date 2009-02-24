@@ -1,14 +1,11 @@
 package com.laamella.amazing.mazemodel.matrix.implementation;
 
-import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.ENTRANCE;
-import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.EXIT;
-import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.OPEN;
-import static com.laamella.amazing.solvers.Solver.SolutionState.SOLUTION;
+import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazing.solvers.Solver.*;
 
 import java.util.Observable;
 import java.util.Observer;
 
-import com.laamella.amazing.generators.MazeGenerator.GeneratorState;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.State.ObservableObjectSetState;
@@ -30,7 +27,7 @@ public class StateMatrix extends Observable implements Observer, Matrix<Observab
 	}
 
 	public String getPrintableMaze() {
-		final StringBuffer maze = new StringBuffer();
+		final StringBuffer maze = new StringBuffer("\n");
 		new Matrix.UtilityWrapper<ObservableObjectSetState>(this).visitAllSquares(new MatrixVisitor<ObservableObjectSetState>() {
 			public void endRow() {
 				maze.append("-\n");
@@ -43,9 +40,7 @@ public class StateMatrix extends Observable implements Observer, Matrix<Observab
 					maze.append("E");
 				} else if (states.hasState(SOLUTION)) {
 					maze.append('.');
-				} else if (states.hasState(GeneratorState.VISITED)) {
-					maze.append(' ');
-				} else if (states.hasState(OPEN)) {
+				} else if (states.hasState(PASSAGE)) {
 					maze.append(' ');
 				} else {
 					maze.append('#');

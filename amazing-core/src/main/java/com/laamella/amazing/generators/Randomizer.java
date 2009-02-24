@@ -1,14 +1,10 @@
 package com.laamella.amazing.generators;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
+import com.laamella.amazing.mazemodel.graph.Vertex;
 
 public interface Randomizer {
 	/**
@@ -43,7 +39,9 @@ public interface Randomizer {
 	 */
 	int between(int a, int b);
 
-	<T> List<T> randomizeCollection(Collection<T> collection);
+	<T> List<T> shuffle(Collection<T> collection);
+
+	<T> T pickOne(Collection<T> collection);
 
 	public static class Default implements Randomizer {
 
@@ -83,12 +81,21 @@ public interface Randomizer {
 		}
 
 		@Override
-		public <T> List<T> randomizeCollection(final Collection<T> collection) {
+		public <T> List<T> shuffle(final Collection<T> collection) {
 			final List<T> list = new ArrayList<T>();
 			list.addAll(collection);
 			Collections.shuffle(list);
 			return list;
 		}
 
+		@Override
+		public <T> T pickOne(final Collection<T> collection) {
+			if (collection.size() > 0) {
+				return shuffle(collection).get(0);
+			}
+			return null;
+		}
+
 	}
+
 }

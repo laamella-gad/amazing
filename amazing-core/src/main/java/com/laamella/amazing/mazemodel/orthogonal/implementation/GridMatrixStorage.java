@@ -1,6 +1,6 @@
 package com.laamella.amazing.mazemodel.orthogonal.implementation;
 
-import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.OPEN;
+import static com.laamella.amazing.mazemodel.MazeDefinitionState.PASSAGE;
 
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
@@ -21,7 +21,7 @@ public class GridMatrixStorage implements GridStateStorage {
 
 			public void visit(Position position, ObservableObjectSetState value) {
 				if (position.x % 2 == 1 && position.y % 2 == 1) {
-					GridMatrixStorage.this.mazeMatrix.get(position).setState(OPEN, true);
+					GridMatrixStorage.this.mazeMatrix.get(position).setState(PASSAGE, true);
 				}
 			}
 

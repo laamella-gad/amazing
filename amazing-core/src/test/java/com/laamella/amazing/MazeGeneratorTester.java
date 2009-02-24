@@ -11,12 +11,7 @@ import org.junit.Test;
 
 import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.generators.perfect.AldousBroderMazeGenerator;
-import com.laamella.amazing.generators.perfect.BinaryTreeMazeGenerator;
-import com.laamella.amazing.generators.perfect.EllerMazeGenerator;
-import com.laamella.amazing.generators.perfect.PeanoMazeGenerator;
-import com.laamella.amazing.generators.perfect.RecursiveBacktrackerMazeGenerator;
-import com.laamella.amazing.generators.perfect.RecursiveDivisionMazeGenerator;
+import com.laamella.amazing.generators.perfect.*;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.graph.Graph;
@@ -82,6 +77,12 @@ public class MazeGeneratorTester {
 	@Test
 	public void testRecursiveBacktrackerMazeGenerator() {
 		final MazeGenerator mazeGenerator = new RecursiveBacktrackerMazeGenerator(grid.getTopLeftSquare(), randomGenerator);
+		mazeGenerator.generateMaze();
+		log.debug(mazeMatrix.toString());
+	}
+	@Test
+	public void testPrimMazeGenerator() {
+		final MazeGenerator mazeGenerator = new PrimMazeGenerator(grid.getTopLeftSquare(), randomGenerator);
 		mazeGenerator.generateMaze();
 		log.debug(mazeMatrix.toString());
 	}

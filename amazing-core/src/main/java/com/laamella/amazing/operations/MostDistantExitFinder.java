@@ -1,4 +1,4 @@
-package com.laamella.amazing.solvers;
+package com.laamella.amazing.operations;
 
 /**
  * Not a solver, but uses a solving algorithm. Finds the square on the border of

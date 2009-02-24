@@ -2,7 +2,7 @@ package com.laamella.amazing.mazemodel.graph;
 
 import java.util.Set;
 
-import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.*;
+import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
 
 /**
  * The complete collection of vertices and edges that form the graph.

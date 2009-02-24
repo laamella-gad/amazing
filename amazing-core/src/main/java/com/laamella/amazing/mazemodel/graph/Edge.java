@@ -11,4 +11,6 @@ public interface Edge extends State {
 	Vertex getVertexB();
 
 	Vertex travel(Vertex sourceVertex);
+
+	Graph getGraph();
 }

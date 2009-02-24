@@ -4,7 +4,7 @@ import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.graph.Edge;
 import com.laamella.amazing.mazemodel.graph.Vertex;
-import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.*;
+import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
 
 /**
  * <p>
@@ -41,11 +41,11 @@ public class RecursiveBacktrackerMazeGenerator implements MazeGenerator {
 	}
 
 	private void recurse(final Vertex currentVertex) {
-		currentVertex.setState(GeneratorState.VISITED, true);
-		for (final Edge edge : randomizer.randomizeCollection(currentVertex.getEdges())) {
+		currentVertex.setState(VISITED_WHILE_GENERATING, true);
+		for (final Edge edge : randomizer.shuffle(currentVertex.getEdges())) {
 			final Vertex otherVertex = edge.travel(currentVertex);
-			if (!otherVertex.hasState(GeneratorState.VISITED)) {
-				edge.setState(OPEN, true);
+			if (!otherVertex.hasState(VISITED_WHILE_GENERATING)) {
+				edge.setState(PASSAGE, true);
 				recurse(otherVertex);
 			}
 		}

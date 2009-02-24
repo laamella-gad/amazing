@@ -1,17 +1,13 @@
 package com.laamella.amazing.generators.perfect;
 
-import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.ENTRANCE;
-import static com.laamella.amazing.mazemodel.State.MazeDefinitionState.EXIT;
-import static com.laamella.amazing.generators.MazeGenerator.GeneratorState.*;
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.LEFT;
+import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
 
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.mazemodel.orthogonal.Direction;
-import com.laamella.amazing.mazemodel.orthogonal.Grid;
-import com.laamella.amazing.mazemodel.orthogonal.Square;
+import com.laamella.amazing.mazemodel.orthogonal.*;
 import com.laamella.amazing.mazemodel.orthogonal.Grid.UtilityWrapper;
 
 /**
@@ -36,6 +32,7 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid.UtilityWrapper;
  * the boundary wall teleportation allows quicker access to distant parts of the
  * Maze.
  */
+// TODO probably not implemented correctly
 public class AldousBroderMazeGenerator implements MazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(AldousBroderMazeGenerator.class);
 	private final UtilityWrapper grid;
@@ -51,7 +48,7 @@ public class AldousBroderMazeGenerator implements MazeGenerator {
 		final Square entrance = grid.getTopLeftSquare();
 		entrance.setState(ENTRANCE, true);
 		entrance.getWall(LEFT).open();
-		entrance.setState(VISITED, true);
+		entrance.setState(VISITED_WHILE_GENERATING, true);
 
 		final Square exit = grid.getBottomRightSquare();
 		exit.setState(EXIT, true);
@@ -61,16 +58,16 @@ public class AldousBroderMazeGenerator implements MazeGenerator {
 			boolean carvedACell = false;
 			while (!carvedACell) {
 				final Square sourceSquare = grid.randomSquare(randomGenerator);
-				if (sourceSquare.hasState(VISITED)) {
+				if (sourceSquare.hasState(VISITED_WHILE_GENERATING)) {
 					final Direction carveDirection = Direction.random(randomGenerator);
 					final Square destinationSquare = sourceSquare.getSquare(carveDirection);
 					if (sourceSquare.getPosition().x == 0) {
 						log.debug("Trying " + sourceSquare.getPosition() + " " + carveDirection.name());
 					}
 					if (destinationSquare != null) {
-						if (!destinationSquare.hasState(VISITED)) {
+						if (!destinationSquare.hasState(VISITED_WHILE_GENERATING)) {
 							sourceSquare.getWall(carveDirection).open();
-							destinationSquare.setState(VISITED, true);
+							destinationSquare.setState(VISITED_WHILE_GENERATING, true);
 							carvedACell = true;
 						}
 					}

@@ -1,6 +1,6 @@
 package com.laamella.amazing.solvers;
 
-import com.laamella.amazing.mazemodel.State;
+import com.laamella.amazing.mazemodel.MazeDefinitionState;
 import com.laamella.amazing.mazemodel.graph.Edge;
 import com.laamella.amazing.mazemodel.graph.Vertex;
 
@@ -23,28 +23,29 @@ public class RecursiveBacktrackerSolver implements Solver {
 	}
 
 	private boolean recurse(final Vertex currentVertex) {
-		currentVertex.setState(SolutionState.VISITED, true);
+		currentVertex.setState(VISITED_WHILE_SOLVING, true);
 
-		if (currentVertex.hasState(State.MazeDefinitionState.EXIT)) {
+		if (currentVertex.hasState(MazeDefinitionState.EXIT)) {
 			// Found the exit!
-			currentVertex.setState(SolutionState.SOLUTION, true);
+			currentVertex.setState(SOLUTION, true);
 			return true;
 		}
 
 		for (final Edge edge : currentVertex.getEdges()) {
-			final Vertex otherVertex = edge.travel(currentVertex);
-			if (!otherVertex.hasState(SolutionState.VISITED)) {
-				if (recurse(otherVertex)) {
-					// The exit has been found ahead of us, so we're part of the
-					// solution.
-					edge.setState(SolutionState.SOLUTION, true);
-					currentVertex.setState(SolutionState.SOLUTION, true);
-					return true;
+			if (edge.hasState(MazeDefinitionState.PASSAGE)) {
+				final Vertex otherVertex = edge.travel(currentVertex);
+				if (!otherVertex.hasState(VISITED_WHILE_SOLVING)) {
+					if (recurse(otherVertex)) {
+						// The exit has been found ahead of us, so we're part of
+						// the solution.
+						edge.setState(SOLUTION, true);
+						currentVertex.setState(SOLUTION, true);
+						return true;
+					}
 				}
 			}
 		}
 		// No exit here.
 		return false;
 	}
-
 }
