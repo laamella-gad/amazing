@@ -1,11 +1,11 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.daedalus;
 
 import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.generators.MazeGenerator;
+import com.laamella.amazing.generators.GridMazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.orthogonal.*;
 import com.laamella.amazing.mazemodel.orthogonal.Grid.UtilityWrapper;
@@ -33,18 +33,21 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid.UtilityWrapper;
  * Maze.
  */
 // TODO probably not implemented correctly
-public class AldousBroderMazeGenerator implements MazeGenerator {
+public class AldousBroderMazeGenerator implements GridMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(AldousBroderMazeGenerator.class);
-	private final UtilityWrapper grid;
+
 	private final Randomizer randomGenerator;
 
-	public AldousBroderMazeGenerator(final Grid grid, final Randomizer randomGenerator) {
-		this.grid = new Grid.UtilityWrapper(grid);
+	public AldousBroderMazeGenerator(final Randomizer randomGenerator) {
 		this.randomGenerator = randomGenerator;
 	}
 
-	public void generateMaze() {
+	@Override
+	public void generateMaze(final Grid pureGrid) {
+		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(pureGrid);
+		
 		grid.closeAllWalls();
+		
 		final Square entrance = grid.getTopLeftSquare();
 		entrance.setState(ENTRANCE, true);
 		entrance.getWall(LEFT).open();

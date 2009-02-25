@@ -1,6 +1,7 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.daedalus;
 
-import com.laamella.amazing.generators.MazeGenerator;
+import com.laamella.amazing.generators.GridMazeGenerator;
+import com.laamella.amazing.mazemodel.orthogonal.Grid;
 
 /**
  * This simple algorithm is very similar to the binary tree algorithm, and only
@@ -24,8 +25,9 @@ import com.laamella.amazing.generators.MazeGenerator;
  * elitist solution, where the right path is very direct, but there are many
  * long false paths leading down from the top next to it.
  */
-public class SideWinderMazeGenerator implements MazeGenerator {
-	public void generateMaze() {
+public class SideWinderMazeGenerator implements GridMazeGenerator {
+	@Override
+	public void generateMaze(Grid grid) {
 		// TODO Auto-generated method stub
 		
 	}

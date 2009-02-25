@@ -1,6 +1,7 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.daedalus;
 
-import com.laamella.amazing.generators.MazeGenerator;
+import com.laamella.amazing.generators.GraphMazeGenerator;
+import com.laamella.amazing.mazemodel.graph.Vertex;
 
 /**
  * This is an improved version of the Aldous-Broder algorithm, in that it
@@ -24,10 +25,11 @@ import com.laamella.amazing.generators.MazeGenerator;
  * adder, because the whole boundary wall starts as part of the Maze, so the
  * first walls are connected much quicker.
  */
-public class WilsonMazeGenerator implements MazeGenerator {
+public class WilsonMazeGenerator implements GraphMazeGenerator {
 
-	public void generateMaze() {
+	@Override
+	public void generateMaze(final Vertex entranceVertex) {
 		// TODO Auto-generated method stub
-
+		
 	}
 }

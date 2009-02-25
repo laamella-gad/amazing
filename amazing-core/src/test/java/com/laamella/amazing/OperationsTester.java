@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.generators.perfect.PrimMazeGenerator;
+import com.laamella.amazing.generators.daedalus.PrimMazeGenerator;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
@@ -36,8 +36,8 @@ public class OperationsTester {
 		stateStorage = new GridMatrixStorage(mazeMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
 		randomGenerator = new Randomizer.Default();
-		mazeGenerator = new PrimMazeGenerator(grid.getTopLeftSquare(), randomGenerator);
-		mazeGenerator.generateMaze();
+		mazeGenerator = new PrimMazeGenerator(randomGenerator);
+		mazeGenerator.generateMaze(grid.getTopLeftSquare());
 		mazeMatrix.addObserver(new Observer() {
 			public void update(Observable o, Object arg) {
 				log.debug(mazeMatrix.toString());

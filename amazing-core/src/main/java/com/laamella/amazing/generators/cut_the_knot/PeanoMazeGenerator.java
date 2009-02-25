@@ -1,8 +1,8 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.cut_the_knot;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.generators.MazeGenerator;
+import com.laamella.amazing.generators.GridMazeGenerator;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 
 /**
@@ -11,14 +11,12 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid;
  * <p>
  * http://www.nio.ntnu.no/archive/2000_2001/2/b1.c
  */
-public class PeanoMazeGenerator implements MazeGenerator {
+public class PeanoMazeGenerator implements GridMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(PeanoMazeGenerator.class);
-	private final Grid.UtilityWrapper grid;
 	private final int degree;
 
-	public PeanoMazeGenerator(Grid grid, int degree) {
+	public PeanoMazeGenerator(int degree) {
 		log.entry("PeanoMazeGenerator");
-		this.grid = new Grid.UtilityWrapper(grid);
 		this.degree = degree;
 		log.exit("PeanoMazeGenerator");
 	}
@@ -80,9 +78,10 @@ public class PeanoMazeGenerator implements MazeGenerator {
 		}
 	}
 
-	public void generateMaze() {
+	@Override
+	public void generateMaze(final Grid plainGrid) {
 		log.entry("generateMaze");
-		grid.closeAllWalls();
+		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
 		maze(degree, false);
 		log.exit("generateMaze");
 	}

@@ -1,6 +1,7 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.daedalus;
 
-import com.laamella.amazing.generators.MazeGenerator;
+import com.laamella.amazing.generators.GraphMazeGenerator;
+import com.laamella.amazing.mazemodel.graph.Vertex;
 
 /**
  * This algorithm is nice because it requires no extra storage or stack, and is
@@ -12,18 +13,20 @@ import com.laamella.amazing.generators.MazeGenerator;
  * position, you enter "hunting" mode, and systematically scan over the Maze
  * until an unmade cell is found next to an already carved into cell, at which
  * point you start carving again at that new location. The Maze is done when all
- * cells have been scanned over once in "hunt" mode. This algorithm tends to make
- * Mazes with a high "river" factor, but not as high as the recursive
+ * cells have been scanned over once in "hunt" mode. This algorithm tends to
+ * make Mazes with a high "river" factor, but not as high as the recursive
  * backtracker. You can make this generate Mazes with a lower river factor by
- * choosing to enter "hunt" mode more often. It runs slower due to the time spent
- * hunting for the last cells, but isn't much slower than Kruskal's algorithm.
- * This can be done as a wall adder if you randomly teleport on occasion, to
- * avoid the issues the recursive backtracker has.
- * <p>http://www.astrolog.org/labyrnth/Maze.java
+ * choosing to enter "hunt" mode more often. It runs slower due to the time
+ * spent hunting for the last cells, but isn't much slower than Kruskal's
+ * algorithm. This can be done as a wall adder if you randomly teleport on
+ * occasion, to avoid the issues the recursive backtracker has.
+ * <p>
+ * http://www.astrolog.org/labyrnth/Maze.java
  */
-public class HuntAndKillMazeGenerator implements MazeGenerator{
+public class HuntAndKillMazeGenerator implements GraphMazeGenerator {
 
-	public void generateMaze() {
+	@Override
+	public void generateMaze(Vertex entranceVertex) {
 		// TODO Auto-generated method stub
 		
 	}

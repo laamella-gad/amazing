@@ -1,4 +1,4 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.daedalus;
 
 import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
 import static com.laamella.amazing.mazemodel.orthogonal.Direction.LEFT;
@@ -7,8 +7,7 @@ import static com.laamella.amazing.mazemodel.orthogonal.Direction.UP;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.generators.MazeGenerator;
-import com.laamella.amazing.generators.Randomizer;
+import com.laamella.amazing.generators.*;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
@@ -36,18 +35,19 @@ import com.laamella.amazing.mazemodel.orthogonal.Square;
  * passages as walls and vice versa, the result is basically another binary
  * tree.
  */
-public class BinaryTreeMazeGenerator implements MazeGenerator {
+public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(BinaryTreeMazeGenerator.class);
-	private final Grid.UtilityWrapper grid;
 	private final Randomizer randomGenerator;
 
-	public BinaryTreeMazeGenerator(final Grid grid, final Randomizer randomGenerator) {
-		this.grid = new Grid.UtilityWrapper(grid);
+	public BinaryTreeMazeGenerator(final Randomizer randomGenerator) {
 		this.randomGenerator = randomGenerator;
 	}
 
-	public void generateMaze() {
+	@Override
+	public void generateMaze(final Grid plainGrid) {
 		log.entry("generateMaze");
+		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
+
 		grid.closeAllWalls();
 
 		grid.forAllSquares(new Grid.UtilityWrapper.SquareVisitor() {

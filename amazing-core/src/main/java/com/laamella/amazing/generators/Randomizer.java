@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
-import com.laamella.amazing.mazemodel.graph.Vertex;
 
 public interface Randomizer {
 	/**

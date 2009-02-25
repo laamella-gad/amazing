@@ -1,4 +1,4 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.daedalus;
 
 import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
 
@@ -7,8 +7,7 @@ import java.util.Set;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.generators.MazeGenerator;
-import com.laamella.amazing.generators.Randomizer;
+import com.laamella.amazing.generators.*;
 import com.laamella.amazing.mazemodel.graph.Edge;
 import com.laamella.amazing.mazemodel.graph.Vertex;
 
@@ -34,26 +33,25 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  * dead ends, and the solution is usually pretty direct as well. It also runs
  * very fast when implemented right, with only Eller's algorithm being faster.
  */
-public class PrimMazeGenerator implements MazeGenerator {
+public class PrimMazeGenerator implements GraphMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(PrimMazeGenerator.class);
 
-	private final Vertex startVertex;
 	private final Randomizer randomizer;
 
-	public PrimMazeGenerator(final Vertex startVertex, final Randomizer randomizer) {
-		log.entry("PrimMazeGenerator");
-		this.startVertex = startVertex;
+	public PrimMazeGenerator(final Randomizer randomizer) {
 		this.randomizer = randomizer;
-		startVertex.setState(ENTRANCE, true);
-		log.exit("PrimMazeGenerator");
 	}
 
-	public void generateMaze() {
+	@Override
+	public void generateMaze(final Vertex entranceVertex) {
 		log.entry("generateMaze");
+		
+		entranceVertex.setState(ENTRANCE, true);
+
 		final Set<Vertex> in = new HashSet<Vertex>();
 		final Set<Vertex> frontier = new HashSet<Vertex>();
 		final Set<Vertex> out = new HashSet<Vertex>();
-		out.addAll(startVertex.getGraph().getVertices());
+		out.addAll(entranceVertex.getGraph().getVertices());
 
 		final Vertex startVertex = randomizer.pickOne(out);
 		in.add(startVertex);
@@ -87,4 +85,5 @@ public class PrimMazeGenerator implements MazeGenerator {
 			}
 		}
 	}
+
 }

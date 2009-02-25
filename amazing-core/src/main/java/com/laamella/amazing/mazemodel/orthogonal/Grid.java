@@ -24,6 +24,7 @@ public interface Grid extends Graph {
 			this.delegateGrid = delegateGrid;
 		}
 
+		@Deprecated
 		public void closeAllWalls() {
 			log.entry("closeAllWalls");
 			forAllSquares(new SquareVisitor() {

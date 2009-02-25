@@ -1,6 +1,7 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.daedalus;
 
-import com.laamella.amazing.generators.MazeGenerator;
+import com.laamella.amazing.generators.GraphMazeGenerator;
+import com.laamella.amazing.mazemodel.graph.Vertex;
 
 /**
  * This is a general algorithm, capable of creating Mazes of different textures.
@@ -20,11 +21,12 @@ import com.laamella.amazing.generators.MazeGenerator;
  * the most recent cells, the Maze will have a low "river" factor but a long
  * windy solution.
  */
-public class GrowingTreeMazeGenerator implements MazeGenerator {
+public class GrowingTreeMazeGenerator implements GraphMazeGenerator {
 
-	public void generateMaze() {
+	@Override
+	public void generateMaze(Vertex entranceVertex) {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.laamella.amazing;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -9,9 +9,11 @@ import org.grlea.log.SimpleLogger;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.laamella.amazing.generators.MazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.generators.perfect.*;
+import com.laamella.amazing.generators.cut_the_knot.PeanoMazeGenerator;
+import com.laamella.amazing.generators.daedalus.*;
+import com.laamella.amazing.generators.various.EllerMazeGenerator;
+import com.laamella.amazing.generators.various.RecursiveDivisionMazeGenerator;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.graph.Graph;
@@ -47,50 +49,51 @@ public class MazeGeneratorTester {
 
 	@Test
 	public void testBinaryTreeMazeGenerator() {
-		final MazeGenerator mazeProgram = new BinaryTreeMazeGenerator(grid, randomGenerator);
-		mazeProgram.generateMaze();
+		final BinaryTreeMazeGenerator mazeProgram = new BinaryTreeMazeGenerator(randomGenerator);
+		mazeProgram.generateMaze(grid);
 		System.out.println(mazeMatrix);
 	}
 
 	@Test
 	public void testEllerMazeGenerator() {
-		final MazeGenerator mazeProgram = new EllerMazeGenerator(grid, 0.5);
-		mazeProgram.generateMaze();
+		final EllerMazeGenerator mazeProgram = new EllerMazeGenerator(0.5);
+		mazeProgram.generateMaze(grid);
 		log.debug(mazeMatrix.toString());
 	}
 
 	@Test
 	public void testAldousBroderMazeGenerator() {
-		final MazeGenerator mazeGenerator = new AldousBroderMazeGenerator(grid, randomGenerator);
-		mazeGenerator.generateMaze();
+		final AldousBroderMazeGenerator mazeGenerator = new AldousBroderMazeGenerator(randomGenerator);
+		mazeGenerator.generateMaze(grid);
 		assertTrue(new RecursiveBacktrackerSolver().solve(new Graph.UtilityWrapper(grid).getEntrance()));
 		log.debug(mazeMatrix.toString());
 	}
 
 	@Test
 	public void testRecursiveDivisionMazeGenerator() {
-		final MazeGenerator mazeGenerator = new RecursiveDivisionMazeGenerator(grid, randomGenerator);
-		mazeGenerator.generateMaze();
+		final RecursiveDivisionMazeGenerator mazeGenerator = new RecursiveDivisionMazeGenerator(randomGenerator);
+		mazeGenerator.generateMaze(grid);
 		log.debug(mazeMatrix.toString());
 	}
 
 	@Test
 	public void testRecursiveBacktrackerMazeGenerator() {
-		final MazeGenerator mazeGenerator = new RecursiveBacktrackerMazeGenerator(grid.getTopLeftSquare(), randomGenerator);
-		mazeGenerator.generateMaze();
+		final RecursiveBacktrackerMazeGenerator mazeGenerator = new RecursiveBacktrackerMazeGenerator(randomGenerator);
+		mazeGenerator.generateMaze(grid.getTopLeftSquare());
 		log.debug(mazeMatrix.toString());
 	}
+
 	@Test
 	public void testPrimMazeGenerator() {
-		final MazeGenerator mazeGenerator = new PrimMazeGenerator(grid.getTopLeftSquare(), randomGenerator);
-		mazeGenerator.generateMaze();
+		final PrimMazeGenerator mazeGenerator = new PrimMazeGenerator(randomGenerator);
+		mazeGenerator.generateMaze(grid.getTopLeftSquare());
 		log.debug(mazeMatrix.toString());
 	}
 
 	@Test
 	public void testPeanoMazeGenerator() {
-		final MazeGenerator mazeProgram = new PeanoMazeGenerator(grid, 1);
-		mazeProgram.generateMaze();
+		final PeanoMazeGenerator mazeProgram = new PeanoMazeGenerator(1);
+		mazeProgram.generateMaze(grid);
 		log.debug(mazeMatrix.toString());
 	}
 

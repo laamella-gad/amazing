@@ -1,10 +1,11 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.daedalus;
 
-import com.laamella.amazing.generators.MazeGenerator;
+import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
+
+import com.laamella.amazing.generators.GraphMazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.graph.Edge;
 import com.laamella.amazing.mazemodel.graph.Vertex;
-import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
 
 /**
  * <p>
@@ -25,19 +26,18 @@ import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
  * @see com.laamella.amazing.solvers.RecursiveBacktrackerSolver
  * 
  */
-public class RecursiveBacktrackerMazeGenerator implements MazeGenerator {
-	private final Vertex startVertex;
+public class RecursiveBacktrackerMazeGenerator implements GraphMazeGenerator {
 	private final Randomizer randomizer;
 
-	public RecursiveBacktrackerMazeGenerator(final Vertex startVertex, final Randomizer randomGenerator) {
-		this.startVertex = startVertex;
+	public RecursiveBacktrackerMazeGenerator(final Randomizer randomGenerator) {
 		this.randomizer = randomGenerator;
-		startVertex.setState(ENTRANCE, true);
 		// TODO generate an exit
 	}
 
-	public void generateMaze() {
-		recurse(startVertex);
+	@Override
+	public void generateMaze(Vertex entranceVertex) {
+		entranceVertex.setState(ENTRANCE, true);
+		recurse(entranceVertex);
 	}
 
 	private void recurse(final Vertex currentVertex) {

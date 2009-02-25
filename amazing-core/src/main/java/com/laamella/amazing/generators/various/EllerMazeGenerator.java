@@ -1,32 +1,25 @@
-package com.laamella.amazing.generators.perfect;
+package com.laamella.amazing.generators.various;
 
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.DOWN;
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.RIGHT;
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.UP;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.generators.MazeGenerator;
+import com.laamella.amazing.generators.GridMazeGenerator;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
-import com.laamella.amazing.mazemodel.orthogonal.Grid.UtilityWrapper;
 
 /**
  * Converted from a BASIC type in listing, which I found somewhere in the
  * eighties.
  */
 // TODO convert to progressive row based algorithm
-public class EllerMazeGenerator implements MazeGenerator {
+public class EllerMazeGenerator implements GridMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(EllerMazeGenerator.class);
-	private final UtilityWrapper grid;
 	private final double steepness;
 
-	public EllerMazeGenerator(final Grid model, final double steepness) {
-		log.entry("EllerMazeGenerator()");
-		this.grid = new Grid.UtilityWrapper(model);
+	public EllerMazeGenerator(final double steepness) {
 		this.steepness = steepness;
-		log.exit("EllerMazeGenerator()");
 	}
 
 	private void messWithLR_0(int x, int[] l, int[] r) {
@@ -51,13 +44,15 @@ public class EllerMazeGenerator implements MazeGenerator {
 		l[pos] = l[x - 1];
 	}
 
-	private void setSquareOpenRightAndBottom(int x, int y, boolean openRight, boolean openBottom) {
+	private void setSquareOpenRightAndBottom(final Grid grid, int x, int y, boolean openRight, boolean openBottom) {
 		final Square square = grid.getSquare(new Position(x, y));
 		square.getWall(RIGHT).setOpened(openRight);
 		square.getWall(DOWN).setOpened(openBottom);
 	}
 
-	public void generateMaze() {
+	@Override
+	public void generateMaze(final Grid plainGrid) {
+		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
 		log.entry("generateMaze");
 
 		final int width = grid.getSize().width;
@@ -76,20 +71,20 @@ public class EllerMazeGenerator implements MazeGenerator {
 			for (int x = width; x >= 1; x--) {
 				final boolean openRight = isOpenToTheRight(steepness, left, right, x);
 				final boolean openBottom = isOpenAtTheBottom(steepness, left, right, x);
-				setSquareOpenRightAndBottom(width - x, y - 1, openRight, openBottom);
+				setSquareOpenRightAndBottom(grid, width - x, y - 1, openRight, openBottom);
 			}
 		}
 
 		log.debug("Finishing maze with last row");
-		setSquareOpenRightAndBottom(0, height - 1, false, true);
+		setSquareOpenRightAndBottom(grid, 0, height - 1, false, true);
 		final int exitX = random(width) + 1;
 
 		for (int x = width; x >= 1; x--) {
 			if (right[x] == x - 1 || (right[x] != 0) && randomVertical(steepness)) {
-				setSquareOpenRightAndBottom(width - x, height - 1, false, x == exitX);
+				setSquareOpenRightAndBottom(grid, width - x, height - 1, false, x == exitX);
 			} else {
 				messWithLR_0(x, left, right);
-				setSquareOpenRightAndBottom(width - x, height - 1, true, x == exitX);
+				setSquareOpenRightAndBottom(grid, width - x, height - 1, true, x == exitX);
 			}
 		}
 		log.exit("generateMaze");
