@@ -14,11 +14,11 @@ import com.laamella.amazing.mazemodel.orthogonal.Square;
  * eighties.
  */
 // TODO convert to progressive row based algorithm
-public class EllerMazeGenerator implements GridMazeGenerator {
-	private static final SimpleLogger log = new SimpleLogger(EllerMazeGenerator.class);
+public class EllerMazeGeneratorC64 implements GridMazeGenerator {
+	private static final SimpleLogger log = new SimpleLogger(EllerMazeGeneratorC64.class);
 	private final double steepness;
 
-	public EllerMazeGenerator(final double steepness) {
+	public EllerMazeGeneratorC64(final double steepness) {
 		this.steepness = steepness;
 	}
 

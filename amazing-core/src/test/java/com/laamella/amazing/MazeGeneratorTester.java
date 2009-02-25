@@ -12,7 +12,7 @@ import org.junit.Test;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.generators.cut_the_knot.PeanoMazeGenerator;
 import com.laamella.amazing.generators.daedalus.*;
-import com.laamella.amazing.generators.various.EllerMazeGenerator;
+import com.laamella.amazing.generators.various.EllerMazeGeneratorC64;
 import com.laamella.amazing.generators.various.RecursiveDivisionMazeGenerator;
 import com.laamella.amazing.mazemodel.*;
 import com.laamella.amazing.mazemodel.graph.Graph;
@@ -58,7 +58,7 @@ public class MazeGeneratorTester {
 
 	@Test
 	public void testEllerMazeGenerator() {
-		final EllerMazeGenerator mazeProgram = new EllerMazeGenerator(0.5);
+		final EllerMazeGeneratorC64 mazeProgram = new EllerMazeGeneratorC64(0.5);
 		mazeProgram.generateMaze(grid);
 		log.debug(mazeMatrix.toString());
 	}
