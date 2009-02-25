@@ -1,6 +1,6 @@
 package com.laamella.amazing.generators;
 
-import com.laamella.amazing.mazemodel.graph.Vertex;
+import com.laamella.amazing.mazemodel.graph.Graph;
 
 /**
  * A GraphMazeGenerator generates a maze in a graph.
@@ -8,7 +8,6 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
 public interface GraphMazeGenerator extends MazeGenerator {
 	/**
 	 * Generate a maze.
-	 * @param entranceVertex the entrance of the maze
 	 */
-	void generateMaze(Vertex entranceVertex);
+	void generateMaze(Graph graph);
 }

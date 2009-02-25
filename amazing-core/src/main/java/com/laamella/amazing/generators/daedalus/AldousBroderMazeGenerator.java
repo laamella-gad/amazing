@@ -31,6 +31,7 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid.UtilityWrapper;
  * before moving again. As a wall adder this runs nearly twice as fast, because
  * the boundary wall teleportation allows quicker access to distant parts of the
  * Maze.
+ * <p><a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the description</a>
  */
 // TODO probably not implemented correctly
 public class AldousBroderMazeGenerator implements GridMazeGenerator {

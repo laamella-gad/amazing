@@ -4,8 +4,7 @@ import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
 
 import com.laamella.amazing.generators.GraphMazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.mazemodel.graph.Edge;
-import com.laamella.amazing.mazemodel.graph.Vertex;
+import com.laamella.amazing.mazemodel.graph.*;
 
 /**
  * <p>
@@ -23,8 +22,9 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  * where the entire interior of the Maze is attached to the boundary by a single
  * stem.
  * 
- * @see com.laamella.amazing.solvers.RecursiveBacktrackerSolver
- * 
+ * @see com.laamella.amazing.solvers.RecursiveBacktrackerSolver <p>
+ *      <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
+ *      description</a>
  */
 public class RecursiveBacktrackerMazeGenerator implements GraphMazeGenerator {
 	private final Randomizer randomizer;
@@ -35,8 +35,8 @@ public class RecursiveBacktrackerMazeGenerator implements GraphMazeGenerator {
 	}
 
 	@Override
-	public void generateMaze(Vertex entranceVertex) {
-		entranceVertex.setState(ENTRANCE, true);
+	public void generateMaze(final Graph graph) {
+		final Vertex entranceVertex = new Graph.UtilityWrapper(graph).getEntrance();
 		recurse(entranceVertex);
 	}
 

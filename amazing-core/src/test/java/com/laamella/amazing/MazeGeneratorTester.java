@@ -14,8 +14,7 @@ import com.laamella.amazing.generators.cut_the_knot.PeanoMazeGenerator;
 import com.laamella.amazing.generators.daedalus.*;
 import com.laamella.amazing.generators.various.EllerMazeGenerator;
 import com.laamella.amazing.generators.various.RecursiveDivisionMazeGenerator;
-import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.Size;
+import com.laamella.amazing.mazemodel.*;
 import com.laamella.amazing.mazemodel.graph.Graph;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 import com.laamella.amazing.mazemodel.orthogonal.Direction;
@@ -79,14 +78,16 @@ public class MazeGeneratorTester {
 	@Test
 	public void testRecursiveBacktrackerMazeGenerator() {
 		final RecursiveBacktrackerMazeGenerator mazeGenerator = new RecursiveBacktrackerMazeGenerator(randomGenerator);
-		mazeGenerator.generateMaze(grid.getTopLeftSquare());
+		grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
+		mazeGenerator.generateMaze(grid);
 		log.debug(mazeMatrix.toString());
 	}
 
 	@Test
 	public void testPrimMazeGenerator() {
 		final PrimMazeGenerator mazeGenerator = new PrimMazeGenerator(randomGenerator);
-		mazeGenerator.generateMaze(grid.getTopLeftSquare());
+		grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
+		mazeGenerator.generateMaze(grid);
 		log.debug(mazeMatrix.toString());
 	}
 

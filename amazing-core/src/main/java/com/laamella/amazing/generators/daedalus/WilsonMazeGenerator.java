@@ -1,6 +1,7 @@
 package com.laamella.amazing.generators.daedalus;
 
 import com.laamella.amazing.generators.GraphMazeGenerator;
+import com.laamella.amazing.mazemodel.graph.Graph;
 import com.laamella.amazing.mazemodel.graph.Vertex;
 
 /**
@@ -24,12 +25,15 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  * the top algorithms. Note this runs twice as fast when implemented as a wall
  * adder, because the whole boundary wall starts as part of the Maze, so the
  * first walls are connected much quicker.
+ * <p>
+ * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
+ * description</a>
  */
 public class WilsonMazeGenerator implements GraphMazeGenerator {
 
 	@Override
-	public void generateMaze(final Vertex entranceVertex) {
+	public void generateMaze(final Graph graph) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

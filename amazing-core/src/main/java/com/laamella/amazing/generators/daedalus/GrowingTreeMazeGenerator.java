@@ -1,7 +1,7 @@
 package com.laamella.amazing.generators.daedalus;
 
 import com.laamella.amazing.generators.GraphMazeGenerator;
-import com.laamella.amazing.mazemodel.graph.Vertex;
+import com.laamella.amazing.mazemodel.graph.Graph;
 
 /**
  * This is a general algorithm, capable of creating Mazes of different textures.
@@ -20,11 +20,12 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  * high "river" factor but a short direct solution. If you randomly pick among
  * the most recent cells, the Maze will have a low "river" factor but a long
  * windy solution.
+ * <p><a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the description</a>
  */
 public class GrowingTreeMazeGenerator implements GraphMazeGenerator {
 
 	@Override
-	public void generateMaze(Vertex entranceVertex) {
+	public void generateMaze(final Graph graph) {
 		// TODO Auto-generated method stub
 		
 	}

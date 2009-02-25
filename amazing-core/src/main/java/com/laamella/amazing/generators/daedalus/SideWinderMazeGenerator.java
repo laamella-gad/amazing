@@ -24,6 +24,9 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid;
  * passage going up leads back to the start. A sidewinder Maze tends to have an
  * elitist solution, where the right path is very direct, but there are many
  * long false paths leading down from the top next to it.
+ * <p>
+ * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
+ * description</a>
  */
 public class SideWinderMazeGenerator implements GridMazeGenerator {
 	@Override

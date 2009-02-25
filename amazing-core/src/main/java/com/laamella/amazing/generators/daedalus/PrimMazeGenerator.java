@@ -8,8 +8,7 @@ import java.util.Set;
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.*;
-import com.laamella.amazing.mazemodel.graph.Edge;
-import com.laamella.amazing.mazemodel.graph.Vertex;
+import com.laamella.amazing.mazemodel.graph.*;
 
 /**
  * This requires storage proportional to the size of the Maze. During creation,
@@ -32,6 +31,9 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  * algorithm results in Mazes with a very low "river" factor, with many short
  * dead ends, and the solution is usually pretty direct as well. It also runs
  * very fast when implemented right, with only Eller's algorithm being faster.
+ * <p>
+ * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
+ * description</a>
  */
 public class PrimMazeGenerator implements GraphMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(PrimMazeGenerator.class);
@@ -43,15 +45,13 @@ public class PrimMazeGenerator implements GraphMazeGenerator {
 	}
 
 	@Override
-	public void generateMaze(final Vertex entranceVertex) {
+	public void generateMaze(final Graph graph) {
 		log.entry("generateMaze");
 		
-		entranceVertex.setState(ENTRANCE, true);
-
 		final Set<Vertex> in = new HashSet<Vertex>();
 		final Set<Vertex> frontier = new HashSet<Vertex>();
 		final Set<Vertex> out = new HashSet<Vertex>();
-		out.addAll(entranceVertex.getGraph().getVertices());
+		out.addAll(graph.getVertices());
 
 		final Vertex startVertex = randomizer.pickOne(out);
 		in.add(startVertex);

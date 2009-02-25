@@ -1,6 +1,7 @@
 package com.laamella.amazing.generators.daedalus;
 
 import com.laamella.amazing.generators.GraphMazeGenerator;
+import com.laamella.amazing.mazemodel.graph.Graph;
 import com.laamella.amazing.mazemodel.graph.Vertex;
 
 /**
@@ -21,13 +22,16 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  * algorithm. This can be done as a wall adder if you randomly teleport on
  * occasion, to avoid the issues the recursive backtracker has.
  * <p>
- * http://www.astrolog.org/labyrnth/Maze.java
+ * <a href="http://www.astrolog.org/labyrnth/Maze.java">Some example code</a>
+ * <p>
+ * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
+ * description</a>
  */
 public class HuntAndKillMazeGenerator implements GraphMazeGenerator {
 
 	@Override
-	public void generateMaze(Vertex entranceVertex) {
+	public void generateMaze(final Graph graph) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

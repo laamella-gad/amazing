@@ -10,7 +10,7 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.Square;
 
 /**
- * Converted from a BASIC type in listing, which I found somewhere in the
+ * Converted from a BASIC type in listing, found in a magazine somewhere in the
  * eighties.
  */
 // TODO convert to progressive row based algorithm

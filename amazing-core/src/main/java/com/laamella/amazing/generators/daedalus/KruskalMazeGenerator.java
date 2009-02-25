@@ -1,6 +1,9 @@
 package com.laamella.amazing.generators.daedalus;
 
+import java.util.*;
+
 import com.laamella.amazing.generators.GraphMazeGenerator;
+import com.laamella.amazing.mazemodel.graph.Graph;
 import com.laamella.amazing.mazemodel.graph.Vertex;
 
 /**
@@ -23,13 +26,26 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  * merging is done quickly by splicing the trees together. Done right, this
  * algorithm runs reasonably fast, but not as fast as either of the above two,
  * because of the edge list and set management.
+ * <p>
+ * <a href="http://www.cs.man.ac.uk/~graham/cs2022/greedy/index.html">Nice
+ * interactive Kruskal</a>
+ * <p>
+ * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
+ * description</a>
+ * <p>
+ * Implementation uses sets instead of marking vertices with id's.
  */
 public class KruskalMazeGenerator implements GraphMazeGenerator {
 
 	@Override
-	public void generateMaze(Vertex entranceVertex) {
-		// TODO Auto-generated method stub
-		
+	public void generateMaze(final Graph graph) {
+		final Vertex entranceVertex = new Graph.UtilityWrapper(graph).getEntrance();
+
+		final List<Set<Vertex>> sets = new ArrayList<Set<Vertex>>();
+		for(final Vertex vertex: entranceVertex.getGraph().getVertices()){
+			
+		}
+
 	}
 
 }
