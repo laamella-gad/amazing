@@ -32,6 +32,8 @@ public class MazeGeneratorTester {
 
 	private Randomizer.Default randomGenerator;
 
+	private final StateMatrixPrettyPrinter prettyPrinter = new StateMatrixPrettyPrinter();
+
 	@Before
 	public void before() {
 		mazeMatrix = new StateMatrix(new Size(15, 15));
@@ -44,6 +46,7 @@ public class MazeGeneratorTester {
 				log.debug(mazeMatrix.toString());
 			}
 		});
+
 	}
 
 	@Test
@@ -89,6 +92,14 @@ public class MazeGeneratorTester {
 		grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
 		mazeGenerator.generateMaze(grid);
 		log.debug(mazeMatrix.toString());
+	}
+
+	@Test
+	public void testKruskalMazeGenerator() {
+		final KruskalMazeGenerator mazeGenerator = new KruskalMazeGenerator(randomGenerator);
+		grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
+		mazeGenerator.generateMaze(grid);
+		log.debug(prettyPrinter.getPrintableMaze(mazeMatrix));
 	}
 
 	@Test

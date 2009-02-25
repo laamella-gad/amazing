@@ -25,6 +25,8 @@ import com.laamella.amazing.mazemodel.orthogonal.Wall;
  * storageFactory.
  */
 public class GridWithDecoupledState implements Grid {
+	private static int DEBUG_ID = 0;
+
 	private final SquareDefault[][] squares;
 	private final Size size;
 	private final WallDefault[][] horizontalWalls;
@@ -44,14 +46,18 @@ public class GridWithDecoupledState implements Grid {
 			public void visit(Position position) {
 				final WallDefault wall = new WallDefault(stateStorage, position, true, GridWithDecoupledState.this);
 				horizontalWalls[position.x][position.y] = wall;
-				edges.add(wall);
+				if (position.y > 0 && position.y < getSize().height) {
+					edges.add(wall);
+				}
 			}
 		});
 		ArrayUtilities.visit2dArray(verticalWalls, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
 				final WallDefault wall = new WallDefault(stateStorage, position, false, GridWithDecoupledState.this);
 				verticalWalls[position.x][position.y] = wall;
-				edges.add(wall);
+				if (position.x > 0 && position.x < getSize().width) {
+					edges.add(wall);
+				}
 			}
 		});
 		ArrayUtilities.visit2dArray(squares, new ArrayUtilities.Visitor2dArray() {
@@ -125,11 +131,13 @@ public class GridWithDecoupledState implements Grid {
 		private Set<Edge> edges;
 		private final GridWithDecoupledState grid;
 		private final State stateStorage;
+		private final int id;
 
 		public SquareDefault(final GridStateStorage stateStorage, final Position position, final GridWithDecoupledState grid) {
 			this.stateStorage = stateStorage.getSquareState(position);
 			this.position = position;
 			this.grid = grid;
+			this.id = DEBUG_ID++;
 		}
 
 		void connect() {
@@ -194,6 +202,11 @@ public class GridWithDecoupledState implements Grid {
 		public void setState(Object state, int value) {
 			stateStorage.setState(state, value);
 		}
+
+		@Override
+		public String toString() {
+			return "[Square " + id + "]";
+		}
 	}
 
 	public static class WallDefault implements Wall {
@@ -202,10 +215,12 @@ public class GridWithDecoupledState implements Grid {
 
 		private final State stateStorage;
 		private final GridWithDecoupledState grid;
+		private final int id;
 
 		public WallDefault(final GridStateStorage stateStorage, final Position position, final boolean horizontal, final GridWithDecoupledState grid) {
 			this.stateStorage = stateStorage.getWallState(position, horizontal);
 			this.grid = grid;
+			this.id = DEBUG_ID++;
 		}
 
 		void connect(Square squareA, Square squareB) {
@@ -273,5 +288,9 @@ public class GridWithDecoupledState implements Grid {
 			stateStorage.setState(state, value);
 		}
 
+		@Override
+		public String toString() {
+			return "[Wall " + id + "]";
+		}
 	}
 }

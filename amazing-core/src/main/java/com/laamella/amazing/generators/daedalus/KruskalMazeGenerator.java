@@ -3,8 +3,9 @@ package com.laamella.amazing.generators.daedalus;
 import java.util.*;
 
 import com.laamella.amazing.generators.GraphMazeGenerator;
-import com.laamella.amazing.mazemodel.graph.Graph;
-import com.laamella.amazing.mazemodel.graph.Vertex;
+import com.laamella.amazing.generators.Randomizer;
+import com.laamella.amazing.mazemodel.MazeDefinitionState;
+import com.laamella.amazing.mazemodel.graph.*;
 
 /**
  * This algorithm is interesting because it doesn't "grow" the Maze like a tree,
@@ -23,9 +24,7 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  * wall will be a slow operation if each cell just has a number and are merged
  * by a loop. Merging as well as lookup can be done in near constant time by
  * giving each cell a node in a tree structure, with the id at the root, where
- * merging is done quickly by splicing the trees together. Done right, this
- * algorithm runs reasonably fast, but not as fast as either of the above two,
- * because of the edge list and set management.
+ * merging is done quickly by splicing the trees together.
  * <p>
  * <a href="http://www.cs.man.ac.uk/~graham/cs2022/greedy/index.html">Nice
  * interactive Kruskal</a>
@@ -37,15 +36,55 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  */
 public class KruskalMazeGenerator implements GraphMazeGenerator {
 
+	private final Randomizer randomizer;
+
+	public KruskalMazeGenerator(final Randomizer randomizer) {
+		this.randomizer = randomizer;
+	}
+
 	@Override
 	public void generateMaze(final Graph graph) {
 		final Vertex entranceVertex = new Graph.UtilityWrapper(graph).getEntrance();
 
+		// Put all vertices in a set by themselves.
 		final List<Set<Vertex>> sets = new ArrayList<Set<Vertex>>();
-		for(final Vertex vertex: entranceVertex.getGraph().getVertices()){
-			
+		for (final Vertex vertex : entranceVertex.getGraph().getVertices()) {
+			final Set<Vertex> set = new HashSet<Vertex>();
+			set.add(vertex);
+			sets.add(set);
 		}
 
+		// Stop when all vertices are in the same set
+		while (sets.size() > 1) {
+			// Pick a random edge.
+			// (Normal Kruskal would take the edge with the lowest weight here.)
+			final Edge edge = randomizer.pickOne(graph.getEdges());
+			
+			// See in which sets the corresponding vertices are.
+			final Vertex vertexA = edge.getVertexA();
+			final Vertex vertexB = edge.getVertexB();
+			final Set<Vertex> setA = findVertexInSets(sets, vertexA);
+			final Set<Vertex> setB = findVertexInSets(sets, vertexB);
+		
+			// If they are in different sets, we can connect them.
+			if (setA != setB) {
+				edge.setState(MazeDefinitionState.PASSAGE, true);
+				joinSets(sets, setA, setB);
+			}
+		}
 	}
 
+	private Set<Vertex> findVertexInSets(final List<Set<Vertex>> sets, final Vertex vertex) {
+		for (final Set<Vertex> set : sets) {
+			if (set.contains(vertex)) {
+				return set;
+			}
+		}
+		throw new RuntimeException("Bug in algorithm: vertex not found in any set, even though it was added previously");
+	}
+
+	private void joinSets(final List<Set<Vertex>> sets, final Set<Vertex> setA, final Set<Vertex> setB) {
+		setA.addAll(setB);
+		sets.remove(setB);
+	}
 }

@@ -8,7 +8,6 @@ import org.grlea.log.SimpleLogger;
 import com.laamella.amazing.generators.GridMazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.orthogonal.*;
-import com.laamella.amazing.mazemodel.orthogonal.Grid.UtilityWrapper;
 
 /**
  * The interesting thing about this algorithm is it generates all possible Mazes
