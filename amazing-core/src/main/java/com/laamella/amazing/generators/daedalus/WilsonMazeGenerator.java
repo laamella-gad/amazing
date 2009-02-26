@@ -2,7 +2,6 @@ package com.laamella.amazing.generators.daedalus;
 
 import com.laamella.amazing.generators.GraphMazeGenerator;
 import com.laamella.amazing.mazemodel.graph.Graph;
-import com.laamella.amazing.mazemodel.graph.Vertex;
 
 /**
  * This is an improved version of the Aldous-Broder algorithm, in that it

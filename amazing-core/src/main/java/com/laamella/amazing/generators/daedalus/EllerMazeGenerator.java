@@ -1,9 +1,9 @@
-package com.laamella.amazing.generators.original;
+package com.laamella.amazing.generators.daedalus;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
-import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.generators.RowMazeGenerator;
+import com.laamella.amazing.generators.*;
 import com.laamella.amazing.mazemodel.MazeDefinitionState;
 import com.laamella.amazing.mazemodel.orthogonal.*;
 
@@ -79,6 +79,7 @@ import com.laamella.amazing.mazemodel.orthogonal.*;
  * ###########
  * </pre>
  */
+// TODO unfinished
 public class EllerMazeGenerator implements RowMazeGenerator {
 	private final Randomizer randomizer;
 
@@ -88,7 +89,7 @@ public class EllerMazeGenerator implements RowMazeGenerator {
 
 	@Override
 	public void generateMaze(final RowGenerator rowGenerator) {
-		final Set<Set<Integer>> squareSets = new TreeSet<Set<Integer>>();
+		final Sets<Integer> squareSets = new Sets<Integer>();
 		generateFirstRow(rowGenerator.nextRow(), squareSets);
 		do {
 			generateRow(rowGenerator.nextRow(), squareSets);
@@ -96,24 +97,54 @@ public class EllerMazeGenerator implements RowMazeGenerator {
 		generateLastRow(rowGenerator.nextRow(), squareSets);
 	}
 
-	private void generateLastRow(final List<Square> squares, final Set<Set<Integer>> squareSets) {
+	private void generateLastRow(final List<Square> squares, final Sets<Integer> squareSets) {
 		// remove horizontal walls where squares in different sets
 		// 
 	}
 
-	private void generateRow(final List<Square> squares, final Set<Set<Integer>> squareSets) {
-
+	private void generateRow(final List<Square> squares, final Sets<Integer> squareSets) {
+		for (int x = 0; x < squares.size() - 1; x++) {
+			final Square square = squares.get(x);
+			final Set<Integer> thisSet = squareSets.findCorrespondingSet(x);
+			final Set<Integer> nextSet = squareSets.findCorrespondingSet(x + 1);
+			final Wall rightWall = square.getWall(Direction.RIGHT);
+			final Wall downWall = square.getWall(Direction.DOWN);
+			// Make horizontal passages
+			// Don't connect squares in the same set
+			if (thisSet != nextSet) {
+				// Connect randomly
+				if (randomizer.chance(0.5)) {
+					rightWall.setOpened(true);
+					// When connecting, union the sets
+					squareSets.unionSets(thisSet, nextSet);
+				}
+			}
+			// Make vertical passages
+			// When square is alone in a set, connect it vertically
+			if (thisSet.size() == 1) {
+				downWall.setOpened(true);
+			} else {
+				// Connect randomly
+				if (randomizer.chance(0.5)) {
+					downWall.setOpened(true);
+				} else {
+					// When not making a vertical passage, put square in its own
+					// set.
+					squareSets.putInNewSet(x);
+					squareSets.removeFromSet(thisSet, x);
+				}
+			}
+		}
 	}
 
-	private void generateFirstRow(final List<Square> squares, final Set<Set<Integer>> squareSets) {
+	private void generateFirstRow(final List<Square> squares, final Sets<Integer> squareSets) {
 		generateRow(squares, squareSets);
 		final Square entrance = randomizer.pickOne(squares);
 		entrance.getWall(Direction.UP).setState(MazeDefinitionState.PASSAGE, true);
 		entrance.setState(MazeDefinitionState.ENTRANCE, true);
 		for (int x = 0; x < squares.size(); x++) {
-			final Set<Integer> set = new HashSet<Integer>();
-			set.add(x);
-			squareSets.add(set);
+			squareSets.putInNewSet(x);
 		}
 	}
+
 }

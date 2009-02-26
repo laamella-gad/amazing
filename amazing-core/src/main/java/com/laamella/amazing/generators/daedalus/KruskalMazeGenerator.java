@@ -2,8 +2,7 @@ package com.laamella.amazing.generators.daedalus;
 
 import java.util.*;
 
-import com.laamella.amazing.generators.GraphMazeGenerator;
-import com.laamella.amazing.generators.Randomizer;
+import com.laamella.amazing.generators.*;
 import com.laamella.amazing.mazemodel.MazeDefinitionState;
 import com.laamella.amazing.mazemodel.graph.*;
 
@@ -47,44 +46,28 @@ public class KruskalMazeGenerator implements GraphMazeGenerator {
 		final Vertex entranceVertex = new Graph.UtilityWrapper(graph).getEntrance();
 
 		// Put all vertices in a set by themselves.
-		final List<Set<Vertex>> sets = new ArrayList<Set<Vertex>>();
+		final Sets<Vertex> sets = new Sets<Vertex>();
 		for (final Vertex vertex : entranceVertex.getGraph().getVertices()) {
-			final Set<Vertex> set = new HashSet<Vertex>();
-			set.add(vertex);
-			sets.add(set);
+			sets.putInNewSet(vertex);
 		}
 
-		// Stop when all vertices are in the same set
-		while (sets.size() > 1) {
+		do {
 			// Pick a random edge.
 			// (Normal Kruskal would take the edge with the lowest weight here.)
 			final Edge edge = randomizer.pickOne(graph.getEdges());
-			
+
 			// See in which sets the corresponding vertices are.
 			final Vertex vertexA = edge.getVertexA();
 			final Vertex vertexB = edge.getVertexB();
-			final Set<Vertex> setA = findVertexInSets(sets, vertexA);
-			final Set<Vertex> setB = findVertexInSets(sets, vertexB);
-		
+			final Set<Vertex> setA = sets.findCorrespondingSet(vertexA);
+			final Set<Vertex> setB = sets.findCorrespondingSet(vertexB);
+
 			// If they are in different sets, we can connect them.
 			if (setA != setB) {
 				edge.setState(MazeDefinitionState.PASSAGE, true);
-				joinSets(sets, setA, setB);
+				sets.unionSets(setA, setB);
 			}
-		}
-	}
-
-	private Set<Vertex> findVertexInSets(final List<Set<Vertex>> sets, final Vertex vertex) {
-		for (final Set<Vertex> set : sets) {
-			if (set.contains(vertex)) {
-				return set;
-			}
-		}
-		throw new RuntimeException("Bug in algorithm: vertex not found in any set, even though it was added previously");
-	}
-
-	private void joinSets(final List<Set<Vertex>> sets, final Set<Vertex> setA, final Set<Vertex> setB) {
-		setA.addAll(setB);
-		sets.remove(setB);
+			// Stop when all vertices are in the same set
+		} while (sets.size() > 1);
 	}
 }
