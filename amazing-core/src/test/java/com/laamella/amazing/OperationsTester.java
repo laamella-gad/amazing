@@ -16,6 +16,7 @@ import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.implementation.GridMatrixStorage;
 import com.laamella.amazing.mazemodel.orthogonal.implementation.GridWithDecoupledState;
+import com.laamella.amazing.operations.MostDistantExitMarkOperation;
 import com.laamella.amazing.operations.VertexDistanceMarkingOperation;
 
 public class OperationsTester {
@@ -29,9 +30,11 @@ public class OperationsTester {
 
 	private PrimMazeGenerator mazeGenerator;
 
+	private final StateMatrixPrettyPrinter defaultStateMatrixPrettyPrinter = new StateMatrixPrettyPrinter();
+
 	@Before
 	public void before() {
-		mazeMatrix = new StateMatrix(new Size(15, 15));
+		mazeMatrix = new StateMatrix(new Size(149, 43));
 		stateStorage = new GridMatrixStorage(mazeMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
 		randomGenerator = new Randomizer.Default();
@@ -47,11 +50,22 @@ public class OperationsTester {
 
 	@Test
 	public void testDistanceMarkingOperation() {
-		new VertexDistanceMarkingOperation().process(grid.getSquare(new Position(5, 5)));
+		new VertexDistanceMarkingOperation().mark(grid.getSquare(new Position(5, 5)));
+
 		final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
 		stateMatrixPrettyPrinter.map(VertexDistanceMarkingOperation.DISTANCE);
 		stateMatrixPrettyPrinter.map(PASSAGE, ' ');
 		log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeMatrix));
 	}
 
+	@Test
+	public void testMostDistanceExitMarkingOperation() {
+		new MostDistantExitMarkOperation().findMostDistantExit(grid);
+
+		final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
+		stateMatrixPrettyPrinter.map(VertexDistanceMarkingOperation.DISTANCE);
+		stateMatrixPrettyPrinter.map(PASSAGE, ' ');
+		log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeMatrix));
+		log.debug(defaultStateMatrixPrettyPrinter.getPrintableMaze(mazeMatrix));
+	}
 }

@@ -11,7 +11,7 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
 public class VertexDistanceMarkingOperation {
 	public static final Object DISTANCE = new Object();
 
-	public void process(final Vertex startVertex) {
+	public void mark(final Vertex startVertex) {
 		recurse(startVertex, 0);
 	}
 

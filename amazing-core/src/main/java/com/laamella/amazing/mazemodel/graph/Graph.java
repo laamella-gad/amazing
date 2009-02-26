@@ -45,6 +45,5 @@ public interface Graph {
 		public Set<Vertex> getVertices() {
 			return delegateGraph.getVertices();
 		}
-
 	}
 }

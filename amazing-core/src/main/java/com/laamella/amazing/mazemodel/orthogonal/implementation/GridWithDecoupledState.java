@@ -31,17 +31,21 @@ public class GridWithDecoupledState implements Grid {
 	private final Size size;
 	private final WallDefault[][] horizontalWalls;
 	private final WallDefault[][] verticalWalls;
-	private Set<Edge> edges = new HashSet<Edge>();
-	private Set<Vertex> vertices = new HashSet<Vertex>();
+	private final Set<Edge> edges = new HashSet<Edge>();
+	private final Set<Vertex> vertices = new HashSet<Vertex>();
 
 	public GridWithDecoupledState(final GridStateStorage stateStorage) {
 		this.size = stateStorage.getSize();
+
 		squares = new SquareDefault[size.width][size.height];
-
-		// TODO this is becoming a little dramatic
-
 		horizontalWalls = new WallDefault[size.width][size.height + 1];
 		verticalWalls = new WallDefault[size.width + 1][size.height];
+
+		createGraphObjects(stateStorage);
+		connectGraphObjects();
+	}
+
+	private void createGraphObjects(final GridStateStorage stateStorage) {
 		ArrayUtilities.visit2dArray(horizontalWalls, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
 				final WallDefault wall = new WallDefault(stateStorage, position, true, GridWithDecoupledState.this);
@@ -70,7 +74,13 @@ public class GridWithDecoupledState implements Grid {
 				}
 			}
 		});
+	}
 
+	public Size getSize() {
+		return size;
+	}
+
+	private void connectGraphObjects() {
 		ArrayUtilities.visit2dArray(horizontalWalls, new ArrayUtilities.Visitor2dArray() {
 			public void visit(Position position) {
 				if (position.y == 0 || position.y == getSize().height) {
@@ -96,10 +106,6 @@ public class GridWithDecoupledState implements Grid {
 				squares[position.x][position.y].connect();
 			}
 		});
-	}
-
-	public Size getSize() {
-		return size;
 	}
 
 	public Square getSquare(Position position) {
