@@ -10,7 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.generators.cut_the_knot.PeanoMazeGenerator;
+import com.laamella.amazing.generators.cut_the_knot.*;
+import com.laamella.amazing.generators.cut_the_knot.programs.PeanoCurveProgram;
 import com.laamella.amazing.generators.daedalus.*;
 import com.laamella.amazing.generators.various.EllerMazeGeneratorC64;
 import com.laamella.amazing.generators.various.RecursiveDivisionMazeGenerator;
@@ -36,7 +37,7 @@ public class MazeGeneratorTester {
 
 	@Before
 	public void before() {
-		mazeMatrix = new StateMatrix(new Size(15, 15));
+		mazeMatrix = new StateMatrix(new Size(17, 17));
 		stateStorage = new GridMatrixStorage(mazeMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
 		randomGenerator = new Randomizer.Default();
@@ -104,9 +105,10 @@ public class MazeGeneratorTester {
 
 	@Test
 	public void testPeanoMazeGenerator() {
-		final PeanoMazeGenerator mazeProgram = new PeanoMazeGenerator(1);
-		mazeProgram.generateMaze(grid);
-		log.debug(mazeMatrix.toString());
+		final LogoProgram mazeProgram = new PeanoCurveProgram(3, true);
+		final SpaceFillingCurveMazeGenerator spaceFillingCurveMazeGenerator = new SpaceFillingCurveMazeGenerator(mazeProgram);
+		spaceFillingCurveMazeGenerator.generateMaze(grid);
+		log.debug(prettyPrinter.getPrintableMaze(mazeMatrix));
 	}
 
 	@Test

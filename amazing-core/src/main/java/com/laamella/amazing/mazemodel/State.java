@@ -5,10 +5,11 @@ import java.util.*;
 /**
  * A state of anything in the maze. Used by generators.
  */
+// TODO think about 
 public interface State {
 	boolean hasState(Object state);
 
-	void setState(Object newState, boolean hasOrNot);
+	void setState(Object newState, boolean mustBeSet);
 
 	int getState(Object state);
 
@@ -23,17 +24,17 @@ public interface State {
 		}
 
 		@Override
-		public void setState(Object newState, boolean hasOrNot) {
+		public void setState(Object newState, boolean mustBeSet) {
 			final boolean alreadyHas = hasState(newState);
 
-			if (alreadyHas && hasOrNot) {
+			if (alreadyHas && mustBeSet) {
 				return;
 			}
-			if ((!alreadyHas) && (!hasOrNot)) {
+			if ((!alreadyHas) && (!mustBeSet)) {
 				return;
 			}
 
-			if (hasOrNot) {
+			if (mustBeSet) {
 				states.put(newState, null);
 			} else {
 				states.remove(newState);

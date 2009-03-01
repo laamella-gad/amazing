@@ -5,6 +5,8 @@ import com.laamella.amazing.mazemodel.State;
 /**
  * Connects two vertices.
  */
+// TODO edges might need an orientation in degrees
+// TODO edges can be made uni-directional
 public interface Edge extends State {
 	Vertex getVertexA();
 

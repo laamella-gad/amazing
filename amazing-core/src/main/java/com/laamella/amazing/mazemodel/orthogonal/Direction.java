@@ -20,11 +20,11 @@ public enum Direction {
 		RANDOM_MAP = new Direction[] { UP, RIGHT, DOWN, LEFT };
 	}
 
-	Direction turnLeft() {
+	public Direction turnLeft() {
 		return TURN_LEFT_MAP.get(this);
 	}
 
-	Direction turnRight() {
+	public Direction turnRight() {
 		return TURN_RIGHT_MAP.get(this);
 	}
 

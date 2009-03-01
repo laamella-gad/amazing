@@ -185,8 +185,8 @@ public class GridWithDecoupledState implements Grid {
 			return stateStorage.hasState(state);
 		}
 
-		public void setState(Object newState, boolean hasOrNot) {
-			stateStorage.setState(newState, hasOrNot);
+		public void setState(Object newState, boolean mustBeSet) {
+			stateStorage.setState(newState, mustBeSet);
 		}
 
 		@Override
@@ -254,8 +254,8 @@ public class GridWithDecoupledState implements Grid {
 			return stateStorage.hasState(state);
 		}
 
-		public void setState(Object newState, boolean hasOrNot) {
-			stateStorage.setState(newState, hasOrNot);
+		public void setState(Object newState, boolean mustBeSet) {
+			stateStorage.setState(newState, mustBeSet);
 		}
 
 		@Override
