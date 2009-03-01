@@ -1,5 +1,8 @@
 package com.laamella.amazing.generators.spacefillingcurve;
 
+import org.grlea.log.SimpleLogger;
+
+import com.laamella.amazing.MazeGeneratorTester;
 import com.laamella.amazing.generators.cut_the_knot.LogoProgram;
 import com.laamella.amazing.mazemodel.Turtle;
 
@@ -12,6 +15,7 @@ import com.laamella.amazing.mazemodel.Turtle;
  * <a href="http://www.nio.ntnu.no/archive/2000_2001/2/b1.c">This algorithm from
  * the Norsk Informatikkolympiade for videregående skoler</a> has been used
  * here.
+ * 
  * <pre>
  * -#################-
  * -#   #     #     #-
@@ -33,6 +37,8 @@ import com.laamella.amazing.mazemodel.Turtle;
  * </pre>
  */
 public class HilbertCurveProgram implements LogoProgram {
+	private static final SimpleLogger log = new SimpleLogger(HilbertCurveProgram.class);
+
 	private final int degree;
 	private final boolean mirror;
 
@@ -63,9 +69,10 @@ public class HilbertCurveProgram implements LogoProgram {
 	 *            true: right-turning
 	 */
 	public void drawCurve(final Turtle turtle, final int degree, final boolean mirror) {
-		if(degree==0){
+		if (degree == 0) {
 			return;
 		}
+		log.debug("draw(" + turtle + ", " + degree + ", " + mirror + ")");
 		final int savedTurtleAngle = turtle.getAngle();
 
 		drawCurve(turtle, degree - 1, !mirror);

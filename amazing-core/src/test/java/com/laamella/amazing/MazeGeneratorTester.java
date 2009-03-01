@@ -97,8 +97,8 @@ public class MazeGeneratorTester {
 	}
 
 	@Test
-	public void testPeanoMazeGenerator() {
-		final LogoProgram mazeProgram = new HilbertCurveProgram(3, true);
+	public void testHilbertCurveGenerator() {
+		final LogoProgram mazeProgram = new HilbertCurveProgram(2, false);
 		final SpaceFillingCurveMazeGenerator spaceFillingCurveMazeGenerator = new SpaceFillingCurveMazeGenerator(mazeProgram);
 		spaceFillingCurveMazeGenerator.generateMaze(grid);
 	}

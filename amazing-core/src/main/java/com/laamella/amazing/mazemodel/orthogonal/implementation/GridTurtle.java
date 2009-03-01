@@ -67,4 +67,8 @@ public class GridTurtle implements Turtle {
 		throw new IllegalArgumentException();
 	}
 
+	@Override
+	public String toString() {
+		return "Turtle(" + currentSquare.getPosition().toString() + "," + getAngle() + ")";
+	}
 }
