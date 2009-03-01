@@ -44,31 +44,26 @@ public class HilbertCurveProgram implements LogoProgram {
 	 *            specifies the orientation of the maze: false: left-turning,
 	 *            true: right-turning
 	 */
-	public void maze(final Turtle turtle, final int degree, final boolean mirror) {
-		if (degree == 1) {
-			turtle.walk();
-			left(turtle, mirror);
-			turtle.walk();
-			left(turtle, mirror);
-			turtle.walk();
-		} else {
-			left(turtle, mirror);
-			maze(turtle, degree - 1, !mirror);
-			left(turtle, mirror);
-			turtle.walk();
-			maze(turtle, degree - 1, mirror);
-			right(turtle, mirror);
-			turtle.walk();
-			right(turtle, mirror);
-			maze(turtle, degree - 1, mirror);
-			turtle.walk();
-			left(turtle, mirror);
-			maze(turtle, degree - 1, !mirror);
-			left(turtle, mirror);
+	public void drawCurve(final Turtle turtle, final int degree, final boolean mirror) {
+		if(degree==0){
+			return;
 		}
+		final int savedTurtleAngle = turtle.getAngle();
+
+		drawCurve(turtle, degree - 1, !mirror);
+		turtle.walk();
+		drawCurve(turtle, degree - 1, mirror);
+		left(turtle, mirror);
+		turtle.walk();
+		drawCurve(turtle, degree - 1, mirror);
+		left(turtle, mirror);
+		turtle.walk();
+		drawCurve(turtle, degree - 1, !mirror);
+
+		turtle.setAngle(savedTurtleAngle);
 	}
 
 	public void run(final Turtle turtle) {
-		maze(turtle, degree, mirror);
+		drawCurve(turtle, degree, mirror);
 	}
 }

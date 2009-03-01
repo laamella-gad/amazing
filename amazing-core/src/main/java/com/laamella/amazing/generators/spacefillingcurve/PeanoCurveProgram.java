@@ -16,9 +16,12 @@ import com.laamella.amazing.mazemodel.Turtle;
  */
 public class PeanoCurveProgram implements LogoProgram {
 
+//	public PeanoCurveProgram()
+	
 	@Override
 	public void run(Turtle turtle) {
-		// TODO Auto-generated method stub
 	}
+	
+	
 
 }
