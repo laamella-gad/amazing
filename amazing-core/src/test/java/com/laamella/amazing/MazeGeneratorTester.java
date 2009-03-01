@@ -10,9 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.generators.cut_the_knot.*;
 import com.laamella.amazing.generators.daedalus.*;
-import com.laamella.amazing.generators.spacefillingcurve.HilbertCurveProgram;
+import com.laamella.amazing.generators.spacefillingcurve.LogoProgram;
+import com.laamella.amazing.generators.spacefillingcurve.SpaceFillingCurveMazeGenerator;
+import com.laamella.amazing.generators.spacefillingcurve.program.HilbertCurveProgram;
+import com.laamella.amazing.generators.spacefillingcurve.program.PeanoCurveProgram;
 import com.laamella.amazing.generators.various.EllerMazeGeneratorC64;
 import com.laamella.amazing.generators.various.RecursiveDivisionMazeGenerator;
 import com.laamella.amazing.mazemodel.*;
@@ -37,7 +39,7 @@ public class MazeGeneratorTester {
 
 	@Before
 	public void before() {
-		mazeMatrix = new StateMatrix(new Size(17, 17));
+		mazeMatrix = new StateMatrix(new Size(19, 19));
 		stateStorage = new GridMatrixStorage(mazeMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
 		randomGenerator = new Randomizer.Default();
@@ -98,7 +100,14 @@ public class MazeGeneratorTester {
 
 	@Test
 	public void testHilbertCurveGenerator() {
-		final LogoProgram mazeProgram = new HilbertCurveProgram(2, false);
+		final LogoProgram mazeProgram = new HilbertCurveProgram(3, false);
+		final SpaceFillingCurveMazeGenerator spaceFillingCurveMazeGenerator = new SpaceFillingCurveMazeGenerator(mazeProgram);
+		spaceFillingCurveMazeGenerator.generateMaze(grid);
+	}
+
+	@Test
+	public void testPeanoCurveGenerator() {
+		final LogoProgram mazeProgram = new PeanoCurveProgram(2, true);
 		final SpaceFillingCurveMazeGenerator spaceFillingCurveMazeGenerator = new SpaceFillingCurveMazeGenerator(mazeProgram);
 		spaceFillingCurveMazeGenerator.generateMaze(grid);
 	}

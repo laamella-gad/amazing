@@ -1,20 +1,24 @@
-package com.laamella.amazing.generators.spacefillingcurve;
+package com.laamella.amazing.generators.spacefillingcurve.program;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.MazeGeneratorTester;
-import com.laamella.amazing.generators.cut_the_knot.LogoProgram;
+import com.laamella.amazing.generators.spacefillingcurve.LogoProgram;
 import com.laamella.amazing.mazemodel.Turtle;
 
 /**
  * <p>
  * http://www.cut-the-knot.org/ctk/Mazes.shtml
  * <p>
- * http://www.cut-the-knot.org/do_you_know/hilbert.shtml
+ * <a href="http://www.cut-the-knot.org/do_you_know/hilbert.shtml">Cut the knot
+ * article</a>
  * <p>
- * <a href="http://www.nio.ntnu.no/archive/2000_2001/2/b1.c">This algorithm from
- * the Norsk Informatikkolympiade for videregående skoler</a> has been used
- * here.
+ * <a href="http://www.nio.ntnu.no/archive/2000_2001/2/b1.c">The Norsk
+ * Informatikkolympiade for videregående skoler</a> has a rather bad
+ * implementation.
+ * <p>
+ * Wikipedia has <a href="http://en.wikipedia.org/wiki/Hilbert_curve">the
+ * article that this implementation is based on</a>.
+ * <p><a href="http://tog.acm.org/GraphicsGems/gemsii/Hilbert.c">Graphics Gems 2 code</a>
  * 
  * <pre>
  * -#################-
@@ -64,28 +68,27 @@ public class HilbertCurveProgram implements LogoProgram {
 	}
 
 	/**
-	 * @param mirror
+	 * @param rightTurning
 	 *            specifies the orientation of the maze: false: left-turning,
 	 *            true: right-turning
 	 */
-	public void drawCurve(final Turtle turtle, final int degree, final boolean mirror) {
+	public void drawCurve(final Turtle turtle, final int degree, final boolean rightTurning) {
 		if (degree == 0) {
 			return;
 		}
-		log.debug("draw(" + turtle + ", " + degree + ", " + mirror + ")");
-		final int savedTurtleAngle = turtle.getAngle();
+		log.debug("draw(" + turtle + ", " + degree + ", " + rightTurning + ")");
 
-		drawCurve(turtle, degree - 1, !mirror);
+		right(turtle, rightTurning);
+		drawCurve(turtle, degree - 1, !rightTurning);
 		turtle.walk();
-		drawCurve(turtle, degree - 1, mirror);
-		left(turtle, mirror);
+		left(turtle, rightTurning);
+		drawCurve(turtle, degree - 1, rightTurning);
 		turtle.walk();
-		drawCurve(turtle, degree - 1, mirror);
-		left(turtle, mirror);
+		drawCurve(turtle, degree - 1, rightTurning);
+		left(turtle, rightTurning);
 		turtle.walk();
-		drawCurve(turtle, degree - 1, !mirror);
-
-		turtle.setAngle(savedTurtleAngle);
+		drawCurve(turtle, degree - 1, !rightTurning);
+		right(turtle, rightTurning);
 	}
 
 	public void run(final Turtle turtle) {

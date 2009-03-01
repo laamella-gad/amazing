@@ -1,4 +1,4 @@
-package com.laamella.amazing.generators.cut_the_knot;
+package com.laamella.amazing.generators.spacefillingcurve;
 
 import com.laamella.amazing.mazemodel.Turtle;
 

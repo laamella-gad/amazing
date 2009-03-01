@@ -1,12 +1,11 @@
-package com.laamella.amazing.generators.cut_the_knot;
+package com.laamella.amazing.generators.spacefillingcurve;
 
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.GridMazeGenerator;
-import com.laamella.amazing.mazemodel.Position;
+import com.laamella.amazing.mazemodel.MazeDefinitionState;
 import com.laamella.amazing.mazemodel.Turtle;
-import com.laamella.amazing.mazemodel.orthogonal.Direction;
-import com.laamella.amazing.mazemodel.orthogonal.Grid;
+import com.laamella.amazing.mazemodel.orthogonal.*;
 import com.laamella.amazing.mazemodel.orthogonal.implementation.GridTurtle;
 
 /**
@@ -27,8 +26,9 @@ public class SpaceFillingCurveMazeGenerator implements GridMazeGenerator {
 	public void generateMaze(final Grid plainGrid) {
 		log.entry("generateMaze");
 		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
-//		final Turtle turtle = new GridTurtle(grid.getTopLeftSquare(), Direction.RIGHT);
-		final Turtle turtle = new GridTurtle(grid.getSquare(new Position(5,5)), Direction.RIGHT);
+		final Square startSquare = grid.getTopLeftSquare();
+		startSquare.setState(MazeDefinitionState.ENTRANCE, true);
+		final Turtle turtle = new GridTurtle(startSquare, Direction.RIGHT);
 		program.run(turtle);
 		log.exit("generateMaze");
 	}

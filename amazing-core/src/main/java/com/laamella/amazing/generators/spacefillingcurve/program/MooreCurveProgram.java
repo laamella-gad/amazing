@@ -1,6 +1,6 @@
-package com.laamella.amazing.generators.spacefillingcurve;
+package com.laamella.amazing.generators.spacefillingcurve.program;
 
-import com.laamella.amazing.generators.cut_the_knot.LogoProgram;
+import com.laamella.amazing.generators.spacefillingcurve.LogoProgram;
 import com.laamella.amazing.mazemodel.Turtle;
 
 /**
