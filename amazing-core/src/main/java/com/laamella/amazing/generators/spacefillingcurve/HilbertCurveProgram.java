@@ -12,8 +12,26 @@ import com.laamella.amazing.mazemodel.Turtle;
  * <a href="http://www.nio.ntnu.no/archive/2000_2001/2/b1.c">This algorithm from
  * the Norsk Informatikkolympiade for videregående skoler</a> has been used
  * here.
+ * <pre>
+ * -#################-
+ * -#   #     #     #-
+ * -### # ### # ### #-
+ * -#   #   #   #   #-
+ * -# ##### ##### ###-
+ * -# #   # #   #   #-
+ * -# # # # # # ### #-
+ * -#   #   # #     #-
+ * -######### #######-
+ * -#   #   # #     #-
+ * -# # # # # # ### #-
+ * -# #   # #   #   #-
+ * -# ##### ##### ###-
+ * -#   #   #   #   #-
+ * -### # ### # ### #-
+ * -#   #     #     #-
+ * -#################-
+ * </pre>
  */
-// TODO could be implemented as a kind of LOGO program
 public class HilbertCurveProgram implements LogoProgram {
 	private final int degree;
 	private final boolean mirror;
