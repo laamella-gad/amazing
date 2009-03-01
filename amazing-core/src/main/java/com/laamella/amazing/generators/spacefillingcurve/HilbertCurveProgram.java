@@ -1,26 +1,24 @@
-package com.laamella.amazing.generators.cut_the_knot.programs;
+package com.laamella.amazing.generators.spacefillingcurve;
 
 import com.laamella.amazing.generators.cut_the_knot.LogoProgram;
 import com.laamella.amazing.mazemodel.Turtle;
 
 /**
  * <p>
- * http://www.cut-the-knot.org/Curriculum/Geometry/PeanoComplete.shtml
+ * http://www.cut-the-knot.org/ctk/Mazes.shtml
  * <p>
  * http://www.cut-the-knot.org/do_you_know/hilbert.shtml
  * <p>
- * http://www.geom.uiuc.edu/docs/reference/CRC-formulas/node36.html#
- * SECTION01840000000000000000
- * <p>
- * http://www.nio.ntnu.no/archive/2000_2001/2/b1.c
+ * <a href="http://www.nio.ntnu.no/archive/2000_2001/2/b1.c">This algorithm from
+ * the Norsk Informatikkolympiade for videregående skoler</a> has been used
+ * here.
  */
 // TODO could be implemented as a kind of LOGO program
-// TODO seems to be a ridiculously complex algorithm, redesign it.
-public class PeanoCurveProgram implements LogoProgram {
+public class HilbertCurveProgram implements LogoProgram {
 	private final int degree;
 	private final boolean mirror;
 
-	public PeanoCurveProgram(final int degree, final boolean mirror) {
+	public HilbertCurveProgram(final int degree, final boolean mirror) {
 		this.degree = degree;
 		this.mirror = mirror;
 	}
@@ -48,29 +46,29 @@ public class PeanoCurveProgram implements LogoProgram {
 	 */
 	public void maze(final Turtle turtle, final int degree, final boolean mirror) {
 		if (degree == 1) {
-			turtle.forward();
+			turtle.walk();
 			left(turtle, mirror);
-			turtle.forward();
+			turtle.walk();
 			left(turtle, mirror);
-			turtle.forward();
+			turtle.walk();
 		} else {
 			left(turtle, mirror);
 			maze(turtle, degree - 1, !mirror);
 			left(turtle, mirror);
-			turtle.forward();
+			turtle.walk();
 			maze(turtle, degree - 1, mirror);
 			right(turtle, mirror);
-			turtle.forward();
+			turtle.walk();
 			right(turtle, mirror);
 			maze(turtle, degree - 1, mirror);
-			turtle.forward();
+			turtle.walk();
 			left(turtle, mirror);
 			maze(turtle, degree - 1, !mirror);
 			left(turtle, mirror);
 		}
 	}
-	
-	public void run(final Turtle turtle){
+
+	public void run(final Turtle turtle) {
 		maze(turtle, degree, mirror);
 	}
 }

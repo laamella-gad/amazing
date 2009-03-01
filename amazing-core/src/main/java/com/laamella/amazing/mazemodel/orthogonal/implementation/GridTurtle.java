@@ -27,9 +27,44 @@ public class GridTurtle implements Turtle {
 		direction = direction.turnLeft();
 	}
 
-	public void forward() {
-		log.debug("Step");
+	public void walk() {
+		log.debug("Walk");
 		currentSquare.getWall(direction).setOpened(true);
 		currentSquare = currentSquare.getSquare(direction);
 	}
+
+	@Override
+	public int getAngle() {
+		switch (direction) {
+		case DOWN:
+			return 180;
+		case UP:
+			return 0;
+		case LEFT:
+			return 270;
+		case RIGHT:
+			return 90;
+		}
+		throw new IllegalStateException();
+	}
+
+	@Override
+	public void setAngle(final int direction) {
+		switch (direction) {
+		case 0:
+			this.direction = Direction.UP;
+			return;
+		case 90:
+			this.direction = Direction.RIGHT;
+			return;
+		case 180:
+			this.direction = Direction.DOWN;
+			return;
+		case 270:
+			this.direction = Direction.LEFT;
+			return;
+		}
+		throw new IllegalArgumentException();
+	}
+
 }
