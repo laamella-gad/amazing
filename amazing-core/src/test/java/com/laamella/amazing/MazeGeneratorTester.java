@@ -22,8 +22,7 @@ import com.laamella.amazing.mazemodel.graph.Graph;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 import com.laamella.amazing.mazemodel.orthogonal.Direction;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
-import com.laamella.amazing.mazemodel.orthogonal.implementation.GridMatrixStorage;
-import com.laamella.amazing.mazemodel.orthogonal.implementation.GridWithDecoupledState;
+import com.laamella.amazing.mazemodel.orthogonal.implementation.*;
 import com.laamella.amazing.solvers.RecursiveBacktrackerSolver;
 
 public class MazeGeneratorTester {
@@ -96,6 +95,12 @@ public class MazeGeneratorTester {
 		final KruskalMazeGenerator mazeGenerator = new KruskalMazeGenerator(randomGenerator);
 		grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
 		mazeGenerator.generateMaze(grid);
+	}
+
+	@Test
+	public void testSideWinderMazeGenerator() {
+		final SideWinderMazeGenerator mazeGenerator = new SideWinderMazeGenerator(randomGenerator);
+		mazeGenerator.generateMaze(new GridRowGenerator(grid));
 	}
 
 	@Test
