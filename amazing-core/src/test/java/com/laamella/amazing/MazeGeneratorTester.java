@@ -73,6 +73,12 @@ public class MazeGeneratorTester {
 	@Test
 	public void testRecursiveDivisionMazeGenerator() {
 		final RecursiveDivisionMazeGenerator mazeGenerator = new RecursiveDivisionMazeGenerator(randomGenerator);
+		mazeGenerator.addObserver(new Observer() {
+			public void update(Observable o, Object arg) {
+				log.debug(prettyPrinter.getPrintableMaze(mazeMatrix));
+			}
+		});
+		mazeMatrix.deleteObservers();
 		mazeGenerator.generateMaze(grid);
 	}
 

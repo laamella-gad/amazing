@@ -38,6 +38,19 @@ public interface Grid extends Graph {
 			log.exit("closeAllWalls");
 		}
 
+		public void openAllWalls() {
+			log.entry("closeAllWalls");
+			forAllSquares(new SquareVisitor() {
+				public void visitSquare(Position position, Square square) {
+					square.getWall(Direction.UP).open();
+					square.getWall(Direction.RIGHT).open();
+					square.getWall(Direction.DOWN).open();
+					square.getWall(Direction.LEFT).open();
+				}
+			});
+			log.exit("closeAllWalls");
+		}
+
 		public static interface SquareVisitor {
 			void visitSquare(Position position, Square square);
 		}

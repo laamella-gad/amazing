@@ -1,5 +1,7 @@
 package com.laamella.amazing.generators.various;
 
+import java.util.Observable;
+
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.GridMazeGenerator;
@@ -18,20 +20,30 @@ import com.laamella.amazing.mazemodel.orthogonal.Grid;
  * the two directions, one can easily generate interesting mazes that avoid the
  * ease of solution of binary tree mazes.
  * <p>
- * Source: <a href="http://en.wikipedia.org/wiki/Maze_generation_algorithm">Wikipedia</a>
+ * Source: <a
+ * href="http://en.wikipedia.org/wiki/Maze_generation_algorithm">Wikipedia</a>
  */
-public class RecursiveDivisionMazeGenerator implements GridMazeGenerator {
+// TODO code is very ugly, create better code.
+// TODO maybe the ability to create subgrids is useful?
+public class RecursiveDivisionMazeGenerator extends Observable implements GridMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(RecursiveDivisionMazeGenerator.class);
 
-	private final Randomizer randomGenerator;
+	private final Randomizer randomizer;
 
 	public RecursiveDivisionMazeGenerator(final Randomizer randomGenerator) {
-		this.randomGenerator = randomGenerator;
+		this.randomizer = randomGenerator;
 	}
 
 	@Override
 	public void generateMaze(final Grid plainGrid) {
 		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
+		grid.openAllWalls();
+		grid.drawHorizontalWall(0, 0, grid.getSize().width - 1);
+		grid.drawHorizontalWall(grid.getSize().height, 0, grid.getSize().width - 1);
+		grid.drawVerticalWall(0, 0, grid.getSize().height - 1);
+		grid.drawVerticalWall(grid.getSize().width, 0, grid.getSize().height - 1);
+		setChanged();
+		notifyObservers();
 		subdivide(grid, grid.getTopLeftSquare().getPosition(), grid.getBottomRightSquare().getPosition().move(1, 1));
 	}
 
@@ -41,12 +53,40 @@ public class RecursiveDivisionMazeGenerator implements GridMazeGenerator {
 			// Too little space to subdivide
 			return;
 		}
-		final Position crossing = new Position(randomGenerator.between(topLeft.x, bottomRight.x), randomGenerator.between(topLeft.y, bottomRight.y));
+		final Position crossing = new Position(randomizer.between(topLeft.x, bottomRight.x - 1) + 1, randomizer.between(topLeft.y, bottomRight.y - 1) + 1);
+		
 		grid.drawVerticalWall(crossing.x, topLeft.y, bottomRight.y - 1);
 		grid.drawHorizontalWall(crossing.y, topLeft.x, bottomRight.x - 1);
-		// TODO make holes in walls.
-		
-		// Recurse into the four new chambers made by drawing the horizontal and vertical wall.
+
+		final int wallToIgnore = randomizer.random(4);
+		if (wallToIgnore != 0) {
+			// make hole in wall pointing up.
+			final int y = randomizer.between(topLeft.y, crossing.y);
+			grid.getHorizontalWall(new Position(crossing.x, y)).open();
+		}
+		if (wallToIgnore != 1) {
+			// make hole in wall pointing down.
+			final int y = randomizer.between(crossing.y, bottomRight.y);
+			grid.getHorizontalWall(new Position(crossing.x, y)).open();
+		}
+
+		if (wallToIgnore != 2) {
+			// make hole in wall pointing right.
+			final int x = randomizer.between(crossing.x, bottomRight.x);
+			grid.getVerticalWall(new Position(x, crossing.y)).open();
+		}
+
+		if (wallToIgnore != 3) {
+			// make hole in wall pointing left.
+			final int x = randomizer.between(topLeft.x, crossing.x);
+			grid.getVerticalWall(new Position(x, crossing.y)).open();
+		}
+
+		setChanged();
+		notifyObservers();
+
+		// Recurse into the four new chambers made by drawing the horizontal and
+		// vertical wall.
 		subdivide(grid, topLeft, crossing);
 		subdivide(grid, crossing, bottomRight);
 		subdivide(grid, new Position(crossing.x, topLeft.y), new Position(bottomRight.x, crossing.y));

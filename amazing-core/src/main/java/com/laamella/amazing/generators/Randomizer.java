@@ -76,7 +76,7 @@ public interface Randomizer {
 		}
 
 		public int between(final int a, final int b) {
-			return a + random((b - a) - 1) + 1;
+			return a + random(b - a);
 		}
 
 		@Override
