@@ -30,12 +30,27 @@ import com.laamella.amazing.mazemodel.graph.Graph;
  * <p>
  * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
  * description</a>
+ * <h2>According to <a href="http://forums.xkcd.com/viewtopic.php?f=12&t=34293">xkcd forum</a></h2>
+ * <p>
+ * Pick any node, and set it as the "tree so far."
+ * <ol>
+ * <li>Pick a node not in the "tree so far" uniformly at random to be the
+ * current node. Call it the "start node."
+ * <li>Pick a neighbor of the current node uniformly at random.
+ * <li>Mark the "out edge" of the current node as pointing to the neighbor.
+ * <li>Set the neighbor as the current node and go to step 2, unless the
+ * neighbor is a part of the "tree so far," in which case, go to step 5.
+ * <li>Starting at the "start node," follow the "out edges," adding each in turn
+ * to the "tree so far."
+ * <li>If the "tree so far" contains n-1 edges, halt, else go back to step 1.
+ * </ol>
+
  */
 public class WilsonMazeGenerator implements GraphMazeGenerator {
 
 	@Override
 	public void generateMaze(final Graph graph) {
-		// TODO Auto-generated method stub
+		// TODO create Wilson algorithm
 
 	}
 }

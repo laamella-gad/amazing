@@ -35,6 +35,7 @@ import com.laamella.amazing.mazemodel.graph.*;
  * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
  * description</a>
  */
+// TODO there's a variant that puts the edges on the frontier
 public class PrimMazeGenerator implements GraphMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(PrimMazeGenerator.class);
 

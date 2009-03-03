@@ -2,7 +2,6 @@ package com.laamella.amazing.generators.daedalus;
 
 import com.laamella.amazing.generators.GraphMazeGenerator;
 import com.laamella.amazing.mazemodel.graph.Graph;
-import com.laamella.amazing.mazemodel.graph.Vertex;
 
 /**
  * This algorithm is nice because it requires no extra storage or stack, and is
@@ -31,7 +30,7 @@ public class HuntAndKillMazeGenerator implements GraphMazeGenerator {
 
 	@Override
 	public void generateMaze(final Graph graph) {
-		// TODO Auto-generated method stub
+		// TODO Hunt and kill algorithm
 
 	}
 }

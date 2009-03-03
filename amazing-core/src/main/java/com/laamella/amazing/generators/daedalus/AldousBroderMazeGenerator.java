@@ -1,13 +1,14 @@
 package com.laamella.amazing.generators.daedalus;
 
-import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.generators.GridMazeGenerator;
+import com.laamella.amazing.generators.GraphMazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.mazemodel.orthogonal.*;
+import com.laamella.amazing.mazemodel.MazeDefinitionState;
+import com.laamella.amazing.mazemodel.graph.*;
 
 /**
  * The interesting thing about this algorithm is it generates all possible Mazes
@@ -17,6 +18,16 @@ import com.laamella.amazing.mazemodel.orthogonal.*;
  * Pick a point, and move to a neighboring cell at random. If an uncarved cell
  * is entered, carve into it from the previous cell. Keep moving to neighboring
  * cells until all cells have been carved into.
+ * 
+ * <p>
+ * Start at any node.
+ * <ol>
+ * <li>If all nodes have been visited, halt.
+ * <li>Choose a neighbor of the current node uniformly at random.
+ * <li>If the node has never been visited before, add the edge to that node to
+ * the spanning tree.
+ * <li>Make the neighbor the current node and go back to step 1.
+ * </ol>
  * <p>
  * This algorithm yields Mazes with a low "river" factor, only slightly higher
  * than Kruskal's algorithm. (This means for a given size there are more Mazes
@@ -40,50 +51,32 @@ import com.laamella.amazing.mazemodel.orthogonal.*;
  * <a href="http://forums.xkcd.com/viewtopic.php?f=12&t=34293">Quick description
  * on the XKCD forums</a>
  */
-// TODO probably not implemented correctly
-public class AldousBroderMazeGenerator implements GridMazeGenerator {
+public class AldousBroderMazeGenerator implements GraphMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(AldousBroderMazeGenerator.class);
 
-	private final Randomizer randomGenerator;
+	private final Randomizer randomizer;
 
 	public AldousBroderMazeGenerator(final Randomizer randomGenerator) {
-		this.randomGenerator = randomGenerator;
+		this.randomizer = randomGenerator;
 	}
 
 	@Override
-	public void generateMaze(final Grid pureGrid) {
-		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(pureGrid);
+	public void generateMaze(Graph graph) {
+		log.entry("generateMaze()");
+		final Set<Vertex> visitedVertices = new HashSet<Vertex>();
+		Vertex currentVertex = new Graph.UtilityWrapper(graph).getEntrance();
+		visitedVertices.add(currentVertex);
 
-		grid.closeAllWalls();
-
-		final Square entrance = grid.getTopLeftSquare();
-		entrance.setState(ENTRANCE, true);
-		entrance.getWall(LEFT).open();
-		entrance.setState(VISITED_WHILE_GENERATING, true);
-
-		final Square exit = grid.getBottomRightSquare();
-		exit.setState(EXIT, true);
-
-		for (int i = 1; i < grid.getSize().area; i++) {
-			log.debug("Cell " + i + " of " + grid.getSize().area);
-			boolean carvedACell = false;
-			while (!carvedACell) {
-				final Square sourceSquare = grid.randomSquare(randomGenerator);
-				if (sourceSquare.hasState(VISITED_WHILE_GENERATING)) {
-					final Direction carveDirection = Direction.random(randomGenerator);
-					final Square destinationSquare = sourceSquare.getSquare(carveDirection);
-					if (sourceSquare.getPosition().x == 0) {
-						log.debug("Trying " + sourceSquare.getPosition() + " " + carveDirection.name());
-					}
-					if (destinationSquare != null) {
-						if (!destinationSquare.hasState(VISITED_WHILE_GENERATING)) {
-							sourceSquare.getWall(carveDirection).open();
-							destinationSquare.setState(VISITED_WHILE_GENERATING, true);
-							carvedACell = true;
-						}
-					}
-				}
+		while (visitedVertices.size() < graph.getVertices().size()) {
+			final Edge randomEdge = randomizer.pickOne(currentVertex.getEdges());
+			final Vertex randomVertex = randomEdge.travel(currentVertex);
+			if (!visitedVertices.contains(randomVertex)) {
+				randomEdge.setState(MazeDefinitionState.PASSAGE, true);
+				visitedVertices.add(randomVertex);
 			}
+			currentVertex = randomVertex;
 		}
+
+		log.exit("generateMaze()");
 	}
 }

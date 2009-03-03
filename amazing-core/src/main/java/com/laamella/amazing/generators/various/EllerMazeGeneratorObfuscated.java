@@ -10,7 +10,7 @@ public class EllerMazeGeneratorObfuscated implements RowMazeGenerator {
 
 	@Override
 	public void generateMaze(RowGenerator row) {
-		// TODO Auto-generated method stub
+		// TODO Eller obfuscated
 		
 	}
 

@@ -26,7 +26,7 @@ public class GrowingTreeMazeGenerator implements GraphMazeGenerator {
 
 	@Override
 	public void generateMaze(final Graph graph) {
-		// TODO Auto-generated method stub
+		// TODO Growing tree algorithm
 		
 	}
 

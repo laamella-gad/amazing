@@ -13,6 +13,6 @@ public class MooreCurveProgram implements LogoProgram {
 
 	@Override
 	public void run(Turtle turtle) {
-		// TODO create
+		// TODO create Moore curve algorithm
 	}
 }

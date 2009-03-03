@@ -5,7 +5,6 @@ import java.util.*;
 /**
  * A state of anything in the maze. Used by generators.
  */
-// TODO think about 
 public interface State {
 	boolean hasState(Object state);
 
