@@ -108,8 +108,6 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
 		final int[] left = new int[width + 1];
 		final int[] right = new int[width + 1];
 
-		grid.closeAllWalls();
-
 		log.debug("Top entrance");
 		grid.getSquare(new Position(random(width), 0)).getWall(UP).open();
 

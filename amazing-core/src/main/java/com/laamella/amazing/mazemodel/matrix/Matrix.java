@@ -1,7 +1,5 @@
 package com.laamella.amazing.mazemodel.matrix;
 
-import java.util.Observable;
-
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 

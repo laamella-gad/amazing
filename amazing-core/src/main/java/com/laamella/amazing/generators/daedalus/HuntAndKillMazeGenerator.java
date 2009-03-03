@@ -1,7 +1,11 @@
 package com.laamella.amazing.generators.daedalus;
 
-import com.laamella.amazing.generators.GraphMazeGenerator;
+import com.laamella.amazing.generators.GridMazeGenerator;
+import com.laamella.amazing.generators.Randomizer;
+import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.graph.Graph;
+import com.laamella.amazing.mazemodel.orthogonal.Grid;
+import com.laamella.amazing.mazemodel.orthogonal.Square;
 
 /**
  * This algorithm is nice because it requires no extra storage or stack, and is
@@ -26,11 +30,46 @@ import com.laamella.amazing.mazemodel.graph.Graph;
  * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
  * description</a>
  */
-public class HuntAndKillMazeGenerator implements GraphMazeGenerator {
+public class HuntAndKillMazeGenerator implements GridMazeGenerator {
+
+	private final Randomizer randomizer;
+	private final Hunter hunter;
+
+	public HuntAndKillMazeGenerator(final Randomizer randomizer, final Hunter hunter) {
+		this.randomizer = randomizer;
+		this.hunter = hunter;
+	}
 
 	@Override
-	public void generateMaze(final Graph graph) {
-		// TODO Hunt and kill algorithm
+	public void generateMaze(Grid grid) {
+		// TODO Auto-generated method stub
 
 	}
+
+	/**
+	 * Interface for hunt algorithms.
+	 */
+	public static interface Hunter {
+		Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare);
+
+		/**
+		 * Scans the grid from left to right, top to bottom, for an unmade square.
+		 */
+		public static class ReadingDirectionHunter implements Hunter {
+			@Override
+			public Square huntForUnmadeSquare(Grid grid, Square lastMadeSquare) {
+				return new Grid.UtilityWrapper(grid).forAllSquares(new Grid.UtilityWrapper.SquareVisitor<Square>() {
+					@Override
+					public Square visitSquare(Position position, Square square) {
+						if (!square.hasState(VISITED_WHILE_GENERATING)) {
+							return square;
+						}
+						return null;
+					}
+				});
+			}
+
+		}
+	}
+
 }

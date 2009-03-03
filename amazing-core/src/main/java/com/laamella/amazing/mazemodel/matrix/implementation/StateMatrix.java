@@ -1,8 +1,5 @@
 package com.laamella.amazing.mazemodel.matrix.implementation;
 
-import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
-import static com.laamella.amazing.solvers.Solver.*;
-
 import java.util.Observable;
 import java.util.Observer;
 
@@ -10,7 +7,6 @@ import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.Size;
 import com.laamella.amazing.mazemodel.State.ObservableObjectSetState;
 import com.laamella.amazing.mazemodel.matrix.Matrix;
-import com.laamella.amazing.mazemodel.matrix.Matrix.UtilityWrapper.MatrixVisitor;
 
 public class StateMatrix extends Observable implements Observer, Matrix<ObservableObjectSetState> {
 	private final ListMatrix<ObservableObjectSetState> matrix;

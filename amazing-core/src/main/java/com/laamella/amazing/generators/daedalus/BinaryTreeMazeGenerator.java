@@ -49,10 +49,8 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 		log.entry("generateMaze");
 		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
 
-		grid.closeAllWalls();
-
-		grid.forAllSquares(new Grid.UtilityWrapper.SquareVisitor() {
-			public void visitSquare(Position position, Square square) {
+		grid.forAllSquares(new Grid.UtilityWrapper.SquareVisitor<Void>() {
+			public Void visitSquare(Position position, Square square) {
 				if (grid.isBorderSquare(LEFT, position)) {
 					if (grid.isBorderSquare(UP, position)) {
 						log.ludicrous("Create upper left entrance");
@@ -61,12 +59,12 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 						// Open the whole left column vertically
 						square.getWall(UP).open();
 					}
-					return;
+					return null;
 				}
 				if (grid.isBorderSquare(UP, position)) {
 					// Open the whole top row horizontally
 					square.getWall(LEFT).open();
-					return;
+					return null;
 				}
 				// Pick either left or up
 				if (randomGenerator.chance(0.5)) {
@@ -74,6 +72,7 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 				} else {
 					square.getWall(UP).open();
 				}
+				return null;
 			}
 		});
 

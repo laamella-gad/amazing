@@ -27,41 +27,47 @@ public interface Grid extends Graph {
 		@Deprecated
 		public void closeAllWalls() {
 			log.entry("closeAllWalls");
-			forAllSquares(new SquareVisitor() {
-				public void visitSquare(Position position, Square square) {
+			forAllSquares(new SquareVisitor<Void>() {
+				public Void visitSquare(Position position, Square square) {
 					square.getWall(Direction.UP).close();
 					square.getWall(Direction.RIGHT).close();
 					square.getWall(Direction.DOWN).close();
 					square.getWall(Direction.LEFT).close();
+					return null;
 				}
 			});
 			log.exit("closeAllWalls");
 		}
 
 		public void openAllWalls() {
-			log.entry("closeAllWalls");
-			forAllSquares(new SquareVisitor() {
-				public void visitSquare(Position position, Square square) {
+			log.entry("openAllWalls");
+			forAllSquares(new SquareVisitor<Void>() {
+				public Void visitSquare(Position position, Square square) {
 					square.getWall(Direction.UP).open();
 					square.getWall(Direction.RIGHT).open();
 					square.getWall(Direction.DOWN).open();
 					square.getWall(Direction.LEFT).open();
+					return null;
 				}
 			});
-			log.exit("closeAllWalls");
+			log.exit("openAllWalls");
 		}
 
-		public static interface SquareVisitor {
-			void visitSquare(Position position, Square square);
+		public static interface SquareVisitor<T> {
+			T visitSquare(Position position, Square square);
 		}
 
-		public void forAllSquares(final SquareVisitor visitor) {
+		public <T> T forAllSquares(final SquareVisitor<T> visitor) {
 			for (int y = 0; y < delegateGrid.getSize().height; y++) {
 				for (int x = 0; x < delegateGrid.getSize().width; x++) {
 					final Position position = new Position(x, y);
-					visitor.visitSquare(position, delegateGrid.getSquare(position));
+					T t = visitor.visitSquare(position, delegateGrid.getSquare(position));
+					if (t != null) {
+						return t;
+					}
 				}
 			}
+			return null;
 		}
 
 		public boolean isBorderSquare(Position position) {

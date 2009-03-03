@@ -18,12 +18,10 @@ import com.laamella.amazing.generators.spacefillingcurve.program.PeanoCurveProgr
 import com.laamella.amazing.generators.various.EllerMazeGeneratorC64;
 import com.laamella.amazing.generators.various.RecursiveDivisionMazeGenerator;
 import com.laamella.amazing.mazemodel.*;
-import com.laamella.amazing.mazemodel.graph.Graph;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
-import com.laamella.amazing.mazemodel.orthogonal.Direction;
+import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
 import com.laamella.amazing.mazemodel.orthogonal.Grid;
 import com.laamella.amazing.mazemodel.orthogonal.implementation.*;
-import com.laamella.amazing.solvers.RecursiveBacktrackerSolver;
 
 public class MazeGeneratorTester {
 	private static final SimpleLogger log = new SimpleLogger(MazeGeneratorTester.class);
@@ -126,7 +124,7 @@ public class MazeGeneratorTester {
 
 	@Test
 	public void testWallSetup() {
-		assertTrue(grid.getSquare(new Position(1, 1)).getWall(Direction.RIGHT) == grid.getSquare(new Position(2, 1)).getWall(Direction.LEFT));
+		assertTrue(grid.getSquare(new Position(1, 1)).getWall(RIGHT) == grid.getSquare(new Position(2, 1)).getWall(LEFT));
 	}
 
 	@Test
