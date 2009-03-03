@@ -1,6 +1,6 @@
 package com.laamella.amazing.generators.daedalus;
 
-import java.util.List;
+import java.util.*;
 
 import com.laamella.amazing.generators.*;
 import com.laamella.amazing.mazemodel.MazeDefinitionState;
@@ -50,27 +50,27 @@ public class SideWinderMazeGenerator implements RowMazeGenerator {
 	}
 
 	private void generateRow(final List<Square> row) {
-		int lastWallX = 0;
-		for (int x = 0; x < row.size() - 1; x++) {
-			if (randomizer.chance(0.5)) {
-				row.get(x).getWall(Direction.RIGHT).open();
+		final Set<Square> currentRun = new HashSet<Square>();
+		for (final Square square : row) {
+			currentRun.add(square);
+			if (thereIsASquareToTheRight(square) && randomizer.chance(0.5)) {
+				square.getWall(Direction.RIGHT).open();
 			} else {
-				lastWallX = pickAnUpExit(row, lastWallX, x);
+				randomizer.pickOne(currentRun).getWall(Direction.UP).open();
+				currentRun.clear();
 			}
 		}
-		pickAnUpExit(row, lastWallX, row.size()-1);
 	}
 
-	private int pickAnUpExit(final List<Square> row, int lastWallX, int x) {
-		final int upX = randomizer.random(x - lastWallX + 1) + lastWallX;
-		row.get(upX).getWall(Direction.UP).open();
-		lastWallX = x + 1;
-		return lastWallX;
+	private boolean thereIsASquareToTheRight(final Square square) {
+		return square.getSquare(Direction.RIGHT) != null;
 	}
 
 	private void generateFirstRow(final List<Square> row) {
-		for (int x = 0; x < row.size() - 1; x++) {
-			row.get(x).getWall(Direction.RIGHT).open();
+		for (final Square square : row) {
+			if (thereIsASquareToTheRight(square)) {
+				square.getWall(Direction.RIGHT).open();
+			}
 		}
 		final Square startSquare = row.get(randomizer.random(row.size()));
 		startSquare.getWall(Direction.UP).open();
