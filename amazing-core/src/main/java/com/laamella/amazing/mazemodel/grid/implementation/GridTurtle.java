@@ -1,10 +1,10 @@
-package com.laamella.amazing.mazemodel.orthogonal.implementation;
+package com.laamella.amazing.mazemodel.grid.implementation;
 
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.mazemodel.Turtle;
-import com.laamella.amazing.mazemodel.orthogonal.Direction;
-import com.laamella.amazing.mazemodel.orthogonal.Square;
+import com.laamella.amazing.mazemodel.grid.Direction;
+import com.laamella.amazing.mazemodel.grid.Square;
 
 public class GridTurtle implements Turtle {
 	private static final SimpleLogger log = new SimpleLogger(GridTurtle.class);

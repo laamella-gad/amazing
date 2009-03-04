@@ -5,8 +5,8 @@ import org.grlea.log.SimpleLogger;
 import com.laamella.amazing.generators.GridMazeGenerator;
 import com.laamella.amazing.mazemodel.MazeDefinitionState;
 import com.laamella.amazing.mazemodel.Turtle;
-import com.laamella.amazing.mazemodel.orthogonal.*;
-import com.laamella.amazing.mazemodel.orthogonal.implementation.GridTurtle;
+import com.laamella.amazing.mazemodel.grid.*;
+import com.laamella.amazing.mazemodel.grid.implementation.GridTurtle;
 
 /**
  * 

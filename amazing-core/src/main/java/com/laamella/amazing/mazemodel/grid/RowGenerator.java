@@ -1,4 +1,4 @@
-package com.laamella.amazing.mazemodel.orthogonal;
+package com.laamella.amazing.mazemodel.grid;
 
 import java.util.List;
 

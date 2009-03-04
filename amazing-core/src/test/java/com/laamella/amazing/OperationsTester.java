@@ -12,10 +12,10 @@ import org.junit.Test;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.generators.daedalus.PrimMazeGenerator;
 import com.laamella.amazing.mazemodel.*;
+import com.laamella.amazing.mazemodel.grid.Grid;
+import com.laamella.amazing.mazemodel.grid.implementation.GridMatrixStorage;
+import com.laamella.amazing.mazemodel.grid.implementation.GridWithDecoupledState;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
-import com.laamella.amazing.mazemodel.orthogonal.Grid;
-import com.laamella.amazing.mazemodel.orthogonal.implementation.GridMatrixStorage;
-import com.laamella.amazing.mazemodel.orthogonal.implementation.GridWithDecoupledState;
 import com.laamella.amazing.operations.MostDistantExitMarkOperation;
 import com.laamella.amazing.operations.VertexDistanceMarkingOperation;
 

@@ -1,4 +1,4 @@
-package com.laamella.amazing.mazemodel.orthogonal.implementation;
+package com.laamella.amazing.mazemodel.grid.implementation;
 
 import static com.laamella.amazing.mazemodel.MazeDefinitionState.PASSAGE;
 

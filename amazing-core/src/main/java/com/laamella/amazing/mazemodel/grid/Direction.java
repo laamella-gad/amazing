@@ -1,8 +1,8 @@
-package com.laamella.amazing.mazemodel.orthogonal;
+package com.laamella.amazing.mazemodel.grid;
 
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.orthogonal.implementation.DirectionMap;
+import com.laamella.amazing.mazemodel.grid.implementation.DirectionMap;
 
 // TODO represent directions as state in degrees on the graph edges.
 public enum Direction {

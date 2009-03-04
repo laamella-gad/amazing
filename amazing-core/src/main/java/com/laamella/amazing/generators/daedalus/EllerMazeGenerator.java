@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.laamella.amazing.generators.*;
 import com.laamella.amazing.mazemodel.MazeDefinitionState;
-import com.laamella.amazing.mazemodel.orthogonal.*;
+import com.laamella.amazing.mazemodel.grid.*;
 
 /**
  * This algorithm is special because it's not only faster than all the others,

@@ -1,6 +1,6 @@
-package com.laamella.amazing.mazemodel.orthogonal.implementation;
+package com.laamella.amazing.mazemodel.grid.implementation;
 
-import com.laamella.amazing.mazemodel.orthogonal.Direction;
+import com.laamella.amazing.mazemodel.grid.Direction;
 
 public class DirectionMap<T> {
 	public T left;

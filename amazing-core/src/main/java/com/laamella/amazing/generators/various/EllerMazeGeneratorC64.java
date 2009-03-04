@@ -1,13 +1,13 @@
 package com.laamella.amazing.generators.various;
 
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
+import static com.laamella.amazing.mazemodel.grid.Direction.*;
 
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.GridMazeGenerator;
 import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.orthogonal.Grid;
-import com.laamella.amazing.mazemodel.orthogonal.Square;
+import com.laamella.amazing.mazemodel.grid.Grid;
+import com.laamella.amazing.mazemodel.grid.Square;
 
 /**
  * Converted from a BASIC type in listing, found in a magazine somewhere in the

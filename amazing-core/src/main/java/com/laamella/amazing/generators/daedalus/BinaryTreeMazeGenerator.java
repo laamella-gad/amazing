@@ -1,16 +1,14 @@
 package com.laamella.amazing.generators.daedalus;
 
 import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.LEFT;
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.RIGHT;
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.UP;
+import static com.laamella.amazing.mazemodel.grid.Direction.*;
 
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.*;
 import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.orthogonal.Grid;
-import com.laamella.amazing.mazemodel.orthogonal.Square;
+import com.laamella.amazing.mazemodel.grid.Grid;
+import com.laamella.amazing.mazemodel.grid.Square;
 
 /**
  * This is basically the simplest and fastest algorithm possible, however Mazes

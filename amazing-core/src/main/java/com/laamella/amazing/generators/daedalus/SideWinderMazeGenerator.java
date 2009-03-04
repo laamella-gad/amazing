@@ -4,7 +4,7 @@ import java.util.*;
 
 import com.laamella.amazing.generators.*;
 import com.laamella.amazing.mazemodel.MazeDefinitionState;
-import com.laamella.amazing.mazemodel.orthogonal.*;
+import com.laamella.amazing.mazemodel.grid.*;
 
 /**
  * This simple algorithm is very similar to the binary tree algorithm, and only

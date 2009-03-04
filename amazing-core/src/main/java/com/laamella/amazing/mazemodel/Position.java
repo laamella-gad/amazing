@@ -16,12 +16,16 @@ public class Position {
 		return new Position(x + dx, y + dy);
 	}
 
-	public Position move(Position position) {
+	public Position move(final Position position) {
 		return new Position(x + position.x, y + position.y);
 	}
 
-	public Position scale(int multiplier) {
+	public Position scale(final int multiplier) {
 		return new Position(x * multiplier, y * multiplier);
+	}
+
+	public boolean isInside(final Size size) {
+		return x >= 0 && y >= 0 && x < size.width && y < size.height;
 	}
 
 	@Override

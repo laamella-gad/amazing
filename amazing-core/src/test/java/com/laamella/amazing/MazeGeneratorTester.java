@@ -1,5 +1,6 @@
 package com.laamella.amazing;
 
+import static com.laamella.amazing.mazemodel.grid.Direction.*;
 import static org.junit.Assert.*;
 
 import java.util.Observable;
@@ -11,6 +12,7 @@ import org.junit.Test;
 
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.generators.daedalus.*;
+import com.laamella.amazing.generators.original.RecursiveBacktrackerMazeGeneratorForMatrices;
 import com.laamella.amazing.generators.spacefillingcurve.LogoProgram;
 import com.laamella.amazing.generators.spacefillingcurve.SpaceFillingCurveMazeGenerator;
 import com.laamella.amazing.generators.spacefillingcurve.program.HilbertCurveProgram;
@@ -18,10 +20,9 @@ import com.laamella.amazing.generators.spacefillingcurve.program.PeanoCurveProgr
 import com.laamella.amazing.generators.various.EllerMazeGeneratorC64;
 import com.laamella.amazing.generators.various.RecursiveDivisionMazeGenerator;
 import com.laamella.amazing.mazemodel.*;
+import com.laamella.amazing.mazemodel.grid.Grid;
+import com.laamella.amazing.mazemodel.grid.implementation.*;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
-import static com.laamella.amazing.mazemodel.orthogonal.Direction.*;
-import com.laamella.amazing.mazemodel.orthogonal.Grid;
-import com.laamella.amazing.mazemodel.orthogonal.implementation.*;
 
 public class MazeGeneratorTester {
 	private static final SimpleLogger log = new SimpleLogger(MazeGeneratorTester.class);
@@ -32,7 +33,19 @@ public class MazeGeneratorTester {
 
 	private Randomizer.Default randomGenerator;
 
-	private final StateMatrixPrettyPrinter prettyPrinter = new StateMatrixPrettyPrinter();
+	private static final class PrettyPrintObserver implements Observer {
+		private final StateMatrixPrettyPrinter prettyPrinter = new StateMatrixPrettyPrinter();
+		private final StateMatrix matrix;
+
+		public PrettyPrintObserver(StateMatrix observableMatrix){
+			this.matrix=observableMatrix;
+		}
+		public void update(Observable o, Object arg) {
+			log.debug(prettyPrinter.getPrintableMaze(matrix));
+		}
+	};
+	
+	
 
 	@Before
 	public void before() {
@@ -41,11 +54,7 @@ public class MazeGeneratorTester {
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
 		randomGenerator = new Randomizer.Default();
 
-		mazeMatrix.addObserver(new Observer() {
-			public void update(Observable o, Object arg) {
-				log.debug(prettyPrinter.getPrintableMaze(mazeMatrix));
-			}
-		});
+		mazeMatrix.addObserver(new PrettyPrintObserver(mazeMatrix));
 
 	}
 
@@ -66,17 +75,14 @@ public class MazeGeneratorTester {
 		final AldousBroderMazeGenerator mazeGenerator = new AldousBroderMazeGenerator(randomGenerator);
 		grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
 		mazeGenerator.generateMaze(grid);
-//		assertTrue(new RecursiveBacktrackerSolver().solve(new Graph.UtilityWrapper(grid).getEntrance()));
+		// assertTrue(new RecursiveBacktrackerSolver().solve(new
+		// Graph.UtilityWrapper(grid).getEntrance()));
 	}
 
 	@Test
 	public void testRecursiveDivisionMazeGenerator() {
 		final RecursiveDivisionMazeGenerator mazeGenerator = new RecursiveDivisionMazeGenerator(randomGenerator);
-		mazeGenerator.addObserver(new Observer() {
-			public void update(Observable o, Object arg) {
-				log.debug(prettyPrinter.getPrintableMaze(mazeMatrix));
-			}
-		});
+		mazeGenerator.addObserver(new PrettyPrintObserver(mazeMatrix));
 		mazeMatrix.deleteObservers();
 		mazeGenerator.generateMaze(grid);
 	}
@@ -86,6 +92,15 @@ public class MazeGeneratorTester {
 		final RecursiveBacktrackerMazeGenerator mazeGenerator = new RecursiveBacktrackerMazeGenerator(randomGenerator);
 		grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
 		mazeGenerator.generateMaze(grid);
+	}
+
+	@Test
+	public void testMatrixRecursiveBacktrackerMazeGenerator() {
+		final RecursiveBacktrackerMazeGeneratorForMatrices mazeGenerator = new RecursiveBacktrackerMazeGeneratorForMatrices(randomGenerator);
+		// grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
+		final StateMatrix stateMatrix = new StateMatrix(new Size(20, 10));
+		stateMatrix.addObserver(new PrettyPrintObserver(stateMatrix));
+		mazeGenerator.generateMaze(stateMatrix);
 	}
 
 	@Test

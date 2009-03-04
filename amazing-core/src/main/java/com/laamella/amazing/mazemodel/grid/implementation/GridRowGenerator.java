@@ -1,10 +1,10 @@
-package com.laamella.amazing.mazemodel.orthogonal.implementation;
+package com.laamella.amazing.mazemodel.grid.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.orthogonal.*;
+import com.laamella.amazing.mazemodel.grid.*;
 
 /**
  * 

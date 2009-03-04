@@ -7,7 +7,7 @@ import org.grlea.log.SimpleLogger;
 import com.laamella.amazing.generators.GridMazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.orthogonal.Grid;
+import com.laamella.amazing.mazemodel.grid.Grid;
 
 /**
  * Another simple algorithm for rectangular mazes, recursive division, works as

@@ -4,8 +4,8 @@ import com.laamella.amazing.generators.GridMazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.Position;
 import com.laamella.amazing.mazemodel.graph.Graph;
-import com.laamella.amazing.mazemodel.orthogonal.Grid;
-import com.laamella.amazing.mazemodel.orthogonal.Square;
+import com.laamella.amazing.mazemodel.grid.Grid;
+import com.laamella.amazing.mazemodel.grid.Square;
 
 /**
  * This algorithm is nice because it requires no extra storage or stack, and is
