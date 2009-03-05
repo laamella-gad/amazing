@@ -24,6 +24,10 @@ public class Position {
 		return new Position(x * multiplier, y * multiplier);
 	}
 
+	public Position negate() {
+		return new Position(-x, -y);
+	}
+
 	public boolean isInside(final Size size) {
 		return x >= 0 && y >= 0 && x < size.width && y < size.height;
 	}

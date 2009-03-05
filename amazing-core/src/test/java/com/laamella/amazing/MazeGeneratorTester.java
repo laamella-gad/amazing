@@ -17,8 +17,7 @@ import com.laamella.amazing.generators.spacefillingcurve.LogoProgram;
 import com.laamella.amazing.generators.spacefillingcurve.SpaceFillingCurveMazeGenerator;
 import com.laamella.amazing.generators.spacefillingcurve.program.HilbertCurveProgram;
 import com.laamella.amazing.generators.spacefillingcurve.program.PeanoCurveProgram;
-import com.laamella.amazing.generators.various.EllerMazeGeneratorC64;
-import com.laamella.amazing.generators.various.RecursiveDivisionMazeGenerator;
+import com.laamella.amazing.generators.various.*;
 import com.laamella.amazing.mazemodel.*;
 import com.laamella.amazing.mazemodel.grid.Grid;
 import com.laamella.amazing.mazemodel.grid.implementation.*;
@@ -97,7 +96,14 @@ public class MazeGeneratorTester {
 	@Test
 	public void testMatrixRecursiveBacktrackerMazeGenerator() {
 		final RecursiveBacktrackerMazeGeneratorForMatrices mazeGenerator = new RecursiveBacktrackerMazeGeneratorForMatrices(randomGenerator);
-		// grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
+		final StateMatrix stateMatrix = new StateMatrix(new Size(20, 10));
+		stateMatrix.addObserver(new PrettyPrintObserver(stateMatrix));
+		mazeGenerator.generateMaze(stateMatrix);
+	}
+
+	@Test
+	public void testRysgaardMazeGenerator() {
+		final RysgaardMazeGenerator mazeGenerator = new RysgaardMazeGenerator(randomGenerator);
 		final StateMatrix stateMatrix = new StateMatrix(new Size(20, 10));
 		stateMatrix.addObserver(new PrettyPrintObserver(stateMatrix));
 		mazeGenerator.generateMaze(stateMatrix);
