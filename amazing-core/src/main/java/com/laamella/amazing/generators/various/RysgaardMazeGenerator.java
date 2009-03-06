@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.MazeGeneratorTester;
 import com.laamella.amazing.generators.MatrixMazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.MazeDefinitionState;
@@ -13,12 +12,18 @@ import com.laamella.amazing.mazemodel.grid.Direction;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 
 /**
- * <a href="http://www.glimt.dk/code/labyrinth.htm">A nice algorithm</a>
+ * <a href="http://www.glimt.dk/code/labyrinth.htm">An algorithm by some guy.</a>
  */
 public class RysgaardMazeGenerator implements MatrixMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(RysgaardMazeGenerator.class);
 
 	private final Randomizer randomizer;
+
+	private static final List<Position> EIGHT_OFFSETS_AROUND_CELL = Arrays.asList(//
+			new Position(-1, -1), new Position(0, -1), new Position(1, -1), //
+			new Position(-1, 0), new Position(1, 0), //
+			new Position(-1, 1), new Position(0, 1), new Position(1, 1)//
+			);
 
 	public RysgaardMazeGenerator(final Randomizer randomizer) {
 		this.randomizer = randomizer;
@@ -56,88 +61,25 @@ public class RysgaardMazeGenerator implements MatrixMazeGenerator {
 	}
 
 	private void addNewCellPositions(final StateMatrix matrix, final Set<Position> possiblePositions, final Position currentPosition) {
-		for (final Position offset : EIGHT_OFFSETS_AROUND_CELL) {
-			final Position position = currentPosition.move(offset);
-			if (position.isInside(matrix.getSize())) {
-				if (!matrix.get(position).hasState(MazeDefinitionState.PASSAGE)) {
-					check(possiblePositions, matrix, position);
+		for (final Direction direction : Direction.values()) {
+			checkOffset(possiblePositions, matrix, currentPosition, direction.getMove());
+		}
+	}
+
+	/**
+	 * Check a 2x3 or 3x2 area in the specified direction for any non-walls
+	 */
+	private void checkOffset(final Set<Position> possiblePositions, final StateMatrix matrix, final Position positionToCheck, final Position direction) {
+		final Position neighbour = positionToCheck.move(direction);
+		if (isWall(matrix, neighbour) && isWall(matrix, neighbour.move(direction.negate().switchXY())) && isWall(matrix, neighbour.move(direction.switchXY()))) {
+			final Position neighbourOfNeighbour = neighbour.move(direction);
+			if (isWall(matrix, neighbourOfNeighbour) && isWall(matrix, neighbourOfNeighbour.move(direction.switchXY().negate()))
+					&& isWall(matrix, neighbourOfNeighbour.move(direction.switchXY()))) {
+				if (!possiblePositions.contains(neighbour)) {
+					possiblePositions.add(neighbour);
 				}
 			}
 		}
-	}
-
-	private void check(final Set<Position> possiblePositions, final StateMatrix matrix, final Position position) {
-		for (final Direction direction : Direction.values()) {
-			checkOffset(possiblePositions, matrix, position, direction.getMove());
-		}
-	}
-
-	private void checkOffset(final Set<Position> possiblePositions, final StateMatrix matrix, final Position positionToCheck, final Position offset) {
-		// Private Sub Generate_CheckOffset(X As Long, Y As Long, dx As Long, dy
-		// As Long)
-		// Dim IsValid As Boolean
-		// Dim tmpx As Long, tmpy As Long
-		//		  
-		// ' check for coordinates on boundaries
-		// If X >= Width Or X <= 1 Or Y >= Height Or Y <= 1 Then Exit Sub
-		//		  
-		// ' check if cell + offset is still within labyrinth boundaries
-		// If Not IsCoordinateValid(X + dx, Y + dy) Then Exit Sub
-		//		  
-		// ' make backup of original coordinates
-		// tmpx = X
-		// tmpy = Y
-		//		  
-		// ' check neighbour cell vertical or horisontal
-		final Position neighbour = positionToCheck.move(offset);
-		boolean isValid = isWall(matrix, neighbour) && isWall(matrix, neighbour.move(offset.negate())) && isWall(matrix, neighbour.move(offset));
-		// tmpy = tmpy + dy
-		// tmpx = tmpx + dx
-		// IsValid = Cell(tmpx, tmpy) = CC_WALL And Cell(tmpx - dy, tmpy - dx) =
-		// CC_WALL And Cell(tmpx + dy, tmpy + dx) = CC_WALL
-		if (isValid) {
-		// If Not IsValid Then Exit Sub
-		//		  
-		// If IsCoordinateValid(tmpx + dx, tmpy + dy) Then
-		// ' check neighbours neighbour cell vertical or horisontal
-		// tmpy = tmpy + dy
-		// tmpx = tmpx + dx
-		final Position neighbourOfNeighbour = neighbour.move(offset);
-		isValid = isWall(matrix, neighbourOfNeighbour) && isWall(matrix, neighbourOfNeighbour.move(offset.negate()))
-				&& isWall(matrix, neighbourOfNeighbour.move(offset));
-		// IsValid = Cell(tmpx, tmpy) = CC_WALL And Cell(tmpx - dy, tmpy - dx) =
-		// CC_WALL And Cell(tmpx + dy, tmpy + dx) = CC_WALL
-		// End If
-		//		  
-		// ' add position with offset as a valid position
-		// If IsValid Then
-		// Dim newpos As Long
-		// Dim found As Boolean
-		// Dim key As String
-		// Dim pos As Variant
-		//		    
-		// ' convert coordinates to position and get key
-		// Coord2Pos X + dx, Y + dy, newpos
-		if(isValid){
-		if (!possiblePositions.contains(neighbour)) {
-			possiblePositions.add(neighbour);
-		}
-		}
-		}
-
-		// key = Pos2Key(newpos)
-		//		    
-		// ' check if position already present in collection of positions
-		// On Error Resume Next
-		// pos = colPositions.Item(key)
-		// found = (Err.Number = 0)
-		// On Error GoTo 0
-		//		    
-		// ' add to collection of positions if not already present
-		// If Not found Then colPositions.Add newpos, key
-		// End If
-		// End Sub
-
 	}
 
 	private boolean isWall(final StateMatrix matrix, final Position position) {
@@ -147,12 +89,6 @@ public class RysgaardMazeGenerator implements MatrixMazeGenerator {
 		}
 		return false;
 	}
-
-	private static final List<Position> EIGHT_OFFSETS_AROUND_CELL = Arrays.asList(//
-			new Position(-1, -1), new Position(0, -1), new Position(1, -1), //
-			new Position(-1, 0), new Position(1, 0), //
-			new Position(-1, 1), new Position(0, 1), new Position(1, 1)//
-			);
 
 	private void removeInvalidatedPositions(Set<Position> possiblePositions, Position currentPosition) {
 		for (final Position offset : EIGHT_OFFSETS_AROUND_CELL) {

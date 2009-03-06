@@ -28,6 +28,10 @@ public class Position {
 		return new Position(-x, -y);
 	}
 
+	public Position switchXY() {
+		return new Position(y, x);
+	}
+
 	public boolean isInside(final Size size) {
 		return x >= 0 && y >= 0 && x < size.width && y < size.height;
 	}
@@ -35,5 +39,18 @@ public class Position {
 	@Override
 	public String toString() {
 		return "" + x + "," + y;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Position) {
+			return ((Position) obj).x == x && ((Position) obj).y == y;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return x * 17 + y * 37373737;
 	}
 }
