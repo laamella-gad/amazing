@@ -2,9 +2,6 @@ package com.laamella.amazing;
 
 import static com.laamella.amazing.mazemodel.MazeDefinitionState.*;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import org.grlea.log.SimpleLogger;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +14,7 @@ import com.laamella.amazing.mazemodel.grid.implementation.GridMatrixStorage;
 import com.laamella.amazing.mazemodel.grid.implementation.GridWithDecoupledState;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 import com.laamella.amazing.operations.*;
+import com.laamella.amazing.operations.DistanceFromDeadEndMarker.Result;
 
 public class OperationsTester {
 	private static final SimpleLogger log = new SimpleLogger(OperationsTester.class);
@@ -33,36 +31,32 @@ public class OperationsTester {
 
 	@Before
 	public void before() {
-		mazeStateMatrix = new StateMatrix(new Size(25, 25));
+		mazeStateMatrix = new StateMatrix(new Size(149, 41));
 		stateStorage = new GridMatrixStorage(mazeStateMatrix);
 		grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
 		randomGenerator = new Randomizer.Default();
 		mazeGenerator = new PrimMazeGenerator(randomGenerator);
 		grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
 		mazeGenerator.generateMaze(grid);
-		mazeStateMatrix.addObserver(new Observer() {
-			public void update(Observable o, Object arg) {
-				log.debug(mazeStateMatrix.toString());
-			}
-		});
+		mazeStateMatrix.addObserver(new PrettyPrintObserver(mazeStateMatrix));
 	}
 
 	@Test
 	public void testDistanceMarkingOperation() {
-		new VertexDistanceMarkingOperation().mark(grid.getSquare(new Position(5, 5)));
+		new VertexDistanceMarker().mark(grid.getSquare(new Position(5, 5)));
 
 		final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
-		stateMatrixPrettyPrinter.map(VertexDistanceMarkingOperation.DISTANCE);
+		stateMatrixPrettyPrinter.map(VertexDistanceMarker.DISTANCE);
 		stateMatrixPrettyPrinter.map(PASSAGE, ' ');
 		log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
 	}
 
 	@Test
 	public void testMostDistanceExitMarkingOperation() {
-		new MostDistantExitMarkOperation().findMostDistantExit(grid);
+		new MostDistantExitMarker().findMostDistantExit(grid);
 
 		final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
-		stateMatrixPrettyPrinter.map(VertexDistanceMarkingOperation.DISTANCE);
+		stateMatrixPrettyPrinter.map(VertexDistanceMarker.DISTANCE);
 		stateMatrixPrettyPrinter.map(PASSAGE, ' ');
 		log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
 		log.debug(defaultStateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
@@ -70,17 +64,25 @@ public class OperationsTester {
 
 	@Test
 	public void testDistanceFromDeadEndMarkerOperation() {
-		final DistanceFromDeadEndMarkerOperation longestPathFinderOperation = new DistanceFromDeadEndMarkerOperation();
+		final DistanceFromDeadEndMarker longestPathFinderOperation = new DistanceFromDeadEndMarker();
 
 		final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
-		stateMatrixPrettyPrinter.map(DistanceFromDeadEndMarkerOperation.DISTANCE_FROM_DEAD_END);
+		stateMatrixPrettyPrinter.map(DistanceFromDeadEndMarker.DISTANCE_FROM_DEAD_END);
 		stateMatrixPrettyPrinter.map(PASSAGE, ' ');
 		
 		longestPathFinderOperation.addObserver(new PrettyPrintObserver(mazeStateMatrix, stateMatrixPrettyPrinter));
 
-		longestPathFinderOperation.go(grid);
+		longestPathFinderOperation.execute(grid);
 		
 		log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
+	}
+
+	@Test
+	public void testMostDistantEntranceAndExitFinder() {
+		grid.clearState(ENTRANCE);
+		grid.clearState(EXIT);
+		new DistanceFromDeadEndMarker().execute(grid);
+		new MostDistantEntranceAndExitFinder().execute(grid);
 	}
 
 

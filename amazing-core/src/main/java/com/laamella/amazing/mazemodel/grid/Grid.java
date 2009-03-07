@@ -5,8 +5,7 @@ import java.util.Set;
 import org.grlea.log.SimpleLogger;
 
 import com.laamella.amazing.generators.Randomizer;
-import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.Size;
+import com.laamella.amazing.mazemodel.*;
 import com.laamella.amazing.mazemodel.graph.Edge;
 import com.laamella.amazing.mazemodel.graph.Graph;
 import com.laamella.amazing.mazemodel.graph.Vertex;
@@ -146,6 +145,15 @@ public interface Grid extends Graph {
 		@Override
 		public Set<Vertex> getVertices() {
 			return delegateGrid.getVertices();
+		}
+
+		public void clearState(final Object state) {
+			for (final Edge edge : getEdges()) {
+				edge.setState(state, false);
+			}
+			for (final Vertex vertex : getVertices()) {
+				vertex.setState(state, false);
+			}
 		}
 
 	}

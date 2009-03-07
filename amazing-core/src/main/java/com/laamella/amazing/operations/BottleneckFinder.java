@@ -12,6 +12,6 @@ package com.laamella.amazing.operations;
  * exit within the Maze as a large blind alley). Parts of the solution path that
  * go through sealed off passages, are bottlenecks.
  */
-public class BottleneckFinderOperation {
+public class BottleneckFinder {
 
 }

@@ -13,24 +13,39 @@ import com.laamella.amazing.mazemodel.graph.*;
  * <p>
  * The algorithm will fail when the graph has loops.
  */
-public class DistanceFromDeadEndMarkerOperation extends Observable {
+public class DistanceFromDeadEndMarker extends Observable {
 	public static final Object DISTANCE_FROM_DEAD_END = new Object();
 
-	public void go(final Graph graph) {
+	public static class Result {
+		public final Set<Vertex> unmarkedVertices;
+		public final boolean success;
+
+		private Result(Set<Vertex> unmarkedVertices) {
+			this.unmarkedVertices = unmarkedVertices;
+			this.success = unmarkedVertices.size() == 0;
+		}
+
+	}
+
+	public Result execute(final Graph graph) {
 		final Set<Vertex> unmarkedVertices = new LinkedHashSet<Vertex>(graph.getVertices());
 
 		do {
 			notifyObservers();
 			final Set<Vertex> newlyMarkedVertices = new LinkedHashSet<Vertex>();
 			for (final Vertex currentVertex : unmarkedVertices) {
-				if (countUnmarkedExits(currentVertex) <2) {
+				if (countUnmarkedExits(currentVertex) < 2) {
 					currentVertex.setState(DISTANCE_FROM_DEAD_END, oneHigherThanVerticesAroundMe(currentVertex));
 					newlyMarkedVertices.add(currentVertex);
 					setChanged();
 				}
 			}
 			unmarkedVertices.removeAll(newlyMarkedVertices);
-		} while (hasChanged());
+
+			if (!hasChanged()) {
+				return new Result(unmarkedVertices);
+			}
+		} while (true);
 	}
 
 	private int oneHigherThanVerticesAroundMe(Vertex vertex) {

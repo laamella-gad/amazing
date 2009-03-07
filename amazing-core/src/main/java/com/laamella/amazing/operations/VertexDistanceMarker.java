@@ -8,7 +8,7 @@ import com.laamella.amazing.mazemodel.graph.Vertex;
  * This will mark every vertex in the graph with its distance from the start
  * vertex.
  */
-public class VertexDistanceMarkingOperation {
+public class VertexDistanceMarker {
 	public static final Object DISTANCE = new Object();
 
 	public void mark(final Vertex startVertex) {
