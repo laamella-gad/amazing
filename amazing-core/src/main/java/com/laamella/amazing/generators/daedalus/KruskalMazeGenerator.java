@@ -59,8 +59,8 @@ public class KruskalMazeGenerator implements GraphMazeGenerator {
 			// See in which sets the corresponding vertices are.
 			final Vertex vertexA = edge.getVertexA();
 			final Vertex vertexB = edge.getVertexB();
-			final Set<Vertex> setA = sets.findCorrespondingSet(vertexA);
-			final Set<Vertex> setB = sets.findCorrespondingSet(vertexB);
+			final Set<Vertex> setA = sets.findSetContaining(vertexA);
+			final Set<Vertex> setB = sets.findSetContaining(vertexB);
 
 			// If they are in different sets, we can connect them.
 			if (setA != setB) {

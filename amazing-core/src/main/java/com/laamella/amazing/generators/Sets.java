@@ -50,13 +50,13 @@ public class Sets<T> {
 	 *            the element to look for. It must be in on of the sets.
 	 * @return the set which contains element.
 	 */
-	public Set<T> findCorrespondingSet(final T element) {
+	public Set<T> findSetContaining(final T element) {
 		for (final Set<T> set : sets) {
 			if (set.contains(element)) {
 				return set;
 			}
 		}
-		throw new RuntimeException("Bug in algorithm: element not found in any set, even though it was added previously");
+		throw new RuntimeException("Bug in algorithm: element " + element + " not found in any set, even though it was added previously");
 	}
 
 	/**

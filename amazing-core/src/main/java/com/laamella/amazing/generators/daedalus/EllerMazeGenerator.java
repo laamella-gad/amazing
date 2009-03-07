@@ -39,47 +39,7 @@ import com.laamella.amazing.mazemodel.grid.*;
  * <p>
  * <a href="http://newsgroups.derkeiler.com/Archive/Rec/rec.games.roguelike.development/2005-08/msg00372.html"
  * >Modified Eller's algorithm</a>
- * 
- * <pre>
- * ###1#######
- * #2#1111111# (first level, one disjoint room)
- * 
- * ###1#######
- * #2#1111111#
- * #2#1#######
- * #2#11111#3# (2nd level, a new disjoint room, 2nd set has grown to a
- * 'tower')
- * 
- * ###1#######
- * #2#1111111#
- * #2#1#######
- * #2#11111#3#
- * #2###1#1#3#
- * #222#1#1#3# (3rd level, nothing very new)
- * 
- * ###1#######
- * #2#1111111#
- * #2#1#######
- * #2#11111#1#
- * #2###1#1#1#
- * #222#1#1#1#
- * ###2#1#1#1#
- * #222#1#111# (4th level, 3rd set has joined with the first)
- * 
- * ###1#######
- * #1#1111111#
- * #1#1#######
- * #1#11111#1#
- * #1###1#1#1#
- * #111#1#1#1#
- * ###1#1#1#1#
- * #111#1#111#
- * #1###1###1#
- * #11111#111# (5th and final level, all sets are now joined)
- * ###########
- * </pre>
  */
-// TODO unfinished
 public class EllerMazeGenerator implements RowMazeGenerator {
 	private final Randomizer randomizer;
 
@@ -98,53 +58,68 @@ public class EllerMazeGenerator implements RowMazeGenerator {
 	}
 
 	private void generateLastRow(final List<Square> squares, final Sets<Integer> squareSets) {
-		// remove horizontal walls where squares in different sets
-		// 
+		for (int x = 0; x < squares.size() - 1; x++) {
+			final Square square = squares.get(x);
+			final Set<Integer> thisSet = squareSets.findSetContaining(x);
+			// remove horizontal walls where squares in different sets
+			makeHorizontalPassage(squareSets, x, thisSet, square, true);
+		}
 	}
 
 	private void generateRow(final List<Square> squares, final Sets<Integer> squareSets) {
-		for (int x = 0; x < squares.size() - 1; x++) {
+		for (int x = 0; x < squares.size(); x++) {
 			final Square square = squares.get(x);
-			final Set<Integer> thisSet = squareSets.findCorrespondingSet(x);
-			final Set<Integer> nextSet = squareSets.findCorrespondingSet(x + 1);
-			final Wall rightWall = square.getWall(Direction.RIGHT);
-			final Wall downWall = square.getWall(Direction.DOWN);
-			// Make horizontal passages
-			// Don't connect squares in the same set
-			if (thisSet != nextSet) {
-				// Connect randomly
-				if (randomizer.chance(0.5)) {
-					rightWall.setOpened(true);
-					// When connecting, union the sets
-					squareSets.unionSets(thisSet, nextSet);
-				}
+			final Set<Integer> thisSet = squareSets.findSetContaining(x);
+
+			if (x < squares.size() - 1) {
+				makeHorizontalPassage(squareSets, x, thisSet, square, false);
 			}
-			// Make vertical passages
-			// When square is alone in a set, connect it vertically
-			if (thisSet.size() == 1) {
+			makeVerticalPassage(squareSets, x, thisSet, square);
+		}
+	}
+
+	private void makeVerticalPassage(final Sets<Integer> squareSets, int x, final Set<Integer> thisSet, final Square square) {
+		final Wall downWall = square.getWall(Direction.DOWN);
+
+		// When square is alone in a set, connect it vertically
+		if (thisSet.size() == 1) {
+			downWall.setOpened(true);
+		} else {
+			// Connect randomly
+			if (randomizer.chance(0.5)) {
 				downWall.setOpened(true);
 			} else {
-				// Connect randomly
-				if (randomizer.chance(0.5)) {
-					downWall.setOpened(true);
-				} else {
-					// When not making a vertical passage, put square in its own
-					// set.
-					squareSets.putInNewSet(x);
-					squareSets.removeFromSet(thisSet, x);
-				}
+				// When not making a vertical passage, put square in its own
+				// set.
+				squareSets.putInNewSet(x);
+				squareSets.removeFromSet(thisSet, x);
+			}
+		}
+	}
+
+	private void makeHorizontalPassage(final Sets<Integer> squareSets, final int x, final Set<Integer> thisSet, final Square square, final boolean force) {
+		final Set<Integer> nextSet = squareSets.findSetContaining(x + 1);
+		final Wall rightWall = square.getWall(Direction.RIGHT);
+
+		// Don't connect squares in the same set
+		if (thisSet != nextSet) {
+			// Connect randomly
+			if (randomizer.chance(0.5) || force) {
+				rightWall.setOpened(true);
+				// When connecting, union the sets
+				squareSets.unionSets(thisSet, nextSet);
 			}
 		}
 	}
 
 	private void generateFirstRow(final List<Square> squares, final Sets<Integer> squareSets) {
+		for (int x = 0; x < squares.size(); x++) {
+			squareSets.putInNewSet(x);
+		}
 		generateRow(squares, squareSets);
 		final Square entrance = randomizer.pickOne(squares);
 		entrance.getWall(Direction.UP).setState(MazeDefinitionState.PASSAGE, true);
 		entrance.setState(MazeDefinitionState.ENTRANCE, true);
-		for (int x = 0; x < squares.size(); x++) {
-			squareSets.putInNewSet(x);
-		}
 	}
 
 }

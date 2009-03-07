@@ -64,7 +64,7 @@ public class MazeGeneratorTester {
 	}
 
 	@Test
-	public void testEllerMazeGenerator() {
+	public void testEllerC64MazeGenerator() {
 		final EllerMazeGeneratorC64 mazeProgram = new EllerMazeGeneratorC64(0.5);
 		mazeProgram.generateMaze(grid);
 	}
@@ -126,6 +126,12 @@ public class MazeGeneratorTester {
 	@Test
 	public void testSideWinderMazeGenerator() {
 		final SideWinderMazeGenerator mazeGenerator = new SideWinderMazeGenerator(randomGenerator);
+		mazeGenerator.generateMaze(new GridRowGenerator(grid));
+	}
+
+	@Test
+	public void testEllerRowGeneratorMazeGenerator() {
+		final EllerMazeGenerator mazeGenerator = new EllerMazeGenerator(randomGenerator);
 		mazeGenerator.generateMaze(new GridRowGenerator(grid));
 	}
 
