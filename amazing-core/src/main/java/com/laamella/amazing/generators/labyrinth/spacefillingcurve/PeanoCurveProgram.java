@@ -1,9 +1,11 @@
-package com.laamella.amazing.generators.spacefillingcurve.program;
+package com.laamella.amazing.generators.labyrinth.spacefillingcurve;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.generators.spacefillingcurve.LogoProgram;
+import com.laamella.amazing.generators.labyrinth.GridLogoProgram;
 import com.laamella.amazing.mazemodel.Turtle;
+import com.laamella.amazing.mazemodel.grid.Square;
+import com.laamella.amazing.mazemodel.grid.Grid.UtilityWrapper;
 
 /**
  * <p>
@@ -19,8 +21,7 @@ import com.laamella.amazing.mazemodel.Turtle;
  * <a href="http://tog.acm.org/GraphicsGems/gemsii/Hilbert.c">Graphics Gems 2
  * code</a> that was used here.
  */
-public class PeanoCurveProgram implements LogoProgram {
-
+public class PeanoCurveProgram implements GridLogoProgram {
 	private static final SimpleLogger log = new SimpleLogger(PeanoCurveProgram.class);
 
 	private final int degree;
@@ -82,5 +83,10 @@ public class PeanoCurveProgram implements LogoProgram {
 
 	public void run(final Turtle turtle) {
 		drawCurve(turtle, degree, mirror);
+	}
+
+	@Override
+	public Square getStartSquare(UtilityWrapper grid) {
+		return grid.getTopLeftSquare();
 	}
 }

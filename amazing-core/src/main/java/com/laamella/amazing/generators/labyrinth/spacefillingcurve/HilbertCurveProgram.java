@@ -1,9 +1,19 @@
-package com.laamella.amazing.generators.spacefillingcurve.program;
+package com.laamella.amazing.generators.labyrinth.spacefillingcurve;
 
 import org.grlea.log.SimpleLogger;
 
-import com.laamella.amazing.generators.spacefillingcurve.LogoProgram;
+import com.laamella.amazing.generators.labyrinth.GridLogoProgram;
 import com.laamella.amazing.mazemodel.Turtle;
+import com.laamella.amazing.mazemodel.grid.Grid;
+import com.laamella.amazing.mazemodel.grid.Square;
+import com.laamella.amazing.mazemodel.grid.Grid.UtilityWrapper;
+
+// TODO Classical
+// TODO Chartres
+// TODO Cretan
+// TODO Man in the Maze
+// TODO Flat Classical
+// TODO Flat Chartres
 
 /**
  * <p>
@@ -18,7 +28,9 @@ import com.laamella.amazing.mazemodel.Turtle;
  * <p>
  * Wikipedia has <a href="http://en.wikipedia.org/wiki/Hilbert_curve">the
  * article that this implementation is based on</a>.
- * <p><a href="http://tog.acm.org/GraphicsGems/gemsii/Hilbert.c">Graphics Gems 2 code</a>
+ * <p>
+ * <a href="http://tog.acm.org/GraphicsGems/gemsii/Hilbert.c">Graphics Gems 2
+ * code</a>
  * 
  * <pre>
  * -#################-
@@ -40,7 +52,7 @@ import com.laamella.amazing.mazemodel.Turtle;
  * -#################-
  * </pre>
  */
-public class HilbertCurveProgram implements LogoProgram {
+public class HilbertCurveProgram implements GridLogoProgram {
 	private static final SimpleLogger log = new SimpleLogger(HilbertCurveProgram.class);
 
 	private final int degree;
@@ -94,4 +106,10 @@ public class HilbertCurveProgram implements LogoProgram {
 	public void run(final Turtle turtle) {
 		drawCurve(turtle, degree, mirror);
 	}
+
+	@Override
+	public Square getStartSquare(UtilityWrapper grid) {
+		return grid.getTopLeftSquare();
+	}
+
 }

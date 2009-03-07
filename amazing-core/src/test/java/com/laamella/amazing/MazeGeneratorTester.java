@@ -12,11 +12,11 @@ import org.junit.Test;
 
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.generators.daedalus.*;
+import com.laamella.amazing.generators.labyrinth.GridLogoProgram;
+import com.laamella.amazing.generators.labyrinth.GridLogoProgramRunnerMazeGenerator;
+import com.laamella.amazing.generators.labyrinth.spacefillingcurve.HilbertCurveProgram;
+import com.laamella.amazing.generators.labyrinth.spacefillingcurve.PeanoCurveProgram;
 import com.laamella.amazing.generators.original.RecursiveBacktrackerMazeGeneratorForMatrices;
-import com.laamella.amazing.generators.spacefillingcurve.LogoProgram;
-import com.laamella.amazing.generators.spacefillingcurve.SpaceFillingCurveMazeGenerator;
-import com.laamella.amazing.generators.spacefillingcurve.program.HilbertCurveProgram;
-import com.laamella.amazing.generators.spacefillingcurve.program.PeanoCurveProgram;
 import com.laamella.amazing.generators.various.*;
 import com.laamella.amazing.mazemodel.*;
 import com.laamella.amazing.mazemodel.grid.Grid;
@@ -137,15 +137,15 @@ public class MazeGeneratorTester {
 
 	@Test
 	public void testHilbertCurveGenerator() {
-		final LogoProgram mazeProgram = new HilbertCurveProgram(3, false);
-		final SpaceFillingCurveMazeGenerator spaceFillingCurveMazeGenerator = new SpaceFillingCurveMazeGenerator(mazeProgram);
+		final GridLogoProgram mazeProgram = new HilbertCurveProgram(3, false);
+		final GridLogoProgramRunnerMazeGenerator spaceFillingCurveMazeGenerator = new GridLogoProgramRunnerMazeGenerator(mazeProgram);
 		spaceFillingCurveMazeGenerator.generateMaze(grid);
 	}
 
 	@Test
 	public void testPeanoCurveGenerator() {
-		final LogoProgram mazeProgram = new PeanoCurveProgram(2, true);
-		final SpaceFillingCurveMazeGenerator spaceFillingCurveMazeGenerator = new SpaceFillingCurveMazeGenerator(mazeProgram);
+		final GridLogoProgram mazeProgram = new PeanoCurveProgram(2, true);
+		final GridLogoProgramRunnerMazeGenerator spaceFillingCurveMazeGenerator = new GridLogoProgramRunnerMazeGenerator(mazeProgram);
 		spaceFillingCurveMazeGenerator.generateMaze(grid);
 	}
 

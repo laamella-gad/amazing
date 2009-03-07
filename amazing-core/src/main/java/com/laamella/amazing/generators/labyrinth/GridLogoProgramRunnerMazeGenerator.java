@@ -1,4 +1,4 @@
-package com.laamella.amazing.generators.spacefillingcurve;
+package com.laamella.amazing.generators.labyrinth;
 
 import org.grlea.log.SimpleLogger;
 
@@ -11,26 +11,25 @@ import com.laamella.amazing.mazemodel.grid.implementation.GridTurtle;
 /**
  * 
  */
-public class SpaceFillingCurveMazeGenerator implements GridMazeGenerator {
-	private static final SimpleLogger log = new SimpleLogger(SpaceFillingCurveMazeGenerator.class);
+public class GridLogoProgramRunnerMazeGenerator implements GridMazeGenerator {
+	private static final SimpleLogger log = new SimpleLogger(GridLogoProgramRunnerMazeGenerator.class);
 
-	private final LogoProgram program;
+	private final GridLogoProgram program;
 
-	public SpaceFillingCurveMazeGenerator(final LogoProgram program) {
-		log.entry("SpaceFillingCurveMazeGenerator");
+	public GridLogoProgramRunnerMazeGenerator(final GridLogoProgram program) {
+		log.entry("GridLogoProgramRunnerMazeGenerator");
 		this.program = program;
-		log.exit("SpaceFillingCurveMazeGenerator");
+		log.exit("GridLogoProgramRunnerMazeGenerator");
 	}
 
 	@Override
 	public void generateMaze(final Grid plainGrid) {
 		log.entry("generateMaze");
 		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
-		final Square startSquare = grid.getTopLeftSquare();
+		final Square startSquare = program.getStartSquare(grid);
 		startSquare.setState(MazeDefinitionState.ENTRANCE, true);
 		final Turtle turtle = new GridTurtle(startSquare, Direction.RIGHT);
 		program.run(turtle);
 		log.exit("generateMaze");
 	}
-
 }
