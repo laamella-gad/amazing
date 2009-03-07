@@ -10,51 +10,55 @@ import com.laamella.amazing.mazemodel.graph.*;
  * ends of it.
  * <p>
  * The algorithm needs at least one dead end to function.
+ * <p>
+ * The algorithm will fail when the graph has loops.
  */
 public class DistanceFromDeadEndMarkerOperation extends Observable {
 	public static final Object DISTANCE_FROM_DEAD_END = new Object();
 
 	public void go(final Graph graph) {
-
-		// Put a distance of 0 in all dead ends
-		final Set<Vertex> nonDeadEnds = new LinkedHashSet<Vertex>();
-		for (final Vertex vertex : graph.getVertices()) {
-			if (isDeadEnd(vertex)) {
-				vertex.setState(DISTANCE_FROM_DEAD_END, 0);
-			} else {
-				nonDeadEnds.add(vertex);
-			}
-		}
-		setChanged();
+		final Set<Vertex> unmarkedVertices = new LinkedHashSet<Vertex>(graph.getVertices());
 
 		do {
 			notifyObservers();
-			for (final Vertex vertex : nonDeadEnds) {
-				for (final Edge edge : vertex.getEdges()) {
-					final Integer myDistance = vertex.getState(DISTANCE_FROM_DEAD_END);
-					final Vertex otherVertex = edge.travel(vertex);
-					final Integer otherDistance = otherVertex.getState(DISTANCE_FROM_DEAD_END);
-					if (otherDistance != null) {
-						if (myDistance == null || otherDistance > myDistance) {
-							vertex.setState(DISTANCE_FROM_DEAD_END, otherDistance + 1);
-							setChanged();
-						}
-					}
+			final Set<Vertex> newlyMarkedVertices = new LinkedHashSet<Vertex>();
+			for (final Vertex currentVertex : unmarkedVertices) {
+				if (countUnmarkedExits(currentVertex) <2) {
+					currentVertex.setState(DISTANCE_FROM_DEAD_END, oneHigherThanVerticesAroundMe(currentVertex));
+					newlyMarkedVertices.add(currentVertex);
+					setChanged();
 				}
 			}
+			unmarkedVertices.removeAll(newlyMarkedVertices);
 		} while (hasChanged());
 	}
 
-	private boolean isDeadEnd(Vertex vertex) {
-		int exits = 0;
+	private int oneHigherThanVerticesAroundMe(Vertex vertex) {
+		int oneHigher = 0;
 		for (final Edge edge : vertex.getEdges()) {
 			if (edge.hasState(MazeDefinitionState.PASSAGE)) {
-				exits++;
-				if (exits > 1) {
-					return false;
+				final Vertex otherVertex = edge.travel(vertex);
+				final Integer distance = otherVertex.getState(DISTANCE_FROM_DEAD_END);
+				if (distance != null) {
+					if (oneHigher < distance + 1) {
+						oneHigher = distance + 1;
+					}
 				}
 			}
 		}
-		return true;
+		return oneHigher;
+	}
+
+	private int countUnmarkedExits(final Vertex vertex) {
+		int unmarkedExits = 0;
+		for (final Edge edge : vertex.getEdges()) {
+			if (edge.hasState(MazeDefinitionState.PASSAGE)) {
+				final Vertex otherVertex = edge.travel(vertex);
+				if (!otherVertex.hasState(DISTANCE_FROM_DEAD_END)) {
+					unmarkedExits++;
+				}
+			}
+		}
+		return unmarkedExits;
 	}
 }

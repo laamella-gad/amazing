@@ -69,7 +69,7 @@ public class OperationsTester {
 	}
 
 	@Test
-	public void testLongestPathFinderOperation() {
+	public void testDistanceFromDeadEndMarkerOperation() {
 		final DistanceFromDeadEndMarkerOperation longestPathFinderOperation = new DistanceFromDeadEndMarkerOperation();
 
 		final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
