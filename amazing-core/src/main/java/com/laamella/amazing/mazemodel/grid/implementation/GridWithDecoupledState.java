@@ -194,7 +194,7 @@ public class GridWithDecoupledState implements Grid {
 		}
 
 		@Override
-		public int getState(Object state) {
+		public Integer getState(Object state) {
 			return stateStorage.getState(state);
 		}
 
@@ -279,7 +279,7 @@ public class GridWithDecoupledState implements Grid {
 		}
 
 		@Override
-		public int getState(Object state) {
+		public Integer getState(Object state) {
 			return stateStorage.getState(state);
 		}
 

@@ -10,7 +10,7 @@ public interface State {
 
 	void setState(Object newState, boolean mustBeSet);
 
-	int getState(Object state);
+	Integer getState(Object state);
 
 	void setState(Object state, int value);
 
@@ -43,8 +43,8 @@ public interface State {
 		}
 
 		@Override
-		public int getState(Object state) {
-			return (int)states.get(state);
+		public Integer getState(Object state) {
+			return (Integer)states.get(state);
 		}
 
 		@Override

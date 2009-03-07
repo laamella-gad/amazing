@@ -3,8 +3,6 @@ package com.laamella.amazing;
 import static com.laamella.amazing.mazemodel.grid.Direction.*;
 import static org.junit.Assert.*;
 
-import java.util.Observable;
-import java.util.Observer;
 
 import org.grlea.log.SimpleLogger;
 import org.junit.Before;
@@ -24,27 +22,13 @@ import com.laamella.amazing.mazemodel.grid.implementation.*;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 
 public class MazeGeneratorTester {
-	private static final SimpleLogger log = new SimpleLogger(MazeGeneratorTester.class);
+	static final SimpleLogger log = new SimpleLogger(MazeGeneratorTester.class);
 
 	private StateMatrix mazeMatrix;
 	private Grid.UtilityWrapper grid;
 	private GridMatrixStorage stateStorage;
 
 	private Randomizer.Default randomGenerator;
-
-	private static final class PrettyPrintObserver implements Observer {
-		private final StateMatrixPrettyPrinter prettyPrinter = new StateMatrixPrettyPrinter();
-		private final StateMatrix matrix;
-
-		public PrettyPrintObserver(StateMatrix observableMatrix){
-			this.matrix=observableMatrix;
-		}
-		public void update(Observable o, Object arg) {
-			log.debug(prettyPrinter.getPrintableMaze(matrix));
-		}
-	};
-	
-	
 
 	@Before
 	public void before() {

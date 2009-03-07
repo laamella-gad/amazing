@@ -22,6 +22,6 @@ public class StateTester {
 		final ObservableObjectSetState state = new State.ObservableObjectSetState();
 		state.setState(key, 15);
 		assertTrue(state.hasState(key));
-		assertEquals(15, state.getState(key));
+		assertEquals(15, state.getState(key).intValue());
 	}
 }
