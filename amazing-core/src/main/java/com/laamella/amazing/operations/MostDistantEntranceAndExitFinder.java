@@ -11,8 +11,12 @@ import com.laamella.amazing.mazemodel.graph.*;
 import static com.laamella.amazing.solvers.Solver.*;
 import static com.laamella.amazing.operations.DistanceFromDeadEndMarker.*;
 
+/**
+ * Attempt at using the distances to dead ends to find the longest path.
+ * Algorithm doesn't work right.
+ */
 public class MostDistantEntranceAndExitFinder {
-	// public static class
+
 	public void execute(final Graph graph) {
 		final Vertex midPoint = getVertexWithHighestDistance(graph.getVertices());
 		midPoint.setState(SOLUTION, true);
@@ -28,7 +32,7 @@ public class MostDistantEntranceAndExitFinder {
 	private void walkToDeadEndAndMark(final Vertex currentVertex, final MazeDefinitionState marker) {
 		currentVertex.setState(SOLUTION, true);
 		final Vertex nextVertex = getVertexWithHighestDistance(getVerticesAroundVertex(currentVertex));
-		if(nextVertex==null){
+		if (nextVertex == null) {
 			// Reached the end of the walk
 			currentVertex.setState(marker, true);
 			return;

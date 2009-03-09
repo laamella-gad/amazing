@@ -78,6 +78,12 @@ public class MazeGeneratorTester {
 	}
 
 	@Test
+	public void testGrowingTreeMazeGenerator() {
+		final GrowingTreeMazeGenerator mazeGenerator = new GrowingTreeMazeGenerator(randomGenerator);
+		mazeGenerator.generateMaze(grid);
+	}
+
+	@Test
 	public void testMatrixRecursiveBacktrackerMazeGenerator() {
 		final RecursiveBacktrackerMazeGeneratorForMatrices mazeGenerator = new RecursiveBacktrackerMazeGeneratorForMatrices(randomGenerator);
 		final StateMatrix stateMatrix = new StateMatrix(new Size(20, 10));

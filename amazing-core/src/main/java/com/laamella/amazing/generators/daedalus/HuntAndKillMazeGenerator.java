@@ -3,7 +3,6 @@ package com.laamella.amazing.generators.daedalus;
 import com.laamella.amazing.generators.GridMazeGenerator;
 import com.laamella.amazing.generators.Randomizer;
 import com.laamella.amazing.mazemodel.Position;
-import com.laamella.amazing.mazemodel.graph.Graph;
 import com.laamella.amazing.mazemodel.grid.Grid;
 import com.laamella.amazing.mazemodel.grid.Square;
 
@@ -31,7 +30,6 @@ import com.laamella.amazing.mazemodel.grid.Square;
  * description</a>
  */
 public class HuntAndKillMazeGenerator implements GridMazeGenerator {
-
 	private final Randomizer randomizer;
 	private final Hunter hunter;
 
@@ -42,8 +40,8 @@ public class HuntAndKillMazeGenerator implements GridMazeGenerator {
 
 	@Override
 	public void generateMaze(Grid grid) {
-		// TODO Auto-generated method stub
-
+		randomizer.randomPosition(grid.getSize());
+		
 	}
 
 	/**

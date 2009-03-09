@@ -14,7 +14,6 @@ import com.laamella.amazing.mazemodel.grid.implementation.GridMatrixStorage;
 import com.laamella.amazing.mazemodel.grid.implementation.GridWithDecoupledState;
 import com.laamella.amazing.mazemodel.matrix.implementation.StateMatrix;
 import com.laamella.amazing.operations.*;
-import com.laamella.amazing.operations.DistanceFromDeadEndMarker.Result;
 
 public class OperationsTester {
 	private static final SimpleLogger log = new SimpleLogger(OperationsTester.class);

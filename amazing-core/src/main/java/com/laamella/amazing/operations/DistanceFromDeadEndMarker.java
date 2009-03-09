@@ -6,8 +6,7 @@ import com.laamella.amazing.mazemodel.MazeDefinitionState;
 import com.laamella.amazing.mazemodel.graph.*;
 
 /**
- * Finds the longest path in a graph, then adds the entrance and exit at the
- * ends of it.
+ * Marks every vertex with the distance to the farthest dead end.
  * <p>
  * The algorithm needs at least one dead end to function.
  * <p>
