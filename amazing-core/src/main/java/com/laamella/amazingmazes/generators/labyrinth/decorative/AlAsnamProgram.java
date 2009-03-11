@@ -5,6 +5,44 @@ import com.laamella.amazingmazes.mazemodel.Turtle;
 import com.laamella.amazingmazes.mazemodel.grid.Square;
 import com.laamella.amazingmazes.mazemodel.grid.Grid.UtilityWrapper;
 
+/**
+ * <pre>
+ * ###############################
+ * #                           #
+ * # ######################### # #
+ * # #                       # # #
+ * # # ##################### # # #
+ * # # #                   # # # #
+ * # # # ################# # # # #
+ * # # # #               # # # # #     ->
+ * # # # # ############# # # # # #
+ * # # # # #           # # # # # #
+ * # # # # # ######### # # # # # #
+ * # # # # # #         # # # # # #
+ * # # # # # # ######### # # # # #
+ * # # # # # # #         # # # # #
+ * # # # # # # # ######### # # # #
+ * # # # # # # # #         # # # #
+ * # # # # # # # # ######### # # #
+ * # # # # # # # # #         # # #
+ * # # # # # # # # # ######### # #
+ * # # # # # # # # # #         # #
+ * # # # # # # # # # # ######### #
+ * # # # # # #   # # # #         #
+ * # # # # # ##### # # # #########
+ * # # # # #       # # # #
+ * # # # # ######### # # #
+ * # # # #           # # #
+ * # # # ############# # #
+ * # # #               # #
+ * # # ################# #
+ * # #                   #
+ * # #####################
+ * 
+ *          |
+ *          v
+ * </pre>
+ */
 public class AlAsnamProgram implements GridLogoProgram {
 
 	@Override
@@ -16,7 +54,7 @@ public class AlAsnamProgram implements GridLogoProgram {
 	@Override
 	public void run(Turtle turtle) {
 		// TODO implement
-		
+
 	}
 
 }
