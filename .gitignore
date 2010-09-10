@@ -1,4 +1,6 @@
+.manager
 target
-lib
-bin
-
+.settings
+*~
+*.bak
+.svn
