@@ -1,11 +1,12 @@
 package com.laamella.amazingmazes.generators.labyrinth.spacefillingcurve;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.laamella.amazingmazes.generators.labyrinth.GridLogoProgram;
 import com.laamella.amazingmazes.mazemodel.Turtle;
-import com.laamella.amazingmazes.mazemodel.grid.Square;
 import com.laamella.amazingmazes.mazemodel.grid.Grid.UtilityWrapper;
+import com.laamella.amazingmazes.mazemodel.grid.Square;
 
 /**
  * <p>
@@ -22,7 +23,7 @@ import com.laamella.amazingmazes.mazemodel.grid.Grid.UtilityWrapper;
  * code</a> that was used here.
  */
 public class PeanoCurveProgram implements GridLogoProgram {
-	private static final SimpleLogger log = new SimpleLogger(PeanoCurveProgram.class);
+	private static Logger log = LoggerFactory.getLogger(PeanoCurveProgram.class);
 
 	private final int degree;
 	private final boolean mirror;

@@ -1,6 +1,7 @@
 package com.laamella.amazingmazes.generators.labyrinth.spacefillingcurve;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.laamella.amazingmazes.generators.labyrinth.GridLogoProgram;
 import com.laamella.amazingmazes.mazemodel.Turtle;
@@ -45,7 +46,7 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
  * </pre>
  */
 public class HilbertCurveProgram implements GridLogoProgram {
-	private static final SimpleLogger log = new SimpleLogger(HilbertCurveProgram.class);
+	private static Logger log = LoggerFactory.getLogger(HilbertCurveProgram.class);
 
 	private final int degree;
 	private final boolean mirror;

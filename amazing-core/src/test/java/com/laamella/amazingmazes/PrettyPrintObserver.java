@@ -12,17 +12,18 @@ final class PrettyPrintObserver implements Observer {
 	private final StateMatrixPrettyPrinter prettyPrinter;
 	private final StateMatrix matrix;
 
-	public PrettyPrintObserver(StateMatrix observableMatrix) {
+	public PrettyPrintObserver(final StateMatrix observableMatrix) {
 		this.prettyPrinter = new StateMatrixPrettyPrinter();
 		this.matrix = observableMatrix;
 	}
 
-	public PrettyPrintObserver(StateMatrix observableMatrix, StateMatrixPrettyPrinter prettyPrinter) {
+	public PrettyPrintObserver(final StateMatrix observableMatrix, final StateMatrixPrettyPrinter prettyPrinter) {
 		this.matrix = observableMatrix;
 		this.prettyPrinter = prettyPrinter;
 	}
 
-	public void update(Observable o, Object arg) {
+	@Override
+	public void update(final Observable o, final Object arg) {
 		MazeGeneratorTester.log.debug(prettyPrinter.getPrintableMaze(matrix));
 	}
 }

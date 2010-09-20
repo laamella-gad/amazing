@@ -2,7 +2,8 @@ package com.laamella.amazingmazes.generators.various;
 
 import java.util.Observable;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.laamella.amazingmazes.generators.GridMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
@@ -26,7 +27,7 @@ import com.laamella.amazingmazes.mazemodel.grid.Grid;
 // TODO code is very ugly, create better code.
 // TODO maybe the ability to create subgrids is useful?
 public class RecursiveDivisionMazeGenerator extends Observable implements GridMazeGenerator {
-	private static final SimpleLogger log = new SimpleLogger(RecursiveDivisionMazeGenerator.class);
+	private static Logger log = LoggerFactory.getLogger(RecursiveDivisionMazeGenerator.class);
 
 	private final Randomizer randomizer;
 
@@ -53,8 +54,9 @@ public class RecursiveDivisionMazeGenerator extends Observable implements GridMa
 			// Too little space to subdivide
 			return;
 		}
-		final Position crossing = new Position(randomizer.between(topLeft.x, bottomRight.x - 1) + 1, randomizer.between(topLeft.y, bottomRight.y - 1) + 1);
-		
+		final Position crossing = new Position(randomizer.between(topLeft.x, bottomRight.x - 1) + 1,
+				randomizer.between(topLeft.y, bottomRight.y - 1) + 1);
+
 		grid.drawVerticalWall(crossing.x, topLeft.y, bottomRight.y - 1);
 		grid.drawHorizontalWall(crossing.y, topLeft.x, bottomRight.x - 1);
 

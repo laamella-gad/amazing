@@ -1,14 +1,18 @@
 package com.laamella.amazingmazes.generators.daedalus;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.laamella.amazingmazes.generators.*;
-import com.laamella.amazingmazes.mazemodel.graph.*;
+import com.laamella.amazingmazes.generators.GraphMazeGenerator;
+import com.laamella.amazingmazes.generators.Randomizer;
+import com.laamella.amazingmazes.mazemodel.graph.Edge;
+import com.laamella.amazingmazes.mazemodel.graph.Graph;
+import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 
 /**
  * This requires storage proportional to the size of the Maze. During creation,
@@ -37,7 +41,7 @@ import com.laamella.amazingmazes.mazemodel.graph.*;
  */
 // TODO there's a variant that puts the edges on the frontier
 public class PrimMazeGenerator implements GraphMazeGenerator {
-	private static final SimpleLogger log = new SimpleLogger(PrimMazeGenerator.class);
+	private static Logger log = LoggerFactory.getLogger(PrimMazeGenerator.class);
 
 	private final Randomizer randomizer;
 
@@ -47,8 +51,8 @@ public class PrimMazeGenerator implements GraphMazeGenerator {
 
 	@Override
 	public void generateMaze(final Graph graph) {
-		log.entry("generateMaze");
-		
+		log.debug("generateMaze");
+
 		final Set<Vertex> in = new HashSet<Vertex>();
 		final Set<Vertex> frontier = new HashSet<Vertex>();
 		final Set<Vertex> out = new HashSet<Vertex>();
@@ -74,7 +78,6 @@ public class PrimMazeGenerator implements GraphMazeGenerator {
 				}
 			}
 		}
-		log.exit("generateMaze");
 	}
 
 	private void makeFrontier(final Vertex vertex, final Set<Vertex> frontier, final Set<Vertex> out) {

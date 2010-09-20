@@ -3,12 +3,15 @@ package com.laamella.amazingmazes.generators.daedalus;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.laamella.amazingmazes.generators.GraphMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
-import com.laamella.amazingmazes.mazemodel.graph.*;
+import com.laamella.amazingmazes.mazemodel.graph.Edge;
+import com.laamella.amazingmazes.mazemodel.graph.Graph;
+import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 
 /**
  * The interesting thing about this algorithm is it generates all possible Mazes
@@ -52,7 +55,7 @@ import com.laamella.amazingmazes.mazemodel.graph.*;
  * on the XKCD forums</a>
  */
 public class AldousBroderMazeGenerator implements GraphMazeGenerator {
-	private static final SimpleLogger log = new SimpleLogger(AldousBroderMazeGenerator.class);
+	private static Logger log = LoggerFactory.getLogger(AldousBroderMazeGenerator.class);
 
 	private final Randomizer randomizer;
 
@@ -61,8 +64,8 @@ public class AldousBroderMazeGenerator implements GraphMazeGenerator {
 	}
 
 	@Override
-	public void generateMaze(Graph graph) {
-		log.entry("generateMaze()");
+	public void generateMaze(final Graph graph) {
+		log.debug("generateMaze()");
 		final Set<Vertex> visitedVertices = new HashSet<Vertex>();
 		Vertex currentVertex = new Graph.UtilityWrapper(graph).getEntrance();
 		visitedVertices.add(currentVertex);
@@ -77,6 +80,5 @@ public class AldousBroderMazeGenerator implements GraphMazeGenerator {
 			currentVertex = randomVertex;
 		}
 
-		log.exit("generateMaze()");
 	}
 }

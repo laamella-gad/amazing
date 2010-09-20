@@ -1,11 +1,15 @@
 package com.laamella.amazingmazes.generators.daedalus;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
-import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.EXIT;
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.LEFT;
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.RIGHT;
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.UP;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.laamella.amazingmazes.generators.*;
+import com.laamella.amazingmazes.generators.GridMazeGenerator;
+import com.laamella.amazingmazes.generators.Randomizer;
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.grid.Grid;
 import com.laamella.amazingmazes.mazemodel.grid.Square;
@@ -37,7 +41,7 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
  * description</a>
  */
 public class BinaryTreeMazeGenerator implements GridMazeGenerator {
-	private static final SimpleLogger log = new SimpleLogger(BinaryTreeMazeGenerator.class);
+	private static Logger log = LoggerFactory.getLogger(BinaryTreeMazeGenerator.class);
 	private final Randomizer randomGenerator;
 
 	public BinaryTreeMazeGenerator(final Randomizer randomGenerator) {
@@ -46,7 +50,7 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 
 	@Override
 	public void generateMaze(final Grid plainGrid) {
-		log.entry("generateMaze");
+		log.debug("generateMaze");
 		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
 
 		grid.forAllSquares(new Grid.UtilityWrapper.SquareVisitor<Void>() {
@@ -54,7 +58,6 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 			public Void visitSquare(final Position position, final Square square) {
 				if (grid.isBorderSquare(LEFT, position)) {
 					if (grid.isBorderSquare(UP, position)) {
-						log.ludicrous("Create upper left entrance");
 						square.getWall(LEFT).open();
 					} else {
 						// Open the whole left column vertically
@@ -77,11 +80,10 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 			}
 		});
 
-		log.ludicrous("Lower right exit");
 		final Square exit = grid.getSquare(new Position(grid.getSize().width - 1, grid.getSize().height - 1));
 		exit.getWall(RIGHT).open();
 		exit.setState(EXIT, true);
 
-		log.exit("generateMaze");
+		log.debug("generateMaze");
 	}
 }

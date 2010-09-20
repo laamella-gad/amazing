@@ -1,13 +1,14 @@
 package com.laamella.amazingmazes.mazemodel.grid.implementation;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.laamella.amazingmazes.mazemodel.Turtle;
 import com.laamella.amazingmazes.mazemodel.grid.Direction;
 import com.laamella.amazingmazes.mazemodel.grid.Square;
 
 public class GridTurtle implements Turtle {
-	private static final SimpleLogger log = new SimpleLogger(GridTurtle.class);
+	private static Logger log = LoggerFactory.getLogger(GridTurtle.class);
 
 	private Square currentSquare;
 	private Direction direction;

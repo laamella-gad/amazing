@@ -2,11 +2,15 @@ package com.laamella.amazingmazes.mazemodel.grid;
 
 import java.util.Set;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.laamella.amazingmazes.generators.Randomizer;
-import com.laamella.amazingmazes.mazemodel.*;
-import com.laamella.amazingmazes.mazemodel.graph.*;
+import com.laamella.amazingmazes.mazemodel.Position;
+import com.laamella.amazingmazes.mazemodel.Size;
+import com.laamella.amazingmazes.mazemodel.graph.Edge;
+import com.laamella.amazingmazes.mazemodel.graph.Graph;
+import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 
 public interface Grid extends Graph {
 	Square getSquare(Position position);
@@ -14,7 +18,7 @@ public interface Grid extends Graph {
 	Size getSize();
 
 	public static class UtilityWrapper implements Grid {
-		private static final SimpleLogger log = new SimpleLogger(UtilityWrapper.class);
+		private static Logger log = LoggerFactory.getLogger(UtilityWrapper.class);
 		private final Grid delegateGrid;
 
 		public UtilityWrapper(final Grid delegateGrid) {
@@ -23,7 +27,7 @@ public interface Grid extends Graph {
 
 		@Deprecated
 		public void closeAllWalls() {
-			log.entry("closeAllWalls");
+			log.debug("closeAllWalls");
 			forAllSquares(new SquareVisitor<Void>() {
 				@Override
 				public Void visitSquare(final Position position, final Square square) {
@@ -34,11 +38,10 @@ public interface Grid extends Graph {
 					return null;
 				}
 			});
-			log.exit("closeAllWalls");
 		}
 
 		public void openAllWalls() {
-			log.entry("openAllWalls");
+			log.debug("openAllWalls");
 			forAllSquares(new SquareVisitor<Void>() {
 				@Override
 				public Void visitSquare(final Position position, final Square square) {
@@ -49,7 +52,6 @@ public interface Grid extends Graph {
 					return null;
 				}
 			});
-			log.exit("openAllWalls");
 		}
 
 		public static interface SquareVisitor<T> {

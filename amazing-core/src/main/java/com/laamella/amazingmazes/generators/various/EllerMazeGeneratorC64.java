@@ -1,8 +1,11 @@
 package com.laamella.amazingmazes.generators.various;
 
-import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.DOWN;
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.RIGHT;
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.UP;
 
-import org.grlea.log.SimpleLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.laamella.amazingmazes.generators.GridMazeGenerator;
 import com.laamella.amazingmazes.mazemodel.Position;
@@ -13,7 +16,9 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
  * Converted from a BASIC type in listing, found in a magazine somewhere in the
  * eighties.
  * 
- * <p>The original listing follows. There may be typos in the part starting at line 300.
+ * <p>
+ * The original listing follows. There may be typos in the part starting at line
+ * 300.
  * <ul>
  * <li>CLS = reverse heart, clear screen
  * <li>] = bar on the right
@@ -63,14 +68,15 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
  */
 // TODO convert to progressive row based algorithm
 public class EllerMazeGeneratorC64 implements GridMazeGenerator {
-	private static final SimpleLogger log = new SimpleLogger(EllerMazeGeneratorC64.class);
+	private static Logger log = LoggerFactory.getLogger(EllerMazeGeneratorC64.class);
+
 	private final double steepness;
 
 	public EllerMazeGeneratorC64(final double steepness) {
 		this.steepness = steepness;
 	}
 
-	private void messWithLR_0(int x, int[] l, int[] r) {
+	private void messWithLR_0(final int x, final int[] l, final int[] r) {
 		int pos = x - 1;
 
 		while (r[pos] != 0) {
@@ -81,7 +87,7 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
 		r[pos] = r[x];
 	}
 
-	private void messWithLR_1(int x, int[] l, int[] r) {
+	private void messWithLR_1(final int x, final int[] l, final int[] r) {
 		int pos = x;
 
 		while (l[pos] != 0) {
@@ -92,7 +98,8 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
 		l[pos] = l[x - 1];
 	}
 
-	private void setSquareOpenRightAndBottom(final Grid grid, int x, int y, boolean openRight, boolean openBottom) {
+	private void setSquareOpenRightAndBottom(final Grid grid, final int x, final int y, final boolean openRight,
+			final boolean openBottom) {
 		final Square square = grid.getSquare(new Position(x, y));
 		square.getWall(RIGHT).setOpened(openRight);
 		square.getWall(DOWN).setOpened(openBottom);
@@ -101,7 +108,7 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
 	@Override
 	public void generateMaze(final Grid plainGrid) {
 		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
-		log.entry("generateMaze");
+		log.debug("generateMaze");
 
 		final int width = grid.getSize().width;
 		final int height = grid.getSize().height;
@@ -133,10 +140,9 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
 				setSquareOpenRightAndBottom(grid, width - x, height - 1, true, x == exitX);
 			}
 		}
-		log.exit("generateMaze");
 	}
 
-	private boolean isOpenAtTheBottom(double steepness, final int[] l, final int[] r, int x) {
+	private boolean isOpenAtTheBottom(final double steepness, final int[] l, final int[] r, final int x) {
 		if ((l[x] + r[x] != 0) && randomHorizontal(steepness)) {
 			l[r[x]] = l[x];
 			r[l[x]] = r[x];
@@ -147,7 +153,7 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
 		return true;
 	}
 
-	private boolean isOpenToTheRight(double steepness, final int[] l, final int[] r, int x) {
+	private boolean isOpenToTheRight(final double steepness, final int[] l, final int[] r, final int x) {
 		if (r[x] == x - 1 || randomVertical(steepness)) {
 			return false;
 		}
@@ -162,15 +168,15 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
 		return true;
 	}
 
-	private int random(int width) {
+	private int random(final int width) {
 		return (int) (Math.random() * width);
 	}
 
-	private boolean randomHorizontal(double steepness) {
+	private boolean randomHorizontal(final double steepness) {
 		return Math.random() > steepness;
 	}
 
-	private boolean randomVertical(double steepness) {
+	private boolean randomVertical(final double steepness) {
 		return Math.random() < steepness;
 	}
 }
