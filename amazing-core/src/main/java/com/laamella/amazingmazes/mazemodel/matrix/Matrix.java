@@ -4,7 +4,6 @@ import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
 
 public interface Matrix<T> {
-
 	void set(Position position, T value);
 
 	T get(Position position);
@@ -14,7 +13,7 @@ public interface Matrix<T> {
 	public static class UtilityWrapper<T> implements Matrix<T> {
 		private final Matrix<T> delegateMatrix;
 
-		public UtilityWrapper(Matrix<T> delegateMatrix) {
+		public UtilityWrapper(final Matrix<T> delegateMatrix) {
 			this.delegateMatrix = delegateMatrix;
 		}
 
@@ -37,15 +36,18 @@ public interface Matrix<T> {
 			}
 		}
 
-		public T get(Position position) {
+		@Override
+		public T get(final Position position) {
 			return delegateMatrix.get(position);
 		}
 
+		@Override
 		public Size getSize() {
 			return delegateMatrix.getSize();
 		}
 
-		public void set(Position position, T value) {
+		@Override
+		public void set(final Position position, final T value) {
 			delegateMatrix.set(position, value);
 		}
 

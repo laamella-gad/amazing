@@ -17,7 +17,7 @@ public interface Grid extends Graph {
 		private static final SimpleLogger log = new SimpleLogger(UtilityWrapper.class);
 		private final Grid delegateGrid;
 
-		public UtilityWrapper(Grid delegateGrid) {
+		public UtilityWrapper(final Grid delegateGrid) {
 			this.delegateGrid = delegateGrid;
 		}
 
@@ -25,7 +25,8 @@ public interface Grid extends Graph {
 		public void closeAllWalls() {
 			log.entry("closeAllWalls");
 			forAllSquares(new SquareVisitor<Void>() {
-				public Void visitSquare(Position position, Square square) {
+				@Override
+				public Void visitSquare(final Position position, final Square square) {
 					square.getWall(Direction.UP).close();
 					square.getWall(Direction.RIGHT).close();
 					square.getWall(Direction.DOWN).close();
@@ -39,7 +40,8 @@ public interface Grid extends Graph {
 		public void openAllWalls() {
 			log.entry("openAllWalls");
 			forAllSquares(new SquareVisitor<Void>() {
-				public Void visitSquare(Position position, Square square) {
+				@Override
+				public Void visitSquare(final Position position, final Square square) {
 					square.getWall(Direction.UP).open();
 					square.getWall(Direction.RIGHT).open();
 					square.getWall(Direction.DOWN).open();
@@ -58,7 +60,7 @@ public interface Grid extends Graph {
 			for (int y = 0; y < delegateGrid.getSize().height; y++) {
 				for (int x = 0; x < delegateGrid.getSize().width; x++) {
 					final Position position = new Position(x, y);
-					T t = visitor.visitSquare(position, delegateGrid.getSquare(position));
+					final T t = visitor.visitSquare(position, delegateGrid.getSquare(position));
 					if (t != null) {
 						return t;
 					}
@@ -67,14 +69,14 @@ public interface Grid extends Graph {
 			return null;
 		}
 
-		public boolean isBorderSquare(Position position) {
+		public boolean isBorderSquare(final Position position) {
 			return isBorderSquare(Direction.UP, position) || //
 					isBorderSquare(Direction.RIGHT, position) || //
 					isBorderSquare(Direction.LEFT, position) || //
 					isBorderSquare(Direction.DOWN, position);
 		}
 
-		public boolean isBorderSquare(Direction direction, Position position) {
+		public boolean isBorderSquare(final Direction direction, final Position position) {
 			switch (direction) {
 			case UP:
 				return position.y == 0;
@@ -89,11 +91,13 @@ public interface Grid extends Graph {
 			}
 		}
 
+		@Override
 		public Size getSize() {
 			return delegateGrid.getSize();
 		}
 
-		public Square getSquare(Position position) {
+		@Override
+		public Square getSquare(final Position position) {
 			return delegateGrid.getSquare(position);
 		}
 
@@ -109,26 +113,26 @@ public interface Grid extends Graph {
 			return getSquare(new Position(getSize().width - 1, getSize().height - 1));
 		}
 
-		public void drawVerticalWall(int x, int y1, int y2) {
+		public void drawVerticalWall(final int x, final int y1, final int y2) {
 			for (int y = y1; y <= y2; y++) {
 				getHorizontalWall(new Position(x, y)).close();
 			}
 		}
 
-		public void drawHorizontalWall(int y, int x1, int x2) {
+		public void drawHorizontalWall(final int y, final int x1, final int x2) {
 			for (int x = x1; x <= x2; x++) {
 				getVerticalWall(new Position(x, y)).close();
 			}
 		}
 
-		public Wall getHorizontalWall(Position position) {
+		public Wall getHorizontalWall(final Position position) {
 			if (position.x < delegateGrid.getSize().width) {
 				return getSquare(position).getWall(Direction.LEFT);
 			}
 			return getSquare(position.move(Direction.LEFT.getMove())).getWall(Direction.RIGHT);
 		}
 
-		public Wall getVerticalWall(Position position) {
+		public Wall getVerticalWall(final Position position) {
 			if (position.y < delegateGrid.getSize().height) {
 				return getSquare(position).getWall(Direction.UP);
 			}

@@ -32,7 +32,9 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
  * and dead ends. Note if you flip a binary tree Maze upside down and treat
  * passages as walls and vice versa, the result is basically another binary
  * tree.
- * <p><a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the description</a>
+ * <p>
+ * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
+ * description</a>
  */
 public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 	private static final SimpleLogger log = new SimpleLogger(BinaryTreeMazeGenerator.class);
@@ -48,7 +50,8 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 		final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
 
 		grid.forAllSquares(new Grid.UtilityWrapper.SquareVisitor<Void>() {
-			public Void visitSquare(Position position, Square square) {
+			@Override
+			public Void visitSquare(final Position position, final Square square) {
 				if (grid.isBorderSquare(LEFT, position)) {
 					if (grid.isBorderSquare(UP, position)) {
 						log.ludicrous("Create upper left entrance");

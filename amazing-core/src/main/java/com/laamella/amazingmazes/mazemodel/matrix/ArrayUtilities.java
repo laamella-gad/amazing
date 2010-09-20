@@ -10,7 +10,8 @@ public class ArrayUtilities {
 	public static abstract class Visitor2dArrayWithNewRow implements Visitor2dArray {
 		private int row = 0;
 
-		public final void visit(Position position) {
+		@Override
+		public final void visit(final Position position) {
 			visit_(position);
 			if (row != position.y) {
 				newRow();
@@ -24,7 +25,7 @@ public class ArrayUtilities {
 
 	}
 
-	public static <T> void visit2dArray(T[][] array, Visitor2dArray visitor) {
+	public static <T> void visit2dArray(final T[][] array, final Visitor2dArray visitor) {
 		for (int y = 0; y < array[0].length; y++) {
 			for (int x = 0; x < array.length; x++) {
 				visitor.visit(new Position(x, y));
@@ -32,7 +33,7 @@ public class ArrayUtilities {
 		}
 	}
 
-	public static void visit2dArray(int[][] array, Visitor2dArray visitor) {
+	public static void visit2dArray(final int[][] array, final Visitor2dArray visitor) {
 		for (int y = 0; y < array[0].length; y++) {
 			for (int x = 0; x < array.length; x++) {
 				visitor.visit(new Position(x, y));

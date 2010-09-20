@@ -32,7 +32,7 @@ public class PeanoCurveProgram implements GridLogoProgram {
 		this.mirror = mirror;
 	}
 
-	private void right(Turtle turtle, boolean mirror) {
+	private void right(final Turtle turtle, final boolean mirror) {
 		if (mirror) {
 			turtle.left();
 		} else {
@@ -40,7 +40,7 @@ public class PeanoCurveProgram implements GridLogoProgram {
 		}
 	}
 
-	private void left(Turtle turtle, boolean mirror) {
+	private void left(final Turtle turtle, final boolean mirror) {
 		if (mirror) {
 			turtle.right();
 		} else {
@@ -81,12 +81,13 @@ public class PeanoCurveProgram implements GridLogoProgram {
 		drawCurve(turtle, degree - 1, rightTurning);
 	}
 
+	@Override
 	public void run(final Turtle turtle) {
 		drawCurve(turtle, degree, mirror);
 	}
 
 	@Override
-	public Square getStartSquare(UtilityWrapper grid) {
+	public Square getStartSquare(final UtilityWrapper grid) {
 		return grid.getTopLeftSquare();
 	}
 }

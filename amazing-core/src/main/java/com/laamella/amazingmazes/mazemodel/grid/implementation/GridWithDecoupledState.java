@@ -11,7 +11,7 @@ import com.laamella.amazingmazes.generators.MazeGenerator;
 import com.laamella.amazingmazes.mazemodel.*;
 import com.laamella.amazingmazes.mazemodel.graph.*;
 import com.laamella.amazingmazes.mazemodel.grid.*;
-import com.laamella.amazingmazes.mazemodel.matrix.ArrayUtilities;
+import static com.laamella.amazingmazes.mazemodel.matrix.ArrayUtilities.*;
 
 /**
  * Grid knows about relationships between squares and walls, but knows nothing
@@ -40,8 +40,9 @@ public class GridWithDecoupledState implements Grid {
 	}
 
 	private void createGraphObjects(final GridStateStorage stateStorage) {
-		ArrayUtilities.visit2dArray(horizontalWalls, new ArrayUtilities.Visitor2dArray() {
-			public void visit(Position position) {
+		visit2dArray(horizontalWalls, new Visitor2dArray() {
+			@Override
+			public void visit(final Position position) {
 				final WallDefault wall = new WallDefault(stateStorage, position, true, GridWithDecoupledState.this);
 				horizontalWalls[position.x][position.y] = wall;
 				if (position.y > 0 && position.y < getSize().height) {
@@ -49,8 +50,9 @@ public class GridWithDecoupledState implements Grid {
 				}
 			}
 		});
-		ArrayUtilities.visit2dArray(verticalWalls, new ArrayUtilities.Visitor2dArray() {
-			public void visit(Position position) {
+		visit2dArray(verticalWalls, new Visitor2dArray() {
+			@Override
+			public void visit(final Position position) {
 				final WallDefault wall = new WallDefault(stateStorage, position, false, GridWithDecoupledState.this);
 				verticalWalls[position.x][position.y] = wall;
 				if (position.x > 0 && position.x < getSize().width) {
@@ -58,8 +60,9 @@ public class GridWithDecoupledState implements Grid {
 				}
 			}
 		});
-		ArrayUtilities.visit2dArray(squares, new ArrayUtilities.Visitor2dArray() {
-			public void visit(Position position) {
+		visit2dArray(squares, new Visitor2dArray() {
+			@Override
+			public void visit(final Position position) {
 				final SquareDefault square = new SquareDefault(stateStorage, position, GridWithDecoupledState.this);
 				squares[position.x][position.y] = square;
 				vertices.add(square);
@@ -70,13 +73,15 @@ public class GridWithDecoupledState implements Grid {
 		});
 	}
 
+	@Override
 	public Size getSize() {
 		return size;
 	}
 
 	private void connectGraphObjects() {
-		ArrayUtilities.visit2dArray(horizontalWalls, new ArrayUtilities.Visitor2dArray() {
-			public void visit(Position position) {
+		visit2dArray(horizontalWalls, new Visitor2dArray() {
+			@Override
+			public void visit(final Position position) {
 				if (position.y == 0 || position.y == getSize().height) {
 					return;
 				}
@@ -85,8 +90,9 @@ public class GridWithDecoupledState implements Grid {
 				horizontalWalls[position.x][position.y].connect(squareAbove, squareBelow);
 			}
 		});
-		ArrayUtilities.visit2dArray(verticalWalls, new ArrayUtilities.Visitor2dArray() {
-			public void visit(Position position) {
+		visit2dArray(verticalWalls, new Visitor2dArray() {
+			@Override
+			public void visit(final Position position) {
 				if (position.x == 0 || position.x == getSize().width) {
 					return;
 				}
@@ -95,22 +101,24 @@ public class GridWithDecoupledState implements Grid {
 				verticalWalls[position.x][position.y].connect(squareLeft, squareRight);
 			}
 		});
-		ArrayUtilities.visit2dArray(squares, new ArrayUtilities.Visitor2dArray() {
-			public void visit(Position position) {
+		visit2dArray(squares, new Visitor2dArray() {
+			@Override
+			public void visit(final Position position) {
 				squares[position.x][position.y].connect();
 			}
 		});
 	}
 
-	public Square getSquare(Position position) {
+	@Override
+	public Square getSquare(final Position position) {
 		return squares[position.x][position.y];
 	}
 
-	public Wall getHorizontalWall(int x, int y) {
+	public Wall getHorizontalWall(final int x, final int y) {
 		return horizontalWalls[x][y];
 	}
 
-	public Wall getVerticalWall(int x, int y) {
+	public Wall getVerticalWall(final int x, final int y) {
 		return verticalWalls[x][y];
 	}
 
@@ -133,7 +141,8 @@ public class GridWithDecoupledState implements Grid {
 		private final State stateStorage;
 		private final int id;
 
-		public SquareDefault(final GridStateStorage stateStorage, final Position position, final GridWithDecoupledState grid) {
+		public SquareDefault(final GridStateStorage stateStorage, final Position position,
+				final GridWithDecoupledState grid) {
 			this.stateStorage = stateStorage.getSquareState(position);
 			this.position = position;
 			this.grid = grid;
@@ -141,8 +150,9 @@ public class GridWithDecoupledState implements Grid {
 		}
 
 		void connect() {
-			wallMap = new DirectionMap<Wall>(grid.getHorizontalWall(position.x, position.y), grid.getVerticalWall(position.x + 1, position.y), grid
-					.getHorizontalWall(position.x, position.y + 1), grid.getVerticalWall(position.x, position.y));
+			wallMap = new DirectionMap<Wall>(grid.getHorizontalWall(position.x, position.y), grid.getVerticalWall(
+					position.x + 1, position.y), grid.getHorizontalWall(position.x, position.y + 1),
+					grid.getVerticalWall(position.x, position.y));
 			edges = new HashSet<Edge>();
 			squareMap = new DirectionMap<Square>();
 			if (position.y > 0) {
@@ -163,23 +173,28 @@ public class GridWithDecoupledState implements Grid {
 			}
 		}
 
-		public Wall getWall(Direction wall) {
+		@Override
+		public Wall getWall(final Direction wall) {
 			return wallMap.get(wall);
 		}
 
-		public Square getSquare(Direction direction) {
+		@Override
+		public Square getSquare(final Direction direction) {
 			return squareMap.get(direction);
 		}
 
+		@Override
 		public Position getPosition() {
 			return position;
 		}
 
-		public boolean hasState(Object state) {
+		@Override
+		public boolean hasState(final Object state) {
 			return stateStorage.hasState(state);
 		}
 
-		public void setState(Object newState, boolean mustBeSet) {
+		@Override
+		public void setState(final Object newState, final boolean mustBeSet) {
 			stateStorage.setState(newState, mustBeSet);
 		}
 
@@ -194,12 +209,12 @@ public class GridWithDecoupledState implements Grid {
 		}
 
 		@Override
-		public Integer getState(Object state) {
+		public Integer getState(final Object state) {
 			return stateStorage.getState(state);
 		}
 
 		@Override
-		public void setState(Object state, int value) {
+		public void setState(final Object state, final int value) {
 			stateStorage.setState(state, value);
 		}
 
@@ -217,38 +232,45 @@ public class GridWithDecoupledState implements Grid {
 		private final GridWithDecoupledState grid;
 		private final int id;
 
-		public WallDefault(final GridStateStorage stateStorage, final Position position, final boolean horizontal, final GridWithDecoupledState grid) {
+		public WallDefault(final GridStateStorage stateStorage, final Position position, final boolean horizontal,
+				final GridWithDecoupledState grid) {
 			this.stateStorage = stateStorage.getWallState(position, horizontal);
 			this.grid = grid;
 			this.id = DEBUG_ID++;
 		}
 
-		void connect(Square squareA, Square squareB) {
+		void connect(final Square squareA, final Square squareB) {
 			this.squareA = squareA;
 			this.squareB = squareB;
 		}
 
+		@Override
 		public boolean isOpen() {
 			return stateStorage.hasState(PASSAGE);
 		}
 
-		public void setOpened(boolean open) {
+		@Override
+		public void setOpened(final boolean open) {
 			stateStorage.setState(PASSAGE, open);
 		}
 
+		@Override
 		public void close() {
 			setOpened(false);
 		}
 
+		@Override
 		public void open() {
 			setOpened(true);
 		}
 
-		public boolean hasState(Object state) {
+		@Override
+		public boolean hasState(final Object state) {
 			return stateStorage.hasState(state);
 		}
 
-		public void setState(Object newState, boolean mustBeSet) {
+		@Override
+		public void setState(final Object newState, final boolean mustBeSet) {
 			stateStorage.setState(newState, mustBeSet);
 		}
 
@@ -279,12 +301,12 @@ public class GridWithDecoupledState implements Grid {
 		}
 
 		@Override
-		public Integer getState(Object state) {
+		public Integer getState(final Object state) {
 			return stateStorage.getState(state);
 		}
 
 		@Override
-		public void setState(Object state, int value) {
+		public void setState(final Object state, final int value) {
 			stateStorage.setState(state, value);
 		}
 

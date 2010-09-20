@@ -21,7 +21,8 @@ public abstract class ListMatrix<T> implements Matrix<T> {
 
 	protected abstract T newItem();
 
-	public T get(Position position) {
+	@Override
+	public T get(final Position position) {
 		if (position.x >= size.width) {
 			throw new IndexOutOfBoundsException("x " + position.x + " >= " + size.width);
 		}
@@ -37,11 +38,13 @@ public abstract class ListMatrix<T> implements Matrix<T> {
 		return matrix.get(position.x + position.y * size.width);
 	}
 
+	@Override
 	public Size getSize() {
 		return size;
 	}
 
-	public void set(Position position, T value) {
+	@Override
+	public void set(final Position position, final T value) {
 		matrix.set(position.x + position.y * size.width, value);
 	}
 

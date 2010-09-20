@@ -1,6 +1,6 @@
+doc
 .manager
 target
 .settings
 *~
-*.bak
-.svn
+/target

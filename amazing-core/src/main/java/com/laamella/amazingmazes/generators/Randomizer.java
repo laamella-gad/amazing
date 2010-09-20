@@ -57,24 +57,29 @@ public interface Randomizer {
 			reset();
 		}
 
+		@Override
 		public boolean chance(final double d) {
 			return random.nextDouble() < d;
 		}
 
+		@Override
 		public void reset() {
 			random = new Random(seed);
 		}
 
+		@Override
 		public int random(final int max) {
 			return random.nextInt(max);
 		}
 
+		@Override
 		public Position randomPosition(final Size size) {
 			final int x = random(size.width);
 			final int y = random(size.height);
 			return new Position(x, y);
 		}
 
+		@Override
 		public int between(final int a, final int b) {
 			return a + random(b - a);
 		}

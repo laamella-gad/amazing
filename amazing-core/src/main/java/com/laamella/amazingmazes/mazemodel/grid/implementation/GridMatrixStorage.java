@@ -14,33 +14,38 @@ public class GridMatrixStorage implements GridStateStorage {
 		this.mazeMatrix = new Matrix.UtilityWrapper<ObservableObjectSetState>(mazeMatrix);
 		this.size = new Size((mazeMatrix.getSize().width - 1) / 2, (mazeMatrix.getSize().height - 1) / 2);
 		this.mazeMatrix.visitAllSquares(new Matrix.UtilityWrapper.MatrixVisitor<ObservableObjectSetState>() {
+			@Override
 			public void endRow() {
 			}
 
-			public void visit(Position position, ObservableObjectSetState value) {
+			@Override
+			public void visit(final Position position, final ObservableObjectSetState value) {
 				if (position.x % 2 == 1 && position.y % 2 == 1) {
 					GridMatrixStorage.this.mazeMatrix.get(position).setState(PASSAGE, true);
 				}
 			}
 
+			@Override
 			public void startRow() {
 			}
 		});
 	}
 
-	public State getSquareState(Position position) {
+	@Override
+	public State getSquareState(final Position position) {
 		return mazeMatrix.get(position.scale(2).move(1, 1));
 	}
 
+	@Override
 	public Size getSize() {
 		return size;
 	}
 
 	@Override
-	public State getWallState(Position position, boolean horizontal) {
+	public State getWallState(final Position position, final boolean horizontal) {
 		if (horizontal) {
-			return mazeMatrix.get(position.scale(2).move(1,0));
+			return mazeMatrix.get(position.scale(2).move(1, 0));
 		}
-		return mazeMatrix.get(position.scale(2).move(0,1));
+		return mazeMatrix.get(position.scale(2).move(0, 1));
 	}
 }

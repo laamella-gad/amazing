@@ -17,16 +17,19 @@ public class GridTurtle implements Turtle {
 		this.direction = direction;
 	}
 
+	@Override
 	public void right() {
 		log.debug("Right 90");
 		direction = direction.turnRight();
 	}
 
+	@Override
 	public void left() {
 		log.debug("Left 90");
 		direction = direction.turnLeft();
 	}
 
+	@Override
 	public void walk() {
 		log.debug("Walk");
 		currentSquare.getWall(direction).setOpened(true);

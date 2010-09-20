@@ -15,7 +15,7 @@ public interface State {
 	void setState(Object state, int value);
 
 	public static class ObservableObjectSetState extends Observable implements State {
-		private final Map<Object, Integer> states=new HashMap<Object, Integer>(4);
+		private final Map<Object, Integer> states = new HashMap<Object, Integer>(4);
 
 		@Override
 		public boolean hasState(final Object state) {
@@ -23,7 +23,7 @@ public interface State {
 		}
 
 		@Override
-		public void setState(Object newState, boolean mustBeSet) {
+		public void setState(final Object newState, final boolean mustBeSet) {
 			final boolean alreadyHas = hasState(newState);
 
 			if (alreadyHas && mustBeSet) {
@@ -43,12 +43,12 @@ public interface State {
 		}
 
 		@Override
-		public Integer getState(Object state) {
-			return (Integer)states.get(state);
+		public Integer getState(final Object state) {
+			return states.get(state);
 		}
 
 		@Override
-		public void setState(Object state, int value) {
+		public void setState(final Object state, final int value) {
 			states.put(state, value);
 		}
 

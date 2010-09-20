@@ -29,6 +29,7 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
  * <a href="http://www.astrolog.org/labyrnth/algrithm.htm">Source of the
  * description</a>
  */
+// TODO finish
 public class HuntAndKillMazeGenerator implements GridMazeGenerator {
 	private final Randomizer randomizer;
 	private final Hunter hunter;
@@ -39,9 +40,9 @@ public class HuntAndKillMazeGenerator implements GridMazeGenerator {
 	}
 
 	@Override
-	public void generateMaze(Grid grid) {
+	public void generateMaze(final Grid grid) {
 		randomizer.randomPosition(grid.getSize());
-		
+
 	}
 
 	/**
@@ -51,14 +52,15 @@ public class HuntAndKillMazeGenerator implements GridMazeGenerator {
 		Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare);
 
 		/**
-		 * Scans the grid from left to right, top to bottom, for an unmade square.
+		 * Scans the grid from left to right, top to bottom, for an unmade
+		 * square.
 		 */
 		public static class ReadingDirectionHunter implements Hunter {
 			@Override
-			public Square huntForUnmadeSquare(Grid grid, Square lastMadeSquare) {
+			public Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare) {
 				return new Grid.UtilityWrapper(grid).forAllSquares(new Grid.UtilityWrapper.SquareVisitor<Square>() {
 					@Override
-					public Square visitSquare(Position position, Square square) {
+					public Square visitSquare(final Position position, final Square square) {
 						if (!square.hasState(VISITED_WHILE_GENERATING)) {
 							return square;
 						}
