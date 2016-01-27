@@ -12,7 +12,8 @@
 	<version>0.1-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
-	<name>Amazing GUI</name>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<description>An unfinished attempt at creating a GUI for visualization of the algorithms</description>
 
 	<dependencies>
 		<dependency>
