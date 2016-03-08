@@ -8,6 +8,8 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Maze generator and solver</description>
     <url>https://github.com/laamella-gad/amazing</url>
+    
+    <description>A personal exploration into the world of maze generation, with a focus on clearly expressing the algorithms</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
