@@ -2,7 +2,6 @@ package com.laamella.amazingmazes.generators.daedalus;
 
 import com.laamella.amazingmazes.generators.GridMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
-import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.grid.Grid;
 import com.laamella.amazingmazes.mazemodel.grid.Square;
 
@@ -31,45 +30,42 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
  */
 // TODO finish
 public class HuntAndKillMazeGenerator implements GridMazeGenerator {
-	private final Randomizer randomizer;
-	private final Hunter hunter;
+    private final Randomizer randomizer;
+    private final Hunter hunter;
 
-	public HuntAndKillMazeGenerator(final Randomizer randomizer, final Hunter hunter) {
-		this.randomizer = randomizer;
-		this.hunter = hunter;
-	}
+    public HuntAndKillMazeGenerator(final Randomizer randomizer, final Hunter hunter) {
+        this.randomizer = randomizer;
+        this.hunter = hunter;
+    }
 
-	@Override
-	public void generateMaze(final Grid grid) {
-		randomizer.randomPosition(grid.getSize());
+    @Override
+    public void generateMaze(final Grid grid) {
+        randomizer.randomPosition(grid.getSize());
 
-	}
+    }
 
-	/**
-	 * Interface for hunt algorithms.
-	 */
-	public static interface Hunter {
-		Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare);
+    /**
+     * Interface for hunt algorithms.
+     */
+    public interface Hunter {
+        Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare);
 
-		/**
-		 * Scans the grid from left to right, top to bottom, for an unmade
-		 * square.
-		 */
-		public static class ReadingDirectionHunter implements Hunter {
-			@Override
-			public Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare) {
-				return new Grid.UtilityWrapper(grid).forAllSquares(new Grid.UtilityWrapper.SquareVisitor<Square>() {
-					@Override
-					public Square visitSquare(final Position position, final Square square) {
-						if (!square.hasState(VISITED_WHILE_GENERATING)) {
-							return square;
-						}
-						return null;
-					}
-				});
-			}
+        /**
+         * Scans the grid from left to right, top to bottom, for an unmade
+         * square.
+         */
+        class ReadingDirectionHunter implements Hunter {
+            @Override
+            public Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare) {
+                return new Grid.UtilityWrapper(grid).forAllSquares((position, square) -> {
+                    if (!square.hasState(VISITED_WHILE_GENERATING)) {
+                        return square;
+                    }
+                    return null;
+                });
+            }
 
-		}
-	}
+        }
+    }
 
 }

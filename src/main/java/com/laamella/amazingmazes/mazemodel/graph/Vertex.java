@@ -1,14 +1,14 @@
 package com.laamella.amazingmazes.mazemodel.graph;
 
-import java.util.Set;
-
 import com.laamella.amazingmazes.mazemodel.State;
 
+import java.util.Set;
+
 /**
- * 
+ *
  */
 public interface Vertex extends State {
-	Set<Edge> getEdges();
+    Set<Edge> getEdges();
 
-	Graph getGraph();
+    Graph getGraph();
 }

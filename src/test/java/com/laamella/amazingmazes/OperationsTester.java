@@ -1,14 +1,5 @@
 package com.laamella.amazingmazes;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.ENTRANCE;
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.EXIT;
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.laamella.amazingmazes.generators.Randomizer;
 import com.laamella.amazingmazes.generators.daedalus.PrimMazeGenerator;
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
@@ -22,74 +13,75 @@ import com.laamella.amazingmazes.operations.DistanceFromDeadEndMarker;
 import com.laamella.amazingmazes.operations.MostDistantEntranceAndExitFinder;
 import com.laamella.amazingmazes.operations.MostDistantExitMarker;
 import com.laamella.amazingmazes.operations.VertexDistanceMarker;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
 
 public class OperationsTester {
-	private static Logger log = LoggerFactory.getLogger(OperationsTester.class);
+    private static Logger log = LoggerFactory.getLogger(OperationsTester.class);
 
-	private StateMatrix mazeStateMatrix;
-	private Grid.UtilityWrapper grid;
-	private GridMatrixStorage stateStorage;
+    private StateMatrix mazeStateMatrix;
+    private Grid.UtilityWrapper grid;
 
-	private Randomizer.Default randomGenerator;
+    private final StateMatrixPrettyPrinter defaultStateMatrixPrettyPrinter = new StateMatrixPrettyPrinter();
 
-	private PrimMazeGenerator mazeGenerator;
+    @Before
+    public void before() {
+        mazeStateMatrix = new StateMatrix(new Size(149, 41));
+        GridMatrixStorage stateStorage = new GridMatrixStorage(mazeStateMatrix);
+        grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
+        Randomizer.Default randomGenerator = new Randomizer.Default();
+        PrimMazeGenerator mazeGenerator = new PrimMazeGenerator(randomGenerator);
+        grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
+        mazeGenerator.generateMaze(grid);
+        mazeStateMatrix.addObserver(new PrettyPrintObserver(mazeStateMatrix));
+    }
 
-	private final StateMatrixPrettyPrinter defaultStateMatrixPrettyPrinter = new StateMatrixPrettyPrinter();
+    @Test
+    public void testDistanceMarkingOperation() {
+        new VertexDistanceMarker().mark(grid.getSquare(new Position(5, 5)));
 
-	@Before
-	public void before() {
-		mazeStateMatrix = new StateMatrix(new Size(149, 41));
-		stateStorage = new GridMatrixStorage(mazeStateMatrix);
-		grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
-		randomGenerator = new Randomizer.Default();
-		mazeGenerator = new PrimMazeGenerator(randomGenerator);
-		grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);
-		mazeGenerator.generateMaze(grid);
-		mazeStateMatrix.addObserver(new PrettyPrintObserver(mazeStateMatrix));
-	}
+        final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
+        stateMatrixPrettyPrinter.map(VertexDistanceMarker.DISTANCE);
+        stateMatrixPrettyPrinter.map(PASSAGE, ' ');
+        log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
+    }
 
-	@Test
-	public void testDistanceMarkingOperation() {
-		new VertexDistanceMarker().mark(grid.getSquare(new Position(5, 5)));
+    @Test
+    public void testMostDistanceExitMarkingOperation() {
+        new MostDistantExitMarker().findMostDistantExit(grid);
 
-		final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
-		stateMatrixPrettyPrinter.map(VertexDistanceMarker.DISTANCE);
-		stateMatrixPrettyPrinter.map(PASSAGE, ' ');
-		log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
-	}
+        final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
+        stateMatrixPrettyPrinter.map(VertexDistanceMarker.DISTANCE);
+        stateMatrixPrettyPrinter.map(PASSAGE, ' ');
+        log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
+        log.debug(defaultStateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
+    }
 
-	@Test
-	public void testMostDistanceExitMarkingOperation() {
-		new MostDistantExitMarker().findMostDistantExit(grid);
+    @Test
+    public void testDistanceFromDeadEndMarkerOperation() {
+        final DistanceFromDeadEndMarker longestPathFinderOperation = new DistanceFromDeadEndMarker();
 
-		final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
-		stateMatrixPrettyPrinter.map(VertexDistanceMarker.DISTANCE);
-		stateMatrixPrettyPrinter.map(PASSAGE, ' ');
-		log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
-		log.debug(defaultStateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
-	}
+        final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
+        stateMatrixPrettyPrinter.map(DistanceFromDeadEndMarker.DISTANCE_FROM_DEAD_END);
+        stateMatrixPrettyPrinter.map(PASSAGE, ' ');
 
-	@Test
-	public void testDistanceFromDeadEndMarkerOperation() {
-		final DistanceFromDeadEndMarker longestPathFinderOperation = new DistanceFromDeadEndMarker();
+        longestPathFinderOperation.addObserver(new PrettyPrintObserver(mazeStateMatrix, stateMatrixPrettyPrinter));
 
-		final StateMatrixPrettyPrinter stateMatrixPrettyPrinter = new StateMatrixPrettyPrinter('#');
-		stateMatrixPrettyPrinter.map(DistanceFromDeadEndMarker.DISTANCE_FROM_DEAD_END);
-		stateMatrixPrettyPrinter.map(PASSAGE, ' ');
+        longestPathFinderOperation.execute(grid);
 
-		longestPathFinderOperation.addObserver(new PrettyPrintObserver(mazeStateMatrix, stateMatrixPrettyPrinter));
+        log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
+    }
 
-		longestPathFinderOperation.execute(grid);
-
-		log.debug(stateMatrixPrettyPrinter.getPrintableMaze(mazeStateMatrix));
-	}
-
-	@Test
-	public void testMostDistantEntranceAndExitFinder() {
-		grid.clearState(ENTRANCE);
-		grid.clearState(EXIT);
-		new DistanceFromDeadEndMarker().execute(grid);
-		new MostDistantEntranceAndExitFinder().execute(grid);
-	}
+    @Test
+    public void testMostDistantEntranceAndExitFinder() {
+        grid.clearState(ENTRANCE);
+        grid.clearState(EXIT);
+        new DistanceFromDeadEndMarker().execute(grid);
+        new MostDistantEntranceAndExitFinder().execute(grid);
+    }
 
 }

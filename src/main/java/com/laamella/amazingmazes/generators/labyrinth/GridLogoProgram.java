@@ -9,7 +9,7 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
  * only a few commands, but enough to draw paths through mazes.
  */
 public interface GridLogoProgram {
-	void run(Turtle turtle);
+    void run(Turtle turtle);
 
-	Square getStartSquare(Grid.UtilityWrapper grid);
+    Square getStartSquare(Grid.UtilityWrapper grid);
 }

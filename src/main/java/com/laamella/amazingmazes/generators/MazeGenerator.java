@@ -5,6 +5,6 @@ package com.laamella.amazingmazes.generators;
  * some algorithm.
  */
 public interface MazeGenerator {
-	public static Object VISITED_WHILE_GENERATING = new Object();
-	public static Object POSSIBLE_EXIT = new Object();
+    Object VISITED_WHILE_GENERATING = new Object();
+    Object POSSIBLE_EXIT = new Object();
 }

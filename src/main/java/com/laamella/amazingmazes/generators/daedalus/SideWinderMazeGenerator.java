@@ -1,10 +1,15 @@
 package com.laamella.amazingmazes.generators.daedalus;
 
-import java.util.*;
-
-import com.laamella.amazingmazes.generators.*;
+import com.laamella.amazingmazes.generators.Randomizer;
+import com.laamella.amazingmazes.generators.RowMazeGenerator;
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
-import com.laamella.amazingmazes.mazemodel.grid.*;
+import com.laamella.amazingmazes.mazemodel.grid.Direction;
+import com.laamella.amazingmazes.mazemodel.grid.RowGenerator;
+import com.laamella.amazingmazes.mazemodel.grid.Square;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This simple algorithm is very similar to the binary tree algorithm, and only
@@ -35,45 +40,45 @@ import com.laamella.amazingmazes.mazemodel.grid.*;
  * description</a>
  */
 public class SideWinderMazeGenerator implements RowMazeGenerator {
-	private final Randomizer randomizer;
+    private final Randomizer randomizer;
 
-	public SideWinderMazeGenerator(final Randomizer randomizer) {
-		this.randomizer = randomizer;
-	}
+    public SideWinderMazeGenerator(final Randomizer randomizer) {
+        this.randomizer = randomizer;
+    }
 
-	@Override
-	public void generateMaze(final RowGenerator rowGenerator) {
-		generateFirstRow(rowGenerator.nextRow());
-		while (rowGenerator.rowsToGo() > 0) {
-			generateRow(rowGenerator.nextRow());
-		}
-	}
+    @Override
+    public void generateMaze(final RowGenerator rowGenerator) {
+        generateFirstRow(rowGenerator.nextRow());
+        while (rowGenerator.rowsToGo() > 0) {
+            generateRow(rowGenerator.nextRow());
+        }
+    }
 
-	private void generateRow(final List<Square> row) {
-		final Set<Square> currentRun = new HashSet<Square>();
-		for (final Square square : row) {
-			currentRun.add(square);
-			if (thereIsASquareToTheRight(square) && randomizer.chance(0.5)) {
-				square.getWall(Direction.RIGHT).open();
-			} else {
-				randomizer.pickOne(currentRun).getWall(Direction.UP).open();
-				currentRun.clear();
-			}
-		}
-	}
+    private void generateRow(final List<Square> row) {
+        final Set<Square> currentRun = new HashSet<>();
+        for (final Square square : row) {
+            currentRun.add(square);
+            if (thereIsASquareToTheRight(square) && randomizer.chance(0.5)) {
+                square.getWall(Direction.RIGHT).open();
+            } else {
+                randomizer.pickOne(currentRun).getWall(Direction.UP).open();
+                currentRun.clear();
+            }
+        }
+    }
 
-	private boolean thereIsASquareToTheRight(final Square square) {
-		return square.getSquare(Direction.RIGHT) != null;
-	}
+    private boolean thereIsASquareToTheRight(final Square square) {
+        return square.getSquare(Direction.RIGHT) != null;
+    }
 
-	private void generateFirstRow(final List<Square> row) {
-		for (final Square square : row) {
-			if (thereIsASquareToTheRight(square)) {
-				square.getWall(Direction.RIGHT).open();
-			}
-		}
-		final Square startSquare = row.get(randomizer.random(row.size()));
-		startSquare.getWall(Direction.UP).open();
-		startSquare.setState(MazeDefinitionState.ENTRANCE, true);
-	}
+    private void generateFirstRow(final List<Square> row) {
+        for (final Square square : row) {
+            if (thereIsASquareToTheRight(square)) {
+                square.getWall(Direction.RIGHT).open();
+            }
+        }
+        final Square startSquare = row.get(randomizer.random(row.size()));
+        startSquare.getWall(Direction.UP).open();
+        startSquare.setState(MazeDefinitionState.ENTRANCE, true);
+    }
 }

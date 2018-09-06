@@ -18,34 +18,34 @@ import com.laamella.amazingmazes.mazemodel.graph.Vertex;
  * solution if one exists, but it won't necessarily be the shortest solution.
  */
 public class RecursiveBacktrackerSolver implements Solver {
-	public boolean solve(final Vertex entrance) {
-		return recurse(entrance);
-	}
+    public boolean solve(final Vertex entrance) {
+        return recurse(entrance);
+    }
 
-	private boolean recurse(final Vertex currentVertex) {
-		currentVertex.setState(VISITED_WHILE_SOLVING, true);
+    private boolean recurse(final Vertex currentVertex) {
+        currentVertex.setState(VISITED_WHILE_SOLVING, true);
 
-		if (currentVertex.hasState(MazeDefinitionState.EXIT)) {
-			// Found the exit!
-			currentVertex.setState(SOLUTION, true);
-			return true;
-		}
+        if (currentVertex.hasState(MazeDefinitionState.EXIT)) {
+            // Found the exit!
+            currentVertex.setState(SOLUTION, true);
+            return true;
+        }
 
-		for (final Edge edge : currentVertex.getEdges()) {
-			if (edge.hasState(MazeDefinitionState.PASSAGE)) {
-				final Vertex otherVertex = edge.travel(currentVertex);
-				if (!otherVertex.hasState(VISITED_WHILE_SOLVING)) {
-					if (recurse(otherVertex)) {
-						// The exit has been found ahead of us, so we're part of
-						// the solution.
-						edge.setState(SOLUTION, true);
-						currentVertex.setState(SOLUTION, true);
-						return true;
-					}
-				}
-			}
-		}
-		// No exit here.
-		return false;
-	}
+        for (final Edge edge : currentVertex.getEdges()) {
+            if (edge.hasState(MazeDefinitionState.PASSAGE)) {
+                final Vertex otherVertex = edge.travel(currentVertex);
+                if (!otherVertex.hasState(VISITED_WHILE_SOLVING)) {
+                    if (recurse(otherVertex)) {
+                        // The exit has been found ahead of us, so we're part of
+                        // the solution.
+                        edge.setState(SOLUTION, true);
+                        currentVertex.setState(SOLUTION, true);
+                        return true;
+                    }
+                }
+            }
+        }
+        // No exit here.
+        return false;
+    }
 }

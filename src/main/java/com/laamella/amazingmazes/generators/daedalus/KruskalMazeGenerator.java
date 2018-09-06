@@ -1,10 +1,14 @@
 package com.laamella.amazingmazes.generators.daedalus;
 
-import java.util.*;
-
-import com.laamella.amazingmazes.generators.*;
+import com.laamella.amazingmazes.generators.GraphMazeGenerator;
+import com.laamella.amazingmazes.generators.Randomizer;
+import com.laamella.amazingmazes.generators.Sets;
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
-import com.laamella.amazingmazes.mazemodel.graph.*;
+import com.laamella.amazingmazes.mazemodel.graph.Edge;
+import com.laamella.amazingmazes.mazemodel.graph.Graph;
+import com.laamella.amazingmazes.mazemodel.graph.Vertex;
+
+import java.util.Set;
 
 /**
  * This algorithm is interesting because it doesn't "grow" the Maze like a tree,
@@ -35,39 +39,39 @@ import com.laamella.amazingmazes.mazemodel.graph.*;
  */
 public class KruskalMazeGenerator implements GraphMazeGenerator {
 
-	private final Randomizer randomizer;
+    private final Randomizer randomizer;
 
-	public KruskalMazeGenerator(final Randomizer randomizer) {
-		this.randomizer = randomizer;
-	}
+    public KruskalMazeGenerator(final Randomizer randomizer) {
+        this.randomizer = randomizer;
+    }
 
-	@Override
-	public void generateMaze(final Graph graph) {
-		final Vertex entranceVertex = new Graph.UtilityWrapper(graph).getEntrance();
+    @Override
+    public void generateMaze(final Graph graph) {
+        final Vertex entranceVertex = new Graph.UtilityWrapper(graph).getEntrance();
 
-		// Put all vertices in a set by themselves.
-		final Sets<Vertex> sets = new Sets<Vertex>();
-		for (final Vertex vertex : entranceVertex.getGraph().getVertices()) {
-			sets.putInNewSet(vertex);
-		}
+        // Put all vertices in a set by themselves.
+        final Sets<Vertex> sets = new Sets<>();
+        for (final Vertex vertex : entranceVertex.getGraph().getVertices()) {
+            sets.putInNewSet(vertex);
+        }
 
-		do {
-			// Pick a random edge.
-			// (Normal Kruskal would take the edge with the lowest weight here.)
-			final Edge edge = randomizer.pickOne(graph.getEdges());
+        do {
+            // Pick a random edge.
+            // (Normal Kruskal would take the edge with the lowest weight here.)
+            final Edge edge = randomizer.pickOne(graph.getEdges());
 
-			// See in which sets the corresponding vertices are.
-			final Vertex vertexA = edge.getVertexA();
-			final Vertex vertexB = edge.getVertexB();
-			final Set<Vertex> setA = sets.findSetContaining(vertexA);
-			final Set<Vertex> setB = sets.findSetContaining(vertexB);
+            // See in which sets the corresponding vertices are.
+            final Vertex vertexA = edge.getVertexA();
+            final Vertex vertexB = edge.getVertexB();
+            final Set<Vertex> setA = sets.findSetContaining(vertexA);
+            final Set<Vertex> setB = sets.findSetContaining(vertexB);
 
-			// If they are in different sets, we can connect them.
-			if (setA != setB) {
-				edge.setState(MazeDefinitionState.PASSAGE, true);
-				sets.unionSets(setA, setB);
-			}
-			// Stop when all vertices are in the same set
-		} while (sets.size() > 1);
-	}
+            // If they are in different sets, we can connect them.
+            if (setA != setB) {
+                edge.setState(MazeDefinitionState.PASSAGE, true);
+                sets.unionSets(setA, setB);
+            }
+            // Stop when all vertices are in the same set
+        } while (sets.size() > 1);
+    }
 }

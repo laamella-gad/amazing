@@ -9,5 +9,5 @@ import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
  * matrix cannot be represented as a static graph.
  */
 public interface MatrixMazeGenerator extends MazeGenerator {
-	void generateMaze(StateMatrix matrix);
+    void generateMaze(StateMatrix matrix);
 }

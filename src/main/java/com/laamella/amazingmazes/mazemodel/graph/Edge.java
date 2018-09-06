@@ -8,11 +8,11 @@ import com.laamella.amazingmazes.mazemodel.State;
 // TODO edges might need an orientation in degrees
 // TODO edges can be made uni-directional
 public interface Edge extends State {
-	Vertex getVertexA();
+    Vertex getVertexA();
 
-	Vertex getVertexB();
+    Vertex getVertexB();
 
-	Vertex travel(Vertex sourceVertex);
+    Vertex travel(Vertex sourceVertex);
 
-	Graph getGraph();
+    Graph getGraph();
 }

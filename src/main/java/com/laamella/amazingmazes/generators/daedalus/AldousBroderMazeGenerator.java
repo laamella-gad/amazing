@@ -1,17 +1,16 @@
 package com.laamella.amazingmazes.generators.daedalus;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.laamella.amazingmazes.generators.GraphMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The interesting thing about this algorithm is it generates all possible Mazes
@@ -21,7 +20,7 @@ import com.laamella.amazingmazes.mazemodel.graph.Vertex;
  * Pick a point, and move to a neighboring cell at random. If an uncarved cell
  * is entered, carve into it from the previous cell. Keep moving to neighboring
  * cells until all cells have been carved into.
- * 
+ *
  * <p>
  * Start at any node.
  * <ol>
@@ -55,30 +54,30 @@ import com.laamella.amazingmazes.mazemodel.graph.Vertex;
  * on the XKCD forums</a>
  */
 public class AldousBroderMazeGenerator implements GraphMazeGenerator {
-	private static Logger log = LoggerFactory.getLogger(AldousBroderMazeGenerator.class);
+    private static Logger log = LoggerFactory.getLogger(AldousBroderMazeGenerator.class);
 
-	private final Randomizer randomizer;
+    private final Randomizer randomizer;
 
-	public AldousBroderMazeGenerator(final Randomizer randomGenerator) {
-		this.randomizer = randomGenerator;
-	}
+    public AldousBroderMazeGenerator(final Randomizer randomGenerator) {
+        this.randomizer = randomGenerator;
+    }
 
-	@Override
-	public void generateMaze(final Graph graph) {
-		log.debug("generateMaze()");
-		final Set<Vertex> visitedVertices = new HashSet<Vertex>();
-		Vertex currentVertex = new Graph.UtilityWrapper(graph).getEntrance();
-		visitedVertices.add(currentVertex);
+    @Override
+    public void generateMaze(final Graph graph) {
+        log.debug("generateMaze()");
+        final Set<Vertex> visitedVertices = new HashSet<>();
+        Vertex currentVertex = new Graph.UtilityWrapper(graph).getEntrance();
+        visitedVertices.add(currentVertex);
 
-		while (visitedVertices.size() < graph.getVertices().size()) {
-			final Edge randomEdge = randomizer.pickOne(currentVertex.getEdges());
-			final Vertex randomVertex = randomEdge.travel(currentVertex);
-			if (!visitedVertices.contains(randomVertex)) {
-				randomEdge.setState(MazeDefinitionState.PASSAGE, true);
-				visitedVertices.add(randomVertex);
-			}
-			currentVertex = randomVertex;
-		}
+        while (visitedVertices.size() < graph.getVertices().size()) {
+            final Edge randomEdge = randomizer.pickOne(currentVertex.getEdges());
+            final Vertex randomVertex = randomEdge.travel(currentVertex);
+            if (!visitedVertices.contains(randomVertex)) {
+                randomEdge.setState(MazeDefinitionState.PASSAGE, true);
+                visitedVertices.add(randomVertex);
+            }
+            currentVertex = randomVertex;
+        }
 
-	}
+    }
 }

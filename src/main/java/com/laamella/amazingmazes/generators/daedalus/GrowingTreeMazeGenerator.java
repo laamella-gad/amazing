@@ -1,11 +1,16 @@
 package com.laamella.amazingmazes.generators.daedalus;
 
-import java.util.*;
-
 import com.laamella.amazingmazes.generators.GraphMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
-import com.laamella.amazingmazes.mazemodel.graph.*;
+import com.laamella.amazingmazes.mazemodel.graph.Edge;
+import com.laamella.amazingmazes.mazemodel.graph.Graph;
+import com.laamella.amazingmazes.mazemodel.graph.Vertex;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This is a general algorithm, capable of creating Mazes of different textures.
@@ -31,60 +36,57 @@ import com.laamella.amazingmazes.mazemodel.graph.*;
  * description</a>
  */
 public class GrowingTreeMazeGenerator implements GraphMazeGenerator {
-	private final Randomizer randomizer;
+    private final Randomizer randomizer;
 
-	public GrowingTreeMazeGenerator(final Randomizer randomizer) {
-		this.randomizer = randomizer;
-	}
+    public GrowingTreeMazeGenerator(final Randomizer randomizer) {
+        this.randomizer = randomizer;
+    }
 
-	@Override
-	public void generateMaze(final Graph graph) {
-		final List<Vertex> vertexList = new ArrayList<Vertex>();
-		putAStartVertexInTheList(graph, vertexList);
-		do {
-			final Vertex randomVertex = pickAVertexFromTheList(vertexList, randomizer);
-			final Edge edge = pickEdgeToUnvisitedVertex(randomVertex);
-			if (edge == null) {
-				vertexList.remove(randomVertex);
-			} else {
-				edge.setState(MazeDefinitionState.PASSAGE, true);
-				final Vertex destinationVertex = edge.travel(randomVertex);
-				destinationVertex.setState(VISITED_WHILE_GENERATING, true);
-				vertexList.add(destinationVertex);
-			}
-		} while (vertexList.size() > 0);
-	}
+    @Override
+    public void generateMaze(final Graph graph) {
+        final List<Vertex> vertexList = new ArrayList<>();
+        putAStartVertexInTheList(graph, vertexList);
+        do {
+            final Vertex randomVertex = pickAVertexFromTheList(vertexList, randomizer);
+            final Edge edge = pickEdgeToUnvisitedVertex(randomVertex);
+            if (edge == null) {
+                vertexList.remove(randomVertex);
+            } else {
+                edge.setState(MazeDefinitionState.PASSAGE, true);
+                final Vertex destinationVertex = edge.travel(randomVertex);
+                destinationVertex.setState(VISITED_WHILE_GENERATING, true);
+                vertexList.add(destinationVertex);
+            }
+        } while (vertexList.size() > 0);
+    }
 
-	private void putAStartVertexInTheList(final Graph graph, final List<Vertex> vertexList) {
-		final Vertex startVertex = randomizer.pickOne(graph.getVertices());
-		vertexList.add(startVertex);
-		startVertex.setState(VISITED_WHILE_GENERATING, true);
-	}
+    private void putAStartVertexInTheList(final Graph graph, final List<Vertex> vertexList) {
+        final Vertex startVertex = randomizer.pickOne(graph.getVertices());
+        vertexList.add(startVertex);
+        startVertex.setState(VISITED_WHILE_GENERATING, true);
+    }
 
-	private Edge pickEdgeToUnvisitedVertex(final Vertex randomVertex) {
-		final Set<Edge> possibleEdges = new HashSet<Edge>();
-		for (final Edge edge : randomVertex.getEdges()) {
-			final Vertex destinationVertex = edge.travel(randomVertex);
-			if (!destinationVertex.hasState(VISITED_WHILE_GENERATING)) {
-				possibleEdges.add(edge);
-			}
-		}
-		final Edge edge = randomizer.pickOne(possibleEdges);
-		return edge;
-	}
+    private Edge pickEdgeToUnvisitedVertex(final Vertex randomVertex) {
+        final Set<Edge> possibleEdges = new HashSet<>();
+        for (final Edge edge : randomVertex.getEdges()) {
+            final Vertex destinationVertex = edge.travel(randomVertex);
+            if (!destinationVertex.hasState(VISITED_WHILE_GENERATING)) {
+                possibleEdges.add(edge);
+            }
+        }
+        return randomizer.pickOne(possibleEdges);
+    }
 
-	/**
-	 * You can override this to implement the behaviour as mentioned in the
-	 * documentation above. The default implementation picks any element.
-	 * 
-	 * @param vertexList
-	 *            pick a vertex from this list.
-	 * @param randomizer
-	 *            useful for randomizing your pick.
-	 * @return a vertex from the list.
-	 */
-	protected Vertex pickAVertexFromTheList(final List<Vertex> vertexList, final Randomizer randomizer) {
-		return randomizer.pickOne(vertexList);
-	}
+    /**
+     * You can override this to implement the behaviour as mentioned in the
+     * documentation above. The default implementation picks any element.
+     *
+     * @param vertexList pick a vertex from this list.
+     * @param randomizer useful for randomizing your pick.
+     * @return a vertex from the list.
+     */
+    protected Vertex pickAVertexFromTheList(final List<Vertex> vertexList, final Randomizer randomizer) {
+        return randomizer.pickOne(vertexList);
+    }
 
 }
