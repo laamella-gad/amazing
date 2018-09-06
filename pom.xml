@@ -6,7 +6,6 @@
     <version>0.2-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>Maze generator and solver</description>
     <url>https://github.com/laamella-gad/amazing</url>
     
     <description>A personal exploration into the world of maze generation, with a focus on clearly expressing the algorithms</description>
