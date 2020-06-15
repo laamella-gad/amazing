@@ -1,6 +1,6 @@
 package com.laamella.amazingmazes.operations;
 
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
+import com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
@@ -8,7 +8,7 @@ import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 import static com.laamella.amazingmazes.operations.DistanceFromDeadEndMarker.DISTANCE_FROM_DEAD_END;
 import static com.laamella.amazingmazes.solvers.Solver.SOLUTION;
 
@@ -20,7 +20,7 @@ public class MostDistantEntranceAndExitFinder {
 
     public void execute(Graph graph) {
         Vertex midPoint = getVertexWithHighestDistance(graph.getVertices());
-        midPoint.setState(SOLUTION, true);
+        midPoint.mark(SOLUTION);
         Set<Vertex> verticesAroundVertex = getVerticesAroundVertex(midPoint);
         Vertex direction1 = getVertexWithHighestDistance(verticesAroundVertex);
         verticesAroundVertex.remove(direction1);
@@ -30,12 +30,12 @@ public class MostDistantEntranceAndExitFinder {
 
     }
 
-    private void walkToDeadEndAndMark(Vertex currentVertex, MazeDefinitionState marker) {
-        currentVertex.setState(SOLUTION, true);
+    private void walkToDeadEndAndMark(Vertex currentVertex, MazeDefinitionMarker marker) {
+        currentVertex.mark(SOLUTION);
         Vertex nextVertex = getVertexWithHighestDistance(getVerticesAroundVertex(currentVertex));
         if (nextVertex == null) {
             // Reached the end of the walk
-            currentVertex.setState(marker, true);
+            currentVertex.mark(marker);
             return;
         }
         walkToDeadEndAndMark(nextVertex, marker);
@@ -44,10 +44,10 @@ public class MostDistantEntranceAndExitFinder {
     private Vertex getVertexWithHighestDistance(Set<Vertex> vertices) {
         Vertex bestVertex = null;
         for (Vertex vertex : vertices) {
-            if (!vertex.hasState(SOLUTION)) {
+            if (!vertex.isMarked(SOLUTION)) {
                 if (bestVertex == null) {
                     bestVertex = vertex;
-                } else if (vertex.getState(DISTANCE_FROM_DEAD_END) > bestVertex.getState(DISTANCE_FROM_DEAD_END)) {
+                } else if (vertex.getNumberMarker(DISTANCE_FROM_DEAD_END) > bestVertex.getNumberMarker(DISTANCE_FROM_DEAD_END)) {
                     bestVertex = vertex;
                 }
             }
@@ -58,7 +58,7 @@ public class MostDistantEntranceAndExitFinder {
     private Set<Vertex> getVerticesAroundVertex(Vertex vertex) {
         Set<Vertex> vertices = new HashSet<>();
         for (Edge edge : vertex.getEdges()) {
-            if (edge.hasState(PASSAGE)) {
+            if (edge.isMarked(PASSAGE)) {
                 vertices.add(edge.travel(vertex));
             }
         }

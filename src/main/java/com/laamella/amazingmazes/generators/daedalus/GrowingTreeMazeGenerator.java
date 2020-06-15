@@ -2,7 +2,6 @@ package com.laamella.amazingmazes.generators.daedalus;
 
 import com.laamella.amazingmazes.generators.GraphMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
@@ -12,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 
 /**
  * This is a general algorithm, capable of creating Mazes of different textures.
@@ -54,9 +53,9 @@ public class GrowingTreeMazeGenerator implements GraphMazeGenerator {
             if (edge == null) {
                 vertexList.remove(randomVertex);
             } else {
-                edge.setState(PASSAGE, true);
+                edge.mark(PASSAGE);
                 Vertex destinationVertex = edge.travel(randomVertex);
-                destinationVertex.setState(VISITED_WHILE_GENERATING, true);
+                destinationVertex.mark(VISITED_WHILE_GENERATING);
                 vertexList.add(destinationVertex);
             }
         } while (vertexList.size() > 0);
@@ -65,14 +64,14 @@ public class GrowingTreeMazeGenerator implements GraphMazeGenerator {
     private void putAStartVertexInTheList(Graph graph, List<Vertex> vertexList) {
         Vertex startVertex = randomizer.pickOne(graph.getVertices());
         vertexList.add(startVertex);
-        startVertex.setState(VISITED_WHILE_GENERATING, true);
+        startVertex.mark(VISITED_WHILE_GENERATING);
     }
 
     private Edge pickEdgeToUnvisitedVertex(Vertex randomVertex) {
         Set<Edge> possibleEdges = new HashSet<>();
         for (Edge edge : randomVertex.getEdges()) {
             Vertex destinationVertex = edge.travel(randomVertex);
-            if (!destinationVertex.hasState(VISITED_WHILE_GENERATING)) {
+            if (!destinationVertex.isMarked(VISITED_WHILE_GENERATING)) {
                 possibleEdges.add(edge);
             }
         }

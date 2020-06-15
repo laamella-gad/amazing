@@ -10,21 +10,20 @@ import com.laamella.amazingmazes.generators.original.RecursiveBacktrackerMazeGen
 import com.laamella.amazingmazes.generators.various.EllerMazeGeneratorC64;
 import com.laamella.amazingmazes.generators.various.RecursiveDivisionMazeGenerator;
 import com.laamella.amazingmazes.generators.various.RysgaardMazeGenerator;
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
-import com.laamella.amazingmazes.mazemodel.MazeState;
+import com.laamella.amazingmazes.mazemodel.Marker;
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
 import com.laamella.amazingmazes.mazemodel.grid.Grid;
 import com.laamella.amazingmazes.mazemodel.grid.implementation.GridMatrixStorage;
 import com.laamella.amazingmazes.mazemodel.grid.implementation.GridRowGenerator;
-import com.laamella.amazingmazes.mazemodel.grid.implementation.GridWithDecoupledState;
-import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
+import com.laamella.amazingmazes.mazemodel.grid.implementation.GridWithDecoupledMarkers;
+import com.laamella.amazingmazes.mazemodel.matrix.implementation.MarkableMatrix;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.LEFT;
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.RIGHT;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -33,14 +32,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MazeGeneratorTester {
     static Logger log = LoggerFactory.getLogger(MazeGeneratorTester.class);
 
-    private StateMatrix mazeMatrix;
+    private MarkableMatrix mazeMatrix;
     private Grid grid;
     private Randomizer.Default randomGenerator;
 
     @BeforeEach
      void before() {
-        mazeMatrix = new StateMatrix(new Size(19, 19));
-        grid = new GridWithDecoupledState(new GridMatrixStorage(mazeMatrix));
+        mazeMatrix = new MarkableMatrix(new Size(19, 19));
+        grid = new GridWithDecoupledMarkers(new GridMatrixStorage(mazeMatrix));
         randomGenerator = new Randomizer.Default();
 
         mazeMatrix.addObserver(new PrettyPrintObserver(mazeMatrix));
@@ -61,7 +60,7 @@ public class MazeGeneratorTester {
     @Test
      void testAldousBroderMazeGenerator() {
         AldousBroderMazeGenerator mazeGenerator = new AldousBroderMazeGenerator(randomGenerator);
-        grid.getTopLeftSquare().setState(ENTRANCE, true);
+        grid.getTopLeftSquare().mark(ENTRANCE);
         mazeGenerator.generateMaze(grid);
         // assertTrue(new RecursiveBacktrackerSolver().solve(new
         // Graph.UtilityWrapper(grid).getEntrance()));
@@ -78,7 +77,7 @@ public class MazeGeneratorTester {
     @Test
      void testRecursiveBacktrackerMazeGenerator() {
         RecursiveBacktrackerMazeGenerator mazeGenerator = new RecursiveBacktrackerMazeGenerator(randomGenerator);
-        grid.getTopLeftSquare().setState(ENTRANCE, true);
+        grid.getTopLeftSquare().mark(ENTRANCE);
         mazeGenerator.generateMaze(grid);
     }
 
@@ -92,30 +91,30 @@ public class MazeGeneratorTester {
      void testMatrixRecursiveBacktrackerMazeGenerator() {
         RecursiveBacktrackerMazeGeneratorForMatrices mazeGenerator = new RecursiveBacktrackerMazeGeneratorForMatrices(
                 randomGenerator);
-        StateMatrix stateMatrix = new StateMatrix(new Size(20, 10));
-        stateMatrix.addObserver(new PrettyPrintObserver(stateMatrix));
-        mazeGenerator.generateMaze(stateMatrix);
+        MarkableMatrix markableMatrix = new MarkableMatrix(new Size(20, 10));
+        markableMatrix.addObserver(new PrettyPrintObserver(markableMatrix));
+        mazeGenerator.generateMaze(markableMatrix);
     }
 
     @Test
      void testRysgaardMazeGenerator() {
         RysgaardMazeGenerator mazeGenerator = new RysgaardMazeGenerator(randomGenerator);
-        StateMatrix stateMatrix = new StateMatrix(new Size(20, 10));
-        stateMatrix.addObserver(new PrettyPrintObserver(stateMatrix));
-        mazeGenerator.generateMaze(stateMatrix);
+        MarkableMatrix markableMatrix = new MarkableMatrix(new Size(20, 10));
+        markableMatrix.addObserver(new PrettyPrintObserver(markableMatrix));
+        mazeGenerator.generateMaze(markableMatrix);
     }
 
     @Test
      void testPrimMazeGenerator() {
         PrimMazeGenerator mazeGenerator = new PrimMazeGenerator(randomGenerator);
-        grid.getTopLeftSquare().setState(ENTRANCE, true);
+        grid.getTopLeftSquare().mark(ENTRANCE);
         mazeGenerator.generateMaze(grid);
     }
 
     @Test
      void testKruskalMazeGenerator() {
         KruskalMazeGenerator mazeGenerator = new KruskalMazeGenerator(randomGenerator);
-        grid.getTopLeftSquare().setState(ENTRANCE, true);
+        grid.getTopLeftSquare().mark(ENTRANCE);
         mazeGenerator.generateMaze(grid);
     }
 
@@ -155,8 +154,8 @@ public class MazeGeneratorTester {
 
     @Test
      void testMatrixStorage() {
-        MazeState s = MazeState.singletonInstance();
-        grid.getSquare(new Position(4, 3)).setState(s, true);
-        assertTrue(mazeMatrix.get(new Position(4 * 2 + 1, 3 * 2 + 1)).hasState(s));
+        Marker s = Marker.singletonInstance();
+        grid.getSquare(new Position(4, 3)).mark(s);
+        assertTrue(mazeMatrix.get(new Position(4 * 2 + 1, 3 * 2 + 1)).isMarked(s));
     }
 }

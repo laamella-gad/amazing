@@ -1,11 +1,11 @@
 package com.laamella.amazingmazes.mazemodel.graph;
 
-import com.laamella.amazingmazes.mazemodel.MazeState;
+import com.laamella.amazingmazes.mazemodel.Marker;
 
 import java.util.Set;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.ENTRANCE;
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.EXIT;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.ENTRANCE;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.EXIT;
 
 /**
  * The complete collection of vertices and edges that form the graph.
@@ -16,16 +16,16 @@ public interface Graph {
     Set<Edge> getEdges();
 
     default Vertex getEntrance() {
-        return getVertexWithState(ENTRANCE);
+        return getVertexWithMarker(ENTRANCE);
     }
 
     default Vertex getExit() {
-        return getVertexWithState(EXIT);
+        return getVertexWithMarker(EXIT);
     }
 
-    default Vertex getVertexWithState(MazeState state) {
+    default Vertex getVertexWithMarker(Marker marker) {
         for (Vertex vertex : getVertices()) {
-            if (vertex.hasState(state)) {
+            if (vertex.isMarked(marker)) {
                 return vertex;
             }
         }

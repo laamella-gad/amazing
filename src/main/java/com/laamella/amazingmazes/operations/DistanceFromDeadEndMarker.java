@@ -1,7 +1,6 @@
 package com.laamella.amazingmazes.operations;
 
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
-import com.laamella.amazingmazes.mazemodel.MazeState;
+import com.laamella.amazingmazes.mazemodel.Marker;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
@@ -10,7 +9,7 @@ import com.laamella.amazingmazes.observe.Observable;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 
 /**
  * Marks every vertex with the distance to the farthest dead end.
@@ -20,7 +19,7 @@ import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
  * The algorithm will fail when the graph has loops.
  */
 public class DistanceFromDeadEndMarker extends Observable {
-    public static final MazeState DISTANCE_FROM_DEAD_END = MazeState.singletonInstance();
+    public static final Marker DISTANCE_FROM_DEAD_END = Marker.singletonInstance();
 
     public static class Result {
         public final Set<Vertex> unmarkedVertices;
@@ -41,7 +40,7 @@ public class DistanceFromDeadEndMarker extends Observable {
             Set<Vertex> newlyMarkedVertices = new LinkedHashSet<>();
             for (Vertex currentVertex : unmarkedVertices) {
                 if (countUnmarkedExits(currentVertex) < 2) {
-                    currentVertex.setState(DISTANCE_FROM_DEAD_END, oneHigherThanVerticesAroundMe(currentVertex));
+                    currentVertex.markNumber(DISTANCE_FROM_DEAD_END, oneHigherThanVerticesAroundMe(currentVertex));
                     newlyMarkedVertices.add(currentVertex);
                     setChanged();
                 }
@@ -57,9 +56,9 @@ public class DistanceFromDeadEndMarker extends Observable {
     private int oneHigherThanVerticesAroundMe(Vertex vertex) {
         int oneHigher = 0;
         for (Edge edge : vertex.getEdges()) {
-            if (edge.hasState(PASSAGE)) {
+            if (edge.isMarked(PASSAGE)) {
                 Vertex otherVertex = edge.travel(vertex);
-                Integer distance = otherVertex.getState(DISTANCE_FROM_DEAD_END);
+                Integer distance = otherVertex.getNumberMarker(DISTANCE_FROM_DEAD_END);
                 if (distance != null) {
                     if (oneHigher < distance + 1) {
                         oneHigher = distance + 1;
@@ -73,9 +72,9 @@ public class DistanceFromDeadEndMarker extends Observable {
     private int countUnmarkedExits(Vertex vertex) {
         int unmarkedExits = 0;
         for (Edge edge : vertex.getEdges()) {
-            if (edge.hasState(PASSAGE)) {
+            if (edge.isMarked(PASSAGE)) {
                 Vertex otherVertex = edge.travel(vertex);
-                if (!otherVertex.hasState(DISTANCE_FROM_DEAD_END)) {
+                if (!otherVertex.isMarked(DISTANCE_FROM_DEAD_END)) {
                     unmarkedExits++;
                 }
             }

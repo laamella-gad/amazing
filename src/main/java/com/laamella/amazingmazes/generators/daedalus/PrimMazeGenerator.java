@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.PASSAGE;
 
 /**
  * This requires storage proportional to the size of the Maze. During creation,
@@ -68,7 +68,7 @@ public class PrimMazeGenerator implements GraphMazeGenerator {
             for (Edge edge : currentFrontierVertex.getEdges()) {
                 Vertex possibleInVertex = edge.travel(currentFrontierVertex);
                 if (in.contains(possibleInVertex)) {
-                    edge.setState(PASSAGE, true);
+                    edge.mark(PASSAGE);
                     in.add(currentFrontierVertex);
                     frontier.remove(currentFrontierVertex);
                     makeFrontier(currentFrontierVertex, frontier, out);

@@ -2,8 +2,6 @@ package com.laamella.amazingmazes.generators.daedalus;
 
 import com.laamella.amazingmazes.generators.Randomizer;
 import com.laamella.amazingmazes.generators.RowMazeGenerator;
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
-import com.laamella.amazingmazes.mazemodel.grid.Direction;
 import com.laamella.amazingmazes.mazemodel.grid.RowGenerator;
 import com.laamella.amazingmazes.mazemodel.grid.Square;
 
@@ -11,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
 
 /**
@@ -82,6 +80,6 @@ public class SideWinderMazeGenerator implements RowMazeGenerator {
         }
         Square startSquare = row.get(randomizer.random(row.size()));
         startSquare.getWall(UP).open();
-        startSquare.setState(ENTRANCE, true);
+        startSquare.mark(ENTRANCE);
     }
 }

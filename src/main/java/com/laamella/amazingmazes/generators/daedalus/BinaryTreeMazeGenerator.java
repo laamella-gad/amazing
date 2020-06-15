@@ -8,7 +8,7 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.EXIT;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.EXIT;
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
 
 /**
@@ -75,7 +75,7 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
 
         Square exit = grid.getSquare(new Position(grid.getSize().width - 1, grid.getSize().height - 1));
         exit.getWall(RIGHT).open();
-        exit.setState(EXIT, true);
+        exit.mark(EXIT);
 
         log.debug("generateMaze");
     }

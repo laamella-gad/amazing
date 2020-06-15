@@ -2,10 +2,10 @@ package com.laamella.amazingmazes.generators.various;
 
 import com.laamella.amazingmazes.generators.MatrixMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
+import com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker;
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.grid.Direction;
-import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
+import com.laamella.amazingmazes.mazemodel.matrix.implementation.MarkableMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,7 @@ public class RysgaardMazeGenerator implements MatrixMazeGenerator {
     }
 
     @Override
-    public void generateMaze(StateMatrix matrix) {
+    public void generateMaze(MarkableMatrix matrix) {
         // 1. Fill the entire labyrinth with walls
 
         // 2. Find a random beginning position, store it as a possible position
@@ -44,7 +44,7 @@ public class RysgaardMazeGenerator implements MatrixMazeGenerator {
         // 3. Mark the current position as a path in the labyrinth and remove it
         // from the list of possible positions
         do {
-            matrix.get(currentPosition).setState(MazeDefinitionState.PASSAGE, true);
+            matrix.get(currentPosition).mark(MazeDefinitionMarker.PASSAGE);
             possiblePositions.remove(currentPosition);
 
             // 4. Remove surrounding positions invalidated by the current
@@ -62,7 +62,7 @@ public class RysgaardMazeGenerator implements MatrixMazeGenerator {
         } while (possiblePositions.size() > 0);
     }
 
-    private void addNewCellPositions(StateMatrix matrix, Set<Position> possiblePositions,
+    private void addNewCellPositions(MarkableMatrix matrix, Set<Position> possiblePositions,
                                      Position currentPosition) {
         for (Direction direction : Direction.values()) {
             checkOffset(possiblePositions, matrix, currentPosition, direction.getMove());
@@ -72,7 +72,7 @@ public class RysgaardMazeGenerator implements MatrixMazeGenerator {
     /**
      * Check a 2x3 or 3x2 area in the specified direction for any non-walls
      */
-    private void checkOffset(Set<Position> possiblePositions, StateMatrix matrix,
+    private void checkOffset(Set<Position> possiblePositions, MarkableMatrix matrix,
                              Position positionToCheck, Position direction) {
         Position neighbour = positionToCheck.move(direction);
         if (isWall(matrix, neighbour) && isWall(matrix, neighbour.move(direction.negate().switchXY()))
@@ -86,10 +86,10 @@ public class RysgaardMazeGenerator implements MatrixMazeGenerator {
         }
     }
 
-    private boolean isWall(StateMatrix matrix, Position position) {
+    private boolean isWall(MarkableMatrix matrix, Position position) {
         log.debug("Checking wallness of position " + position);
         if (position.isInside(matrix.getSize())) {
-            return !matrix.get(position).hasState(MazeDefinitionState.PASSAGE);
+            return !matrix.get(position).isMarked(MazeDefinitionMarker.PASSAGE);
         }
         return false;
     }

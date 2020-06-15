@@ -3,8 +3,6 @@ package com.laamella.amazingmazes.generators.daedalus;
 import com.laamella.amazingmazes.generators.Randomizer;
 import com.laamella.amazingmazes.generators.RowMazeGenerator;
 import com.laamella.amazingmazes.generators.Sets;
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
-import com.laamella.amazingmazes.mazemodel.grid.Direction;
 import com.laamella.amazingmazes.mazemodel.grid.RowGenerator;
 import com.laamella.amazingmazes.mazemodel.grid.Square;
 import com.laamella.amazingmazes.mazemodel.grid.Wall;
@@ -12,7 +10,7 @@ import com.laamella.amazingmazes.mazemodel.grid.Wall;
 import java.util.List;
 import java.util.Set;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
 
 /**
@@ -133,8 +131,8 @@ public class EllerMazeGenerator implements RowMazeGenerator {
         }
         generateRow(squares, squareSets);
         Square entrance = randomizer.pickOne(squares);
-        entrance.getWall(UP).setState(PASSAGE, true);
-        entrance.setState(ENTRANCE, true);
+        entrance.getWall(UP).mark(PASSAGE);
+        entrance.mark(ENTRANCE);
     }
 
 }

@@ -1,10 +1,9 @@
 package com.laamella.amazingmazes.mazemodel.grid.implementation;
 
-import com.laamella.amazingmazes.generators.MazeGenerator;
-import com.laamella.amazingmazes.mazemodel.MazeState;
+import com.laamella.amazingmazes.mazemodel.Marker;
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
-import com.laamella.amazingmazes.mazemodel.Stateful;
+import com.laamella.amazingmazes.mazemodel.Markable;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
@@ -18,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.laamella.amazingmazes.generators.MazeGenerator.*;
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.PASSAGE;
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
 import static com.laamella.amazingmazes.mazemodel.matrix.ArrayUtilities.visit2dArray;
 
@@ -27,7 +26,7 @@ import static com.laamella.amazingmazes.mazemodel.matrix.ArrayUtilities.visit2dA
  * about their state. That is delegated to objects returned from the
  * storageFactory.
  */
-public class GridWithDecoupledState implements Grid {
+public class GridWithDecoupledMarkers implements Grid {
     private static int DEBUG_ID = 0;
 
     private final SquareDefault[][] squares;
@@ -37,38 +36,38 @@ public class GridWithDecoupledState implements Grid {
     private final Set<Edge> edges = new HashSet<>();
     private final Set<Vertex> vertices = new HashSet<>();
 
-    public GridWithDecoupledState(GridStateStorage stateStorage) {
-        this.size = stateStorage.getSize();
+    public GridWithDecoupledMarkers(GridMarkerStorage storage) {
+        this.size = storage.getSize();
 
         squares = new SquareDefault[size.width][size.height];
         horizontalWalls = new WallDefault[size.width][size.height + 1];
         verticalWalls = new WallDefault[size.width + 1][size.height];
 
-        createGraphObjects(stateStorage);
+        createGraphObjects(storage);
         connectGraphObjects();
     }
 
-    private void createGraphObjects(GridStateStorage stateStorage) {
+    private void createGraphObjects(GridMarkerStorage storage) {
         visit2dArray(horizontalWalls, position -> {
-            WallDefault wall = new WallDefault(stateStorage, position, true, GridWithDecoupledState.this);
+            WallDefault wall = new WallDefault(storage, position, true, GridWithDecoupledMarkers.this);
             horizontalWalls[position.x][position.y] = wall;
             if (position.y > 0 && position.y < getSize().height) {
                 edges.add(wall);
             }
         });
         visit2dArray(verticalWalls, position -> {
-            WallDefault wall = new WallDefault(stateStorage, position, false, GridWithDecoupledState.this);
+            WallDefault wall = new WallDefault(storage, position, false, GridWithDecoupledMarkers.this);
             verticalWalls[position.x][position.y] = wall;
             if (position.x > 0 && position.x < getSize().width) {
                 edges.add(wall);
             }
         });
         visit2dArray(squares, position -> {
-            SquareDefault square = new SquareDefault(stateStorage, position, GridWithDecoupledState.this);
+            SquareDefault square = new SquareDefault(storage, position, GridWithDecoupledMarkers.this);
             squares[position.x][position.y] = square;
             vertices.add(square);
             if (position.x == 0 || position.y == 0 || position.x == size.width - 1 || position.y == size.height - 1) {
-                square.setState(POSSIBLE_EXIT, true);
+                square.mark(POSSIBLE_EXIT);
             }
         });
     }
@@ -126,13 +125,12 @@ public class GridWithDecoupledState implements Grid {
         private DirectionMap<Wall> wallMap;
         private DirectionMap<Square> squareMap;
         private Set<Edge> edges;
-        private final GridWithDecoupledState grid;
-        private final Stateful stateStorage;
+        private final GridWithDecoupledMarkers grid;
+        private final Markable markerStorage;
         private final int id;
 
-        public SquareDefault(GridStateStorage stateStorage, Position position,
-                             GridWithDecoupledState grid) {
-            this.stateStorage = stateStorage.getSquareState(position);
+        public SquareDefault(GridMarkerStorage storage, Position position, GridWithDecoupledMarkers grid) {
+            this.markerStorage = storage.getMarkableSquare(position);
             this.position = position;
             this.grid = grid;
             this.id = DEBUG_ID++;
@@ -178,13 +176,13 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public boolean hasState(MazeState state) {
-            return stateStorage.hasState(state);
+        public boolean isMarked(Marker marker) {
+            return markerStorage.isMarked(marker);
         }
 
         @Override
-        public void setState(MazeState newState, boolean mustBeSet) {
-            stateStorage.setState(newState, mustBeSet);
+        public void mark(Marker marker, boolean mustBeSet) {
+            markerStorage.mark(marker, mustBeSet);
         }
 
         @Override
@@ -198,13 +196,13 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public Integer getState(MazeState state) {
-            return stateStorage.getState(state);
+        public Integer getNumberMarker(Marker marker) {
+            return markerStorage.getNumberMarker(marker);
         }
 
         @Override
-        public void setState(MazeState state, int value) {
-            stateStorage.setState(state, value);
+        public void markNumber(Marker marker, int value) {
+            markerStorage.markNumber(marker, value);
         }
 
         @Override
@@ -217,13 +215,13 @@ public class GridWithDecoupledState implements Grid {
         private Square squareA;
         private Square squareB;
 
-        private final Stateful stateStorage;
-        private final GridWithDecoupledState grid;
+        private final Markable markerStorage;
+        private final GridWithDecoupledMarkers grid;
         private final int id;
 
-        public WallDefault(GridStateStorage stateStorage, Position position, boolean horizontal,
-                           GridWithDecoupledState grid) {
-            this.stateStorage = stateStorage.getWallState(position, horizontal);
+        public WallDefault(GridMarkerStorage markerStorage, Position position, boolean horizontal,
+                           GridWithDecoupledMarkers grid) {
+            this.markerStorage = markerStorage.getMarkableWall(position, horizontal);
             this.grid = grid;
             this.id = DEBUG_ID++;
         }
@@ -235,12 +233,12 @@ public class GridWithDecoupledState implements Grid {
 
         @Override
         public boolean isOpen() {
-            return stateStorage.hasState(PASSAGE);
+            return markerStorage.isMarked(PASSAGE);
         }
 
         @Override
         public void setOpened(boolean open) {
-            stateStorage.setState(PASSAGE, open);
+            markerStorage.mark(PASSAGE, open);
         }
 
         @Override
@@ -254,13 +252,13 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public boolean hasState(MazeState state) {
-            return stateStorage.hasState(state);
+        public boolean isMarked(Marker marker) {
+            return markerStorage.isMarked(marker);
         }
 
         @Override
-        public void setState(MazeState newState, boolean mustBeSet) {
-            stateStorage.setState(newState, mustBeSet);
+        public void mark(Marker marker, boolean mustBeSet) {
+            markerStorage.mark(marker, mustBeSet);
         }
 
         @Override
@@ -290,13 +288,13 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public Integer getState(MazeState state) {
-            return stateStorage.getState(state);
+        public Integer getNumberMarker(Marker marker) {
+            return markerStorage.getNumberMarker(marker);
         }
 
         @Override
-        public void setState(MazeState state, int value) {
-            stateStorage.setState(state, value);
+        public void markNumber(Marker marker, int value) {
+            markerStorage.markNumber(marker, value);
         }
 
         @Override

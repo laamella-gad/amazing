@@ -58,7 +58,7 @@ public class HuntAndKillMazeGenerator implements GridMazeGenerator {
             @Override
             public Square huntForUnmadeSquare(Grid grid, Square lastMadeSquare) {
                 return grid.forAllSquares((position, square) -> {
-                    if (!square.hasState(VISITED_WHILE_GENERATING)) {
+                    if (!square.isMarked(VISITED_WHILE_GENERATING)) {
                         return square;
                     }
                     return null;

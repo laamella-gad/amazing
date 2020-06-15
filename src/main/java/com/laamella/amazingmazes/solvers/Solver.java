@@ -1,8 +1,8 @@
 package com.laamella.amazingmazes.solvers;
 
-import com.laamella.amazingmazes.mazemodel.MazeState;
+import com.laamella.amazingmazes.mazemodel.Marker;
 
 public interface Solver {
-    MazeState VISITED_WHILE_SOLVING = MazeState.singletonInstance();
-    MazeState SOLUTION = MazeState.singletonInstance();
+    Marker VISITED_WHILE_SOLVING = Marker.singletonInstance();
+    Marker SOLUTION = Marker.singletonInstance();
 }

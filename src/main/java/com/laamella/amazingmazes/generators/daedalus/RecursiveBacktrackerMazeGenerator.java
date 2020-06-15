@@ -6,7 +6,7 @@ import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.PASSAGE;
 
 /**
  * <p>
@@ -42,11 +42,11 @@ public class RecursiveBacktrackerMazeGenerator implements GraphMazeGenerator {
     }
 
     private void recurse(Vertex currentVertex) {
-        currentVertex.setState(VISITED_WHILE_GENERATING, true);
+        currentVertex.mark(VISITED_WHILE_GENERATING);
         for (Edge edge : randomizer.shuffle(currentVertex.getEdges())) {
             Vertex otherVertex = edge.travel(currentVertex);
-            if (!otherVertex.hasState(VISITED_WHILE_GENERATING)) {
-                edge.setState(PASSAGE, true);
+            if (!otherVertex.isMarked(VISITED_WHILE_GENERATING)) {
+                edge.mark(PASSAGE);
                 recurse(otherVertex);
             }
         }

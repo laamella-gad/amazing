@@ -2,7 +2,7 @@ package com.laamella.amazingmazes.mazemodel.grid.implementation;
 
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
-import com.laamella.amazingmazes.mazemodel.Stateful;
+import com.laamella.amazingmazes.mazemodel.Markable;
 
 /**
  * <pre>
@@ -16,10 +16,10 @@ import com.laamella.amazingmazes.mazemodel.Stateful;
  *    vertical wall x,y
  * </pre>
  */
-public interface GridStateStorage {
-    Stateful getSquareState(Position position);
+public interface GridMarkerStorage {
+    Markable getMarkableSquare(Position position);
 
-    Stateful getWallState(Position position, boolean horizontal);
+    Markable getMarkableWall(Position position, boolean horizontal);
 
     Size getSize();
 }

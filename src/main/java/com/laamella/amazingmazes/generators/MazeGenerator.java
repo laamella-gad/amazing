@@ -1,12 +1,12 @@
 package com.laamella.amazingmazes.generators;
 
-import com.laamella.amazingmazes.mazemodel.MazeState;
+import com.laamella.amazingmazes.mazemodel.Marker;
 
 /**
  * A maze generator takes a maze model, and renders a maze in it according to
  * some algorithm.
  */
 public interface MazeGenerator {
-    MazeState VISITED_WHILE_GENERATING = MazeState.singletonInstance();
-    MazeState POSSIBLE_EXIT = MazeState.singletonInstance();
+    Marker VISITED_WHILE_GENERATING = Marker.singletonInstance();
+    Marker POSSIBLE_EXIT = Marker.singletonInstance();
 }

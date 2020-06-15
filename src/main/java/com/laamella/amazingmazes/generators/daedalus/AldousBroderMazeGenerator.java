@@ -2,7 +2,6 @@ package com.laamella.amazingmazes.generators.daedalus;
 
 import com.laamella.amazingmazes.generators.GraphMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
@@ -12,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 
 /**
  * The interesting thing about this algorithm is it generates all possible Mazes
@@ -75,7 +74,7 @@ public class AldousBroderMazeGenerator implements GraphMazeGenerator {
             Edge randomEdge = randomizer.pickOne(currentVertex.getEdges());
             Vertex randomVertex = randomEdge.travel(currentVertex);
             if (!visitedVertices.contains(randomVertex)) {
-                randomEdge.setState(PASSAGE, true);
+                randomEdge.mark(PASSAGE);
                 visitedVertices.add(randomVertex);
             }
             currentVertex = randomVertex;

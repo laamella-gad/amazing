@@ -1,10 +1,9 @@
 package com.laamella.amazingmazes.solvers;
 
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 
 /**
  * This will find a solution, but it won't necessarily find the shortest
@@ -25,23 +24,23 @@ public class RecursiveBacktrackerSolver implements Solver {
     }
 
     private boolean recurse(Vertex currentVertex) {
-        currentVertex.setState(VISITED_WHILE_SOLVING, true);
+        currentVertex.mark(VISITED_WHILE_SOLVING);
 
-        if (currentVertex.hasState(EXIT)) {
+        if (currentVertex.isMarked(EXIT)) {
             // Found the exit!
-            currentVertex.setState(SOLUTION, true);
+            currentVertex.mark(SOLUTION);
             return true;
         }
 
         for (Edge edge : currentVertex.getEdges()) {
-            if (edge.hasState(PASSAGE)) {
+            if (edge.isMarked(PASSAGE)) {
                 Vertex otherVertex = edge.travel(currentVertex);
-                if (!otherVertex.hasState(VISITED_WHILE_SOLVING)) {
+                if (!otherVertex.isMarked(VISITED_WHILE_SOLVING)) {
                     if (recurse(otherVertex)) {
                         // The exit has been found ahead of us, so we're part of
                         // the solution.
-                        edge.setState(SOLUTION, true);
-                        currentVertex.setState(SOLUTION, true);
+                        edge.mark(SOLUTION);
+                        currentVertex.mark(SOLUTION);
                         return true;
                     }
                 }

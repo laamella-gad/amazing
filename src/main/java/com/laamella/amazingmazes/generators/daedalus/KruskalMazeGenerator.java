@@ -3,14 +3,13 @@ package com.laamella.amazingmazes.generators.daedalus;
 import com.laamella.amazingmazes.generators.GraphMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
 import com.laamella.amazingmazes.generators.Sets;
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 
 import java.util.Set;
 
-import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 
 /**
  * This algorithm is interesting because it doesn't "grow" the Maze like a tree,
@@ -70,7 +69,7 @@ public class KruskalMazeGenerator implements GraphMazeGenerator {
 
             // If they are in different sets, we can connect them.
             if (setA != setB) {
-                edge.setState(PASSAGE, true);
+                edge.mark(PASSAGE);
                 sets.unionSets(setA, setB);
             }
             // Stop when all vertices are in the same set
