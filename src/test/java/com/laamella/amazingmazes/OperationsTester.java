@@ -13,8 +13,8 @@ import com.laamella.amazingmazes.operations.DistanceFromDeadEndMarker;
 import com.laamella.amazingmazes.operations.MostDistantEntranceAndExitFinder;
 import com.laamella.amazingmazes.operations.MostDistantExitMarker;
 import com.laamella.amazingmazes.operations.VertexDistanceMarker;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class OperationsTester {
 
     private final StateMatrixPrettyPrinter defaultStateMatrixPrettyPrinter = new StateMatrixPrettyPrinter();
 
-    @Before
+    @BeforeEach
     public void before() {
         mazeStateMatrix = new StateMatrix(new Size(149, 41));
         GridMatrixStorage stateStorage = new GridMatrixStorage(mazeStateMatrix);

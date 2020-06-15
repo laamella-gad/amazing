@@ -18,15 +18,15 @@ import com.laamella.amazingmazes.mazemodel.grid.implementation.GridMatrixStorage
 import com.laamella.amazingmazes.mazemodel.grid.implementation.GridRowGenerator;
 import com.laamella.amazingmazes.mazemodel.grid.implementation.GridWithDecoupledState;
 import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.LEFT;
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.RIGHT;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MazeGeneratorTester {
     static Logger log = LoggerFactory.getLogger(MazeGeneratorTester.class);
@@ -37,7 +37,7 @@ public class MazeGeneratorTester {
 
     private Randomizer.Default randomGenerator;
 
-    @Before
+    @BeforeEach
     public void before() {
         mazeMatrix = new StateMatrix(new Size(19, 19));
         stateStorage = new GridMatrixStorage(mazeMatrix);
