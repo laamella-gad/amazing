@@ -2,7 +2,7 @@ package com.laamella.amazingmazes.mazemodel.matrix.implementation;
 
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
-import com.laamella.amazingmazes.mazemodel.State.ObservableObjectSetState;
+import com.laamella.amazingmazes.mazemodel.Stateful.ObservableObjectSetState;
 import com.laamella.amazingmazes.mazemodel.matrix.Matrix;
 import com.laamella.amazingmazes.observe.Observable;
 import com.laamella.amazingmazes.observe.Observer;

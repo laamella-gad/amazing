@@ -1,6 +1,7 @@
 package com.laamella.amazingmazes.mazemodel.grid;
 
 import com.laamella.amazingmazes.generators.Randomizer;
+import com.laamella.amazingmazes.mazemodel.MazeState;
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
@@ -111,7 +112,7 @@ public interface Grid extends Graph {
         return getSquare(position.move(Direction.UP.getMove())).getWall(Direction.DOWN);
     }
 
-    default void clearState(final Object state) {
+    default void clearState(final MazeState state) {
         for (final Edge edge : getEdges()) {
             edge.setState(state, false);
         }

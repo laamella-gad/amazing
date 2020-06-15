@@ -1,6 +1,7 @@
 package com.laamella.amazingmazes.operations;
 
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
+import com.laamella.amazingmazes.mazemodel.MazeState;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 
@@ -9,7 +10,7 @@ import com.laamella.amazingmazes.mazemodel.graph.Vertex;
  * vertex.
  */
 public class VertexDistanceMarker {
-    public static final Object DISTANCE = new Object();
+    public static final MazeState DISTANCE = new MazeState(){};
 
     public void mark(final Vertex startVertex) {
         recurse(startVertex, 0);

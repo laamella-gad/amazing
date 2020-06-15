@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+
 /**
  * This is a general algorithm, capable of creating Mazes of different textures.
  * It requires storage up to the size of the Maze.
@@ -52,7 +54,7 @@ public class GrowingTreeMazeGenerator implements GraphMazeGenerator {
             if (edge == null) {
                 vertexList.remove(randomVertex);
             } else {
-                edge.setState(MazeDefinitionState.PASSAGE, true);
+                edge.setState(PASSAGE, true);
                 final Vertex destinationVertex = edge.travel(randomVertex);
                 destinationVertex.setState(VISITED_WHILE_GENERATING, true);
                 vertexList.add(destinationVertex);

@@ -1,13 +1,13 @@
 package com.laamella.amazingmazes.mazemodel.graph;
 
-import com.laamella.amazingmazes.mazemodel.State;
+import com.laamella.amazingmazes.mazemodel.Stateful;
 
 /**
  * Connects two vertices.
  */
 // TODO edges might need an orientation in degrees
 // TODO edges can be made uni-directional
-public interface Edge extends State {
+public interface Edge extends Stateful {
     Vertex getVertexA();
 
     Vertex getVertexB();

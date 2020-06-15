@@ -2,11 +2,8 @@ package com.laamella.amazingmazes.generators.original;
 
 import com.laamella.amazingmazes.generators.MatrixMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
-import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
 import com.laamella.amazingmazes.mazemodel.Position;
-import com.laamella.amazingmazes.mazemodel.State.ObservableObjectSetState;
 import com.laamella.amazingmazes.mazemodel.grid.Direction;
-import com.laamella.amazingmazes.mazemodel.matrix.Matrix;
 import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
 
 import java.util.EnumSet;

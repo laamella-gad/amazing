@@ -1,6 +1,7 @@
 package com.laamella.amazingmazes.operations;
 
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
+import com.laamella.amazingmazes.mazemodel.MazeState;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
@@ -17,7 +18,7 @@ import java.util.Set;
  * The algorithm will fail when the graph has loops.
  */
 public class DistanceFromDeadEndMarker extends Observable {
-    public static final Object DISTANCE_FROM_DEAD_END = new Object();
+    public static final MazeState DISTANCE_FROM_DEAD_END = MazeState.singletonInstance();
 
     public static class Result {
         public final Set<Vertex> unmarkedVertices;

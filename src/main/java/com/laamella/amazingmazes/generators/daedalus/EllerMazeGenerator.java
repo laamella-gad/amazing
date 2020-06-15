@@ -12,6 +12,9 @@ import com.laamella.amazingmazes.mazemodel.grid.Wall;
 import java.util.List;
 import java.util.Set;
 
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
+
 /**
  * This algorithm is special because it's not only faster than all the others,
  * but its creation is also the most memory efficient. It doesn't even require
@@ -91,7 +94,7 @@ public class EllerMazeGenerator implements RowMazeGenerator {
     }
 
     private void makeVerticalPassage(final Sets<Integer> squareSets, int x, final Set<Integer> thisSet, final Square square) {
-        final Wall downWall = square.getWall(Direction.DOWN);
+        final Wall downWall = square.getWall(DOWN);
 
         // When square is alone in a set, connect it vertically
         if (thisSet.size() == 1) {
@@ -111,7 +114,7 @@ public class EllerMazeGenerator implements RowMazeGenerator {
 
     private void makeHorizontalPassage(final Sets<Integer> squareSets, final int x, final Set<Integer> thisSet, final Square square, final boolean force) {
         final Set<Integer> nextSet = squareSets.findSetContaining(x + 1);
-        final Wall rightWall = square.getWall(Direction.RIGHT);
+        final Wall rightWall = square.getWall(RIGHT);
 
         // Don't connect squares in the same set
         if (thisSet != nextSet) {
@@ -130,8 +133,8 @@ public class EllerMazeGenerator implements RowMazeGenerator {
         }
         generateRow(squares, squareSets);
         final Square entrance = randomizer.pickOne(squares);
-        entrance.getWall(Direction.UP).setState(MazeDefinitionState.PASSAGE, true);
-        entrance.setState(MazeDefinitionState.ENTRANCE, true);
+        entrance.getWall(UP).setState(PASSAGE, true);
+        entrance.setState(ENTRANCE, true);
     }
 
 }

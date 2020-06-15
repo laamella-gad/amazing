@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
+
 /**
  * This simple algorithm is very similar to the binary tree algorithm, and only
  * slightly more complicated.
@@ -59,26 +62,26 @@ public class SideWinderMazeGenerator implements RowMazeGenerator {
         for (final Square square : row) {
             currentRun.add(square);
             if (thereIsASquareToTheRight(square) && randomizer.chance(0.5)) {
-                square.getWall(Direction.RIGHT).open();
+                square.getWall(RIGHT).open();
             } else {
-                randomizer.pickOne(currentRun).getWall(Direction.UP).open();
+                randomizer.pickOne(currentRun).getWall(UP).open();
                 currentRun.clear();
             }
         }
     }
 
     private boolean thereIsASquareToTheRight(final Square square) {
-        return square.getSquare(Direction.RIGHT) != null;
+        return square.getSquare(RIGHT) != null;
     }
 
     private void generateFirstRow(final List<Square> row) {
         for (final Square square : row) {
             if (thereIsASquareToTheRight(square)) {
-                square.getWall(Direction.RIGHT).open();
+                square.getWall(RIGHT).open();
             }
         }
         final Square startSquare = row.get(randomizer.random(row.size()));
-        startSquare.getWall(Direction.UP).open();
-        startSquare.setState(MazeDefinitionState.ENTRANCE, true);
+        startSquare.getWall(UP).open();
+        startSquare.setState(ENTRANCE, true);
     }
 }

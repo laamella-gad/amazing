@@ -1,9 +1,10 @@
 package com.laamella.amazingmazes.mazemodel.grid.implementation;
 
 import com.laamella.amazingmazes.generators.MazeGenerator;
+import com.laamella.amazingmazes.mazemodel.MazeState;
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
-import com.laamella.amazingmazes.mazemodel.State;
+import com.laamella.amazingmazes.mazemodel.Stateful;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
@@ -125,7 +126,7 @@ public class GridWithDecoupledState implements Grid {
         private DirectionMap<Square> squareMap;
         private Set<Edge> edges;
         private final GridWithDecoupledState grid;
-        private final State stateStorage;
+        private final Stateful stateStorage;
         private final int id;
 
         public SquareDefault(final GridStateStorage stateStorage, final Position position,
@@ -176,12 +177,12 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public boolean hasState(final Object state) {
+        public boolean hasState(final MazeState state) {
             return stateStorage.hasState(state);
         }
 
         @Override
-        public void setState(final Object newState, final boolean mustBeSet) {
+        public void setState(final MazeState newState, final boolean mustBeSet) {
             stateStorage.setState(newState, mustBeSet);
         }
 
@@ -196,12 +197,12 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public Integer getState(final Object state) {
+        public Integer getState(final MazeState state) {
             return stateStorage.getState(state);
         }
 
         @Override
-        public void setState(final Object state, final int value) {
+        public void setState(final MazeState state, final int value) {
             stateStorage.setState(state, value);
         }
 
@@ -215,7 +216,7 @@ public class GridWithDecoupledState implements Grid {
         private Square squareA;
         private Square squareB;
 
-        private final State stateStorage;
+        private final Stateful stateStorage;
         private final GridWithDecoupledState grid;
         private final int id;
 
@@ -252,12 +253,12 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public boolean hasState(final Object state) {
+        public boolean hasState(final MazeState state) {
             return stateStorage.hasState(state);
         }
 
         @Override
-        public void setState(final Object newState, final boolean mustBeSet) {
+        public void setState(final MazeState newState, final boolean mustBeSet) {
             stateStorage.setState(newState, mustBeSet);
         }
 
@@ -288,12 +289,12 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public Integer getState(final Object state) {
+        public Integer getState(final MazeState state) {
             return stateStorage.getState(state);
         }
 
         @Override
-        public void setState(final Object state, final int value) {
+        public void setState(final MazeState state, final int value) {
             stateStorage.setState(state, value);
         }
 

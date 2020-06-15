@@ -1,7 +1,8 @@
 package com.laamella.amazingmazes;
 
+import com.laamella.amazingmazes.mazemodel.MazeState;
 import com.laamella.amazingmazes.mazemodel.Position;
-import com.laamella.amazingmazes.mazemodel.State.ObservableObjectSetState;
+import com.laamella.amazingmazes.mazemodel.Stateful.ObservableObjectSetState;
 import com.laamella.amazingmazes.mazemodel.matrix.Matrix.Visitor;
 import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
 
@@ -15,7 +16,7 @@ import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
 import static com.laamella.amazingmazes.solvers.Solver.SOLUTION;
 
 class StateMatrixPrettyPrinter {
-    private final List<Entry<Object, Character>> mappings = new ArrayList<>();
+    private final List<Entry<MazeState, Character>> mappings = new ArrayList<>();
     private final char defaultCharacter;
 
     StateMatrixPrettyPrinter() {
@@ -30,11 +31,11 @@ class StateMatrixPrettyPrinter {
         this.defaultCharacter = defaultCharacter;
     }
 
-    void map(final Object state, final Character character) {
+    void map(final MazeState state, final Character character) {
         mappings.add(new AbstractMap.SimpleEntry<>(state, character));
     }
 
-    void map(final Object state) {
+    void map(final MazeState state) {
         map(state, null);
     }
 
@@ -46,7 +47,7 @@ class StateMatrixPrettyPrinter {
             }
 
             public void visit(final Position position, final ObservableObjectSetState states) {
-                for (final Map.Entry<Object, Character> mapping : mappings) {
+                for (final Map.Entry<MazeState, Character> mapping : mappings) {
                     if (states.hasState(mapping.getKey())) {
                         if (mapping.getValue() == null) {
                             maze.append(states.getState(mapping.getKey()) % 10);

@@ -2,7 +2,7 @@ package com.laamella.amazingmazes.mazemodel.grid.implementation;
 
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
-import com.laamella.amazingmazes.mazemodel.State;
+import com.laamella.amazingmazes.mazemodel.Stateful;
 
 /**
  * <pre>
@@ -17,9 +17,9 @@ import com.laamella.amazingmazes.mazemodel.State;
  * </pre>
  */
 public interface GridStateStorage {
-    State getSquareState(Position position);
+    Stateful getSquareState(Position position);
 
-    State getWallState(Position position, boolean horizontal);
+    Stateful getWallState(Position position, boolean horizontal);
 
     Size getSize();
 }

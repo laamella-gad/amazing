@@ -87,5 +87,4 @@ public class PrimMazeGenerator implements GraphMazeGenerator {
             }
         }
     }
-
 }

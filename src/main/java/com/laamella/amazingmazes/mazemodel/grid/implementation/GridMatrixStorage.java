@@ -2,8 +2,8 @@ package com.laamella.amazingmazes.mazemodel.grid.implementation;
 
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
-import com.laamella.amazingmazes.mazemodel.State;
-import com.laamella.amazingmazes.mazemodel.State.ObservableObjectSetState;
+import com.laamella.amazingmazes.mazemodel.Stateful;
+import com.laamella.amazingmazes.mazemodel.Stateful.ObservableObjectSetState;
 import com.laamella.amazingmazes.mazemodel.matrix.Matrix;
 
 import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
@@ -34,7 +34,7 @@ public class GridMatrixStorage implements GridStateStorage {
     }
 
     @Override
-    public State getSquareState(final Position position) {
+    public Stateful getSquareState(final Position position) {
         return mazeMatrix.get(position.scale(2).move(1, 1));
     }
 
@@ -44,7 +44,7 @@ public class GridMatrixStorage implements GridStateStorage {
     }
 
     @Override
-    public State getWallState(final Position position, final boolean horizontal) {
+    public Stateful getWallState(final Position position, final boolean horizontal) {
         if (horizontal) {
             return mazeMatrix.get(position.scale(2).move(1, 0));
         }

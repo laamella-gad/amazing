@@ -11,6 +11,7 @@ import com.laamella.amazingmazes.generators.various.EllerMazeGeneratorC64;
 import com.laamella.amazingmazes.generators.various.RecursiveDivisionMazeGenerator;
 import com.laamella.amazingmazes.generators.various.RysgaardMazeGenerator;
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
+import com.laamella.amazingmazes.mazemodel.MazeState;
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
 import com.laamella.amazingmazes.mazemodel.grid.Grid;
@@ -153,7 +154,8 @@ public class MazeGeneratorTester {
 
     @Test
     public void testMatrixStorage() {
-        grid.getSquare(new Position(4, 3)).setState(15, true);
-        assertTrue(mazeMatrix.get(new Position(4 * 2 + 1, 3 * 2 + 1)).hasState(15));
+        MazeState s = MazeState.singletonInstance();
+        grid.getSquare(new Position(4, 3)).setState(s, true);
+        assertTrue(mazeMatrix.get(new Position(4 * 2 + 1, 3 * 2 + 1)).hasState(s));
     }
 }

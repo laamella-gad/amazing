@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+
 /**
  * The interesting thing about this algorithm is it generates all possible Mazes
  * of a given size with equal probability. It also requires no extra storage or
@@ -73,11 +75,10 @@ public class AldousBroderMazeGenerator implements GraphMazeGenerator {
             final Edge randomEdge = randomizer.pickOne(currentVertex.getEdges());
             final Vertex randomVertex = randomEdge.travel(currentVertex);
             if (!visitedVertices.contains(randomVertex)) {
-                randomEdge.setState(MazeDefinitionState.PASSAGE, true);
+                randomEdge.setState(PASSAGE, true);
                 visitedVertices.add(randomVertex);
             }
             currentVertex = randomVertex;
         }
-
     }
 }

@@ -1,6 +1,8 @@
 package com.laamella.amazingmazes.solvers;
 
+import com.laamella.amazingmazes.mazemodel.MazeState;
+
 public interface Solver {
-    Object VISITED_WHILE_SOLVING = new Object();
-    Object SOLUTION = new Object();
+    MazeState VISITED_WHILE_SOLVING = MazeState.singletonInstance();
+    MazeState SOLUTION = MazeState.singletonInstance();
 }

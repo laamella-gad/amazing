@@ -1,5 +1,7 @@
 package com.laamella.amazingmazes.mazemodel.graph;
 
+import com.laamella.amazingmazes.mazemodel.MazeState;
+
 import java.util.Set;
 
 import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.ENTRANCE;
@@ -21,7 +23,7 @@ public interface Graph {
         return getVertexWithState(EXIT);
     }
 
-    default Vertex getVertexWithState(final Object state) {
+    default Vertex getVertexWithState(final MazeState state) {
         for (final Vertex vertex : getVertices()) {
             if (vertex.hasState(state)) {
                 return vertex;
