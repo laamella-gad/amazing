@@ -41,7 +41,7 @@ class StateMatrixPrettyPrinter {
 
     String getPrintableMaze(final StateMatrix stateMatrix) {
         final StringBuffer maze = new StringBuffer("\n");
-        new Matrix.UtilityWrapper<>(stateMatrix).visitAllSquares(new MatrixVisitor<ObservableObjectSetState>() {
+        new Matrix.UtilityWrapper<>(stateMatrix).visitAllSquares(new MatrixVisitor<>() {
             public void endRow() {
                 maze.append("-\n");
             }

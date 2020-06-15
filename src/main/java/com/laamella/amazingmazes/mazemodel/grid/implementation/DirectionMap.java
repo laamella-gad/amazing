@@ -20,17 +20,12 @@ public class DirectionMap<T> {
     }
 
     public T get(Direction direction) {
-        switch (direction) {
-            case LEFT:
-                return left;
-            case RIGHT:
-                return right;
-            case UP:
-                return up;
-            case DOWN:
-                return down;
-            default:
-                throw new IllegalStateException();
-        }
+        return switch (direction) {
+            case LEFT -> left;
+            case RIGHT -> right;
+            case UP -> up;
+            case DOWN -> down;
+            default -> throw new IllegalStateException();
+        };
     }
 }

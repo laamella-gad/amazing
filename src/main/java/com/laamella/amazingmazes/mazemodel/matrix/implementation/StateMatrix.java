@@ -4,15 +4,14 @@ import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
 import com.laamella.amazingmazes.mazemodel.State.ObservableObjectSetState;
 import com.laamella.amazingmazes.mazemodel.matrix.Matrix;
-
-import java.util.Observable;
-import java.util.Observer;
+import com.laamella.amazingmazes.observe.Observable;
+import com.laamella.amazingmazes.observe.Observer;
 
 public class StateMatrix extends Observable implements Observer, Matrix<ObservableObjectSetState> {
     private final ListMatrix<ObservableObjectSetState> matrix;
 
     public StateMatrix(final Size size) {
-        matrix = new ListMatrix<ObservableObjectSetState>(size) {
+        matrix = new ListMatrix<>(size) {
             @Override
             protected ObservableObjectSetState newItem() {
                 final ObservableObjectSetState state = new ObservableObjectSetState();
@@ -23,7 +22,7 @@ public class StateMatrix extends Observable implements Observer, Matrix<Observab
     }
 
     @Override
-    public void update(final Observable o, final Object arg) {
+    public void update() {
         setChanged();
         notifyObservers();
     }

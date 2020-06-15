@@ -40,7 +40,7 @@ import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
  */
 // TODO there's a variant that puts the edges on the frontier
 public class PrimMazeGenerator implements GraphMazeGenerator {
-    private static Logger log = LoggerFactory.getLogger(PrimMazeGenerator.class);
+    private static final Logger log = LoggerFactory.getLogger(PrimMazeGenerator.class);
 
     private final Randomizer randomizer;
 

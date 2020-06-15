@@ -41,10 +41,10 @@ public abstract class RandomWalkerWithLoopRemoval {
     }
 
     public List<Step> walk(final Vertex startVertex) {
-        List<Step> steps = new ArrayList<Step>();
+        List<Step> steps = new ArrayList<>();
         Vertex currentVertex = startVertex;
         do {
-            final Set<Edge> walkableEdges = new HashSet<Edge>();
+            final Set<Edge> walkableEdges = new HashSet<>();
             for (final Edge edge : currentVertex.getEdges()) {
                 if (isWalkable(edge)) {
                     walkableEdges.add(edge);
@@ -61,7 +61,7 @@ public abstract class RandomWalkerWithLoopRemoval {
     }
 
     private List<Step> removeLoopWhenCreatingOne(final List<Step> steps, final Vertex vertex) {
-        List<Step> looplessSteps = new ArrayList<Step>();
+        List<Step> looplessSteps = new ArrayList<>();
         for (final Step step : steps) {
             if (step.from == vertex) {
                 return looplessSteps;

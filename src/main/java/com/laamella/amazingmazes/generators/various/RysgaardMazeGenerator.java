@@ -15,19 +15,17 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * <a href="http://www.glimt.dk/code/labyrinth.htm">An algorithm by some
- * guy.</a>
+ * <a href="http://www.glimt.dk/code/labyrinth.htm">An algorithm by some guy.</a>
  */
 public class RysgaardMazeGenerator implements MatrixMazeGenerator {
-    private static Logger log = LoggerFactory.getLogger(RysgaardMazeGenerator.class);
+    private static final Logger log = LoggerFactory.getLogger(RysgaardMazeGenerator.class);
 
     private final Randomizer randomizer;
 
-    private static final List<Position> EIGHT_OFFSETS_AROUND_CELL = Arrays.asList(//
-            new Position(-1, -1), new Position(0, -1), new Position(1, -1), //
-            new Position(-1, 0), new Position(1, 0), //
-            new Position(-1, 1), new Position(0, 1), new Position(1, 1)//
-    );
+    private static final List<Position> EIGHT_OFFSETS_AROUND_CELL = Arrays.asList(
+            new Position(-1, -1), new Position(0, -1), new Position(1, -1),
+            new Position(-1, 0), new Position(1, 0),
+            new Position(-1, 1), new Position(0, 1), new Position(1, 1));
 
     public RysgaardMazeGenerator(final Randomizer randomizer) {
         this.randomizer = randomizer;
@@ -83,9 +81,7 @@ public class RysgaardMazeGenerator implements MatrixMazeGenerator {
             if (isWall(matrix, neighbourOfNeighbour)
                     && isWall(matrix, neighbourOfNeighbour.move(direction.switchXY().negate()))
                     && isWall(matrix, neighbourOfNeighbour.move(direction.switchXY()))) {
-                if (!possiblePositions.contains(neighbour)) {
-                    possiblePositions.add(neighbour);
-                }
+                possiblePositions.add(neighbour);
             }
         }
     }

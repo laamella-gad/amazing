@@ -4,10 +4,9 @@ import com.laamella.amazingmazes.generators.GridMazeGenerator;
 import com.laamella.amazingmazes.generators.Randomizer;
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.grid.Grid;
+import com.laamella.amazingmazes.observe.Observable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Observable;
 
 /**
  * Another simple algorithm for rectangular mazes, recursive division, works as
@@ -26,7 +25,7 @@ import java.util.Observable;
 // TODO code is very ugly, create better code.
 // TODO maybe the ability to create subgrids is useful?
 public class RecursiveDivisionMazeGenerator extends Observable implements GridMazeGenerator {
-    private static Logger log = LoggerFactory.getLogger(RecursiveDivisionMazeGenerator.class);
+    private static final Logger log = LoggerFactory.getLogger(RecursiveDivisionMazeGenerator.class);
 
     private final Randomizer randomizer;
 

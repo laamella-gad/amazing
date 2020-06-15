@@ -80,7 +80,7 @@ public interface Randomizer {
 
         @Override
         public <T> List<T> shuffle(final Collection<T> collection) {
-            final List<T> list = new ArrayList<T>(collection);
+            final List<T> list = new ArrayList<>(collection);
             Collections.shuffle(list);
             return list;
         }

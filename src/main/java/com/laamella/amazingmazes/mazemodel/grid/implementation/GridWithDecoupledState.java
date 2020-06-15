@@ -18,7 +18,6 @@ import java.util.Set;
 
 import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
-import static com.laamella.amazingmazes.mazemodel.matrix.ArrayUtilities.Visitor2dArray;
 import static com.laamella.amazingmazes.mazemodel.matrix.ArrayUtilities.visit2dArray;
 
 /**
@@ -33,8 +32,8 @@ public class GridWithDecoupledState implements Grid {
     private final Size size;
     private final WallDefault[][] horizontalWalls;
     private final WallDefault[][] verticalWalls;
-    private final Set<Edge> edges = new HashSet<Edge>();
-    private final Set<Vertex> vertices = new HashSet<Vertex>();
+    private final Set<Edge> edges = new HashSet<>();
+    private final Set<Vertex> vertices = new HashSet<>();
 
     public GridWithDecoupledState(final GridStateStorage stateStorage) {
         this.size = stateStorage.getSize();
@@ -48,35 +47,26 @@ public class GridWithDecoupledState implements Grid {
     }
 
     private void createGraphObjects(final GridStateStorage stateStorage) {
-        visit2dArray(horizontalWalls, new Visitor2dArray() {
-            @Override
-            public void visit(final Position position) {
-                final WallDefault wall = new WallDefault(stateStorage, position, true, GridWithDecoupledState.this);
-                horizontalWalls[position.x][position.y] = wall;
-                if (position.y > 0 && position.y < getSize().height) {
-                    edges.add(wall);
-                }
+        visit2dArray(horizontalWalls, position -> {
+            final WallDefault wall = new WallDefault(stateStorage, position, true, GridWithDecoupledState.this);
+            horizontalWalls[position.x][position.y] = wall;
+            if (position.y > 0 && position.y < getSize().height) {
+                edges.add(wall);
             }
         });
-        visit2dArray(verticalWalls, new Visitor2dArray() {
-            @Override
-            public void visit(final Position position) {
-                final WallDefault wall = new WallDefault(stateStorage, position, false, GridWithDecoupledState.this);
-                verticalWalls[position.x][position.y] = wall;
-                if (position.x > 0 && position.x < getSize().width) {
-                    edges.add(wall);
-                }
+        visit2dArray(verticalWalls, position -> {
+            final WallDefault wall = new WallDefault(stateStorage, position, false, GridWithDecoupledState.this);
+            verticalWalls[position.x][position.y] = wall;
+            if (position.x > 0 && position.x < getSize().width) {
+                edges.add(wall);
             }
         });
-        visit2dArray(squares, new Visitor2dArray() {
-            @Override
-            public void visit(final Position position) {
-                final SquareDefault square = new SquareDefault(stateStorage, position, GridWithDecoupledState.this);
-                squares[position.x][position.y] = square;
-                vertices.add(square);
-                if (position.x == 0 || position.y == 0 || position.x == size.width - 1 || position.y == size.height - 1) {
-                    square.setState(MazeGenerator.POSSIBLE_EXIT, true);
-                }
+        visit2dArray(squares, position -> {
+            final SquareDefault square = new SquareDefault(stateStorage, position, GridWithDecoupledState.this);
+            squares[position.x][position.y] = square;
+            vertices.add(square);
+            if (position.x == 0 || position.y == 0 || position.x == size.width - 1 || position.y == size.height - 1) {
+                square.setState(MazeGenerator.POSSIBLE_EXIT, true);
             }
         });
     }
@@ -87,34 +77,23 @@ public class GridWithDecoupledState implements Grid {
     }
 
     private void connectGraphObjects() {
-        visit2dArray(horizontalWalls, new Visitor2dArray() {
-            @Override
-            public void visit(final Position position) {
-                if (position.y == 0 || position.y == getSize().height) {
-                    return;
-                }
-                final Square squareAbove = getSquare(position.move(UP.getMove()));
-                final Square squareBelow = getSquare(position);
-                horizontalWalls[position.x][position.y].connect(squareAbove, squareBelow);
+        visit2dArray(horizontalWalls, position -> {
+            if (position.y == 0 || position.y == getSize().height) {
+                return;
             }
+            final Square squareAbove = getSquare(position.move(UP.getMove()));
+            final Square squareBelow = getSquare(position);
+            horizontalWalls[position.x][position.y].connect(squareAbove, squareBelow);
         });
-        visit2dArray(verticalWalls, new Visitor2dArray() {
-            @Override
-            public void visit(final Position position) {
-                if (position.x == 0 || position.x == getSize().width) {
-                    return;
-                }
-                final Square squareLeft = getSquare(position.move(LEFT.getMove()));
-                final Square squareRight = getSquare(position);
-                verticalWalls[position.x][position.y].connect(squareLeft, squareRight);
+        visit2dArray(verticalWalls, position -> {
+            if (position.x == 0 || position.x == getSize().width) {
+                return;
             }
+            final Square squareLeft = getSquare(position.move(LEFT.getMove()));
+            final Square squareRight = getSquare(position);
+            verticalWalls[position.x][position.y].connect(squareLeft, squareRight);
         });
-        visit2dArray(squares, new Visitor2dArray() {
-            @Override
-            public void visit(final Position position) {
-                squares[position.x][position.y].connect();
-            }
-        });
+        visit2dArray(squares, position -> squares[position.x][position.y].connect());
     }
 
     @Override
@@ -158,11 +137,11 @@ public class GridWithDecoupledState implements Grid {
         }
 
         void connect() {
-            wallMap = new DirectionMap<Wall>(grid.getHorizontalWall(position.x, position.y), grid.getVerticalWall(
+            wallMap = new DirectionMap<>(grid.getHorizontalWall(position.x, position.y), grid.getVerticalWall(
                     position.x + 1, position.y), grid.getHorizontalWall(position.x, position.y + 1),
                     grid.getVerticalWall(position.x, position.y));
-            edges = new HashSet<Edge>();
-            squareMap = new DirectionMap<Square>();
+            edges = new HashSet<>();
+            squareMap = new DirectionMap<>();
             if (position.y > 0) {
                 squareMap.up = grid.getSquare(position.move(UP.getMove()));
                 edges.add(getWall(UP));

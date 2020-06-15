@@ -1,8 +1,9 @@
 package com.laamella.amazingmazes.mazemodel;
 
+import com.laamella.amazingmazes.observe.Observable;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 
 /**
  * A state of anything in the maze. Used by generators.

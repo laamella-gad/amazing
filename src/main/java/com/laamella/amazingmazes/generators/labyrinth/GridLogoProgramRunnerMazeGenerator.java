@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class GridLogoProgramRunnerMazeGenerator implements GridMazeGenerator {
-    private static Logger log = LoggerFactory.getLogger(GridLogoProgramRunnerMazeGenerator.class);
+    private static final Logger log = LoggerFactory.getLogger(GridLogoProgramRunnerMazeGenerator.class);
 
     private final GridLogoProgram program;
 

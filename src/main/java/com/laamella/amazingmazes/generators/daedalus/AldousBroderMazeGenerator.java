@@ -54,7 +54,7 @@ import java.util.Set;
  * on the XKCD forums</a>
  */
 public class AldousBroderMazeGenerator implements GraphMazeGenerator {
-    private static Logger log = LoggerFactory.getLogger(AldousBroderMazeGenerator.class);
+    private static final Logger log = LoggerFactory.getLogger(AldousBroderMazeGenerator.class);
 
     private final Randomizer randomizer;
 

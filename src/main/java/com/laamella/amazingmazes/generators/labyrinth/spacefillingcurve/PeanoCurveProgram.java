@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  * code</a> that was used here.
  */
 public class PeanoCurveProgram implements GridLogoProgram {
-    private static Logger log = LoggerFactory.getLogger(PeanoCurveProgram.class);
+    private static final Logger log = LoggerFactory.getLogger(PeanoCurveProgram.class);
 
     private final int degree;
     private final boolean mirror;

@@ -65,7 +65,7 @@ import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
  */
 // TODO convert to progressive row based algorithm
 public class EllerMazeGeneratorC64 implements GridMazeGenerator {
-    private static Logger log = LoggerFactory.getLogger(EllerMazeGeneratorC64.class);
+    private static final Logger log = LoggerFactory.getLogger(EllerMazeGeneratorC64.class);
 
     private final double steepness;
 

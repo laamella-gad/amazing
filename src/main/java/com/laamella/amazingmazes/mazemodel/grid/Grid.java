@@ -17,7 +17,7 @@ public interface Grid extends Graph {
     Size getSize();
 
     class UtilityWrapper implements Grid {
-        private static Logger log = LoggerFactory.getLogger(Grid.UtilityWrapper.class);
+        private static final Logger log = LoggerFactory.getLogger(Grid.UtilityWrapper.class);
         private final Grid delegateGrid;
 
         public UtilityWrapper(final Grid delegateGrid) {
@@ -27,29 +27,23 @@ public interface Grid extends Graph {
         @Deprecated
         public void closeAllWalls() {
             log.debug("closeAllWalls");
-            forAllSquares(new SquareVisitor<Void>() {
-                @Override
-                public Void visitSquare(final Position position, final Square square) {
-                    square.getWall(Direction.UP).close();
-                    square.getWall(Direction.RIGHT).close();
-                    square.getWall(Direction.DOWN).close();
-                    square.getWall(Direction.LEFT).close();
-                    return null;
-                }
+            forAllSquares((position, square) -> {
+                square.getWall(Direction.UP).close();
+                square.getWall(Direction.RIGHT).close();
+                square.getWall(Direction.DOWN).close();
+                square.getWall(Direction.LEFT).close();
+                return null;
             });
         }
 
         public void openAllWalls() {
             log.debug("openAllWalls");
-            forAllSquares(new SquareVisitor<Void>() {
-                @Override
-                public Void visitSquare(final Position position, final Square square) {
-                    square.getWall(Direction.UP).open();
-                    square.getWall(Direction.RIGHT).open();
-                    square.getWall(Direction.DOWN).open();
-                    square.getWall(Direction.LEFT).open();
-                    return null;
-                }
+            forAllSquares((position, square) -> {
+                square.getWall(Direction.UP).open();
+                square.getWall(Direction.RIGHT).open();
+                square.getWall(Direction.DOWN).open();
+                square.getWall(Direction.LEFT).open();
+                return null;
             });
         }
 
@@ -79,18 +73,12 @@ public interface Grid extends Graph {
         }
 
         public boolean isBorderSquare(final Direction direction, final Position position) {
-            switch (direction) {
-                case UP:
-                    return position.y == 0;
-                case DOWN:
-                    return position.y == delegateGrid.getSize().height - 1;
-                case RIGHT:
-                    return position.x == delegateGrid.getSize().width - 1;
-                case LEFT:
-                    return position.x == 0;
-                default:
-                    throw new IllegalStateException("Not a direction: " + direction.name());
-            }
+            return switch (direction) {
+                case UP -> position.y == 0;
+                case DOWN -> position.y == delegateGrid.getSize().height - 1;
+                case RIGHT -> position.x == delegateGrid.getSize().width - 1;
+                case LEFT -> position.x == 0;
+            };
         }
 
         @Override

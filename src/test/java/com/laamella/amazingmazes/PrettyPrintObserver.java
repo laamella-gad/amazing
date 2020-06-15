@@ -1,12 +1,8 @@
-/**
- *
- */
 package com.laamella.amazingmazes;
 
 import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
-
-import java.util.Observable;
-import java.util.Observer;
+import com.laamella.amazingmazes.observe.Observable;
+import com.laamella.amazingmazes.observe.Observer;
 
 final class PrettyPrintObserver implements Observer {
     private final StateMatrixPrettyPrinter prettyPrinter;
@@ -23,7 +19,7 @@ final class PrettyPrintObserver implements Observer {
     }
 
     @Override
-    public void update(final Observable o, final Object arg) {
+    public void update() {
         MazeGeneratorTester.log.debug(prettyPrinter.getPrintableMaze(matrix));
     }
 }

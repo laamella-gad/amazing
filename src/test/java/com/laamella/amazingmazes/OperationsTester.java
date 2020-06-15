@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
 
 public class OperationsTester {
-    private static Logger log = LoggerFactory.getLogger(OperationsTester.class);
+    private static final Logger log = LoggerFactory.getLogger(OperationsTester.class);
 
     private StateMatrix mazeStateMatrix;
     private Grid.UtilityWrapper grid;

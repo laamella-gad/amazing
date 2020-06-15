@@ -6,8 +6,10 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
+
 public class GridTurtle implements Turtle {
-    private static Logger log = LoggerFactory.getLogger(GridTurtle.class);
+    private static final Logger log = LoggerFactory.getLogger(GridTurtle.class);
 
     private Square currentSquare;
     private Direction direction;
@@ -38,36 +40,23 @@ public class GridTurtle implements Turtle {
 
     @Override
     public int getAngle() {
-        switch (direction) {
-            case DOWN:
-                return 180;
-            case UP:
-                return 0;
-            case LEFT:
-                return 270;
-            case RIGHT:
-                return 90;
-        }
-        throw new IllegalStateException();
+        return switch (direction) {
+            case DOWN -> 180;
+            case UP -> 0;
+            case LEFT -> 270;
+            case RIGHT -> 90;
+        };
     }
 
     @Override
-    public void setAngle(final int direction) {
-        switch (direction) {
-            case 0:
-                this.direction = Direction.UP;
-                return;
-            case 90:
-                this.direction = Direction.RIGHT;
-                return;
-            case 180:
-                this.direction = Direction.DOWN;
-                return;
-            case 270:
-                this.direction = Direction.LEFT;
-                return;
-        }
-        throw new IllegalArgumentException();
+    public void setAngle(final int angle) {
+        this.direction = switch (angle) {
+            case 0 -> UP;
+            case 90 -> RIGHT;
+            case 180 -> DOWN;
+            case 270 -> LEFT;
+            default -> throw new IllegalArgumentException();
+        };
     }
 
     @Override

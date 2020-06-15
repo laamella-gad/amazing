@@ -15,7 +15,7 @@ public class GridMatrixStorage implements GridStateStorage {
     public GridMatrixStorage(final Matrix<ObservableObjectSetState> mazeMatrix) {
         this.mazeMatrix = new Matrix.UtilityWrapper<>(mazeMatrix);
         this.size = new Size((mazeMatrix.getSize().width - 1) / 2, (mazeMatrix.getSize().height - 1) / 2);
-        this.mazeMatrix.visitAllSquares(new Matrix.UtilityWrapper.MatrixVisitor<ObservableObjectSetState>() {
+        this.mazeMatrix.visitAllSquares(new Matrix.UtilityWrapper.MatrixVisitor<>() {
             @Override
             public void endRow() {
             }

@@ -38,7 +38,7 @@ import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
  * description</a>
  */
 public class BinaryTreeMazeGenerator implements GridMazeGenerator {
-    private static Logger log = LoggerFactory.getLogger(BinaryTreeMazeGenerator.class);
+    private static final Logger log = LoggerFactory.getLogger(BinaryTreeMazeGenerator.class);
     private final Randomizer randomGenerator;
 
     public BinaryTreeMazeGenerator(final Randomizer randomGenerator) {

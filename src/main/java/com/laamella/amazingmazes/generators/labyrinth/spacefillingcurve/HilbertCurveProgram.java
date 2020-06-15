@@ -45,7 +45,7 @@ import org.slf4j.LoggerFactory;
  * </pre>
  */
 public class HilbertCurveProgram implements GridLogoProgram {
-    private static Logger log = LoggerFactory.getLogger(HilbertCurveProgram.class);
+    private static final Logger log = LoggerFactory.getLogger(HilbertCurveProgram.class);
 
     private final int degree;
     private final boolean mirror;

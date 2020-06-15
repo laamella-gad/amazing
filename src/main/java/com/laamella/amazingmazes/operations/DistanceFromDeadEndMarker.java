@@ -4,9 +4,9 @@ import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
 import com.laamella.amazingmazes.mazemodel.graph.Edge;
 import com.laamella.amazingmazes.mazemodel.graph.Graph;
 import com.laamella.amazingmazes.mazemodel.graph.Vertex;
+import com.laamella.amazingmazes.observe.Observable;
 
 import java.util.LinkedHashSet;
-import java.util.Observable;
 import java.util.Set;
 
 /**
