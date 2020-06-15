@@ -47,7 +47,7 @@ public class KruskalMazeGenerator implements GraphMazeGenerator {
 
     @Override
     public void generateMaze(final Graph graph) {
-        final Vertex entranceVertex = new Graph.UtilityWrapper(graph).getEntrance();
+        final Vertex entranceVertex = graph.getEntrance();
 
         // Put all vertices in a set by themselves.
         final Sets<Vertex> sets = new Sets<>();

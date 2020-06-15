@@ -66,7 +66,7 @@ public class AldousBroderMazeGenerator implements GraphMazeGenerator {
     public void generateMaze(final Graph graph) {
         log.debug("generateMaze()");
         final Set<Vertex> visitedVertices = new HashSet<>();
-        Vertex currentVertex = new Graph.UtilityWrapper(graph).getEntrance();
+        Vertex currentVertex = graph.getEntrance();
         visitedVertices.add(currentVertex);
 
         while (visitedVertices.size() < graph.getVertices().size()) {

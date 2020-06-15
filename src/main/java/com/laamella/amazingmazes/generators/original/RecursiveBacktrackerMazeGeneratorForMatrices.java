@@ -12,6 +12,8 @@ import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
 import java.util.EnumSet;
 import java.util.Set;
 
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+
 /**
  * A recursive backtracker that works directly on matrixes. It's not perfect,
  * since it will often leave parts of the matrix inaccessible.
@@ -30,13 +32,12 @@ public class RecursiveBacktrackerMazeGeneratorForMatrices implements MatrixMazeG
 
     @Override
     public void generateMaze(final StateMatrix matrix) {
-        final Matrix.UtilityWrapper<ObservableObjectSetState> utilityMatrix = new Matrix.UtilityWrapper<>(matrix);
-        final Position startPosition = randomizer.randomPosition(utilityMatrix.getSize());
+        final Position startPosition = randomizer.randomPosition(matrix.getSize());
         recurse(matrix, startPosition);
     }
 
     private void recurse(final StateMatrix matrix, final Position currentPosition) {
-        matrix.get(currentPosition).setState(MazeDefinitionState.PASSAGE, true);
+        matrix.get(currentPosition).setState(PASSAGE, true);
 
         final Set<Direction> directionsToTry = EnumSet.allOf(Direction.class);
         for (final Direction direction : randomizer.shuffle(directionsToTry)) {
@@ -54,7 +55,7 @@ public class RecursiveBacktrackerMazeGeneratorForMatrices implements MatrixMazeG
         for (final Direction direction : EnumSet.allOf(Direction.class)) {
             final Position newPosition = position.move(direction.getMove());
             if (newPosition.isInside(matrix.getSize())) {
-                if (matrix.get(newPosition).hasState(MazeDefinitionState.PASSAGE)) {
+                if (matrix.get(newPosition).hasState(PASSAGE)) {
                     amountOfSurroundingPassages++;
                 }
             }

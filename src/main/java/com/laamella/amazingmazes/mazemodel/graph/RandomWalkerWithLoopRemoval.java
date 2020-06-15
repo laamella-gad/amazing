@@ -74,5 +74,4 @@ public abstract class RandomWalkerWithLoopRemoval {
     protected abstract boolean endCondition(final Vertex currentVertex);
 
     protected abstract boolean isWalkable(Edge edge);
-
 }

@@ -13,38 +13,20 @@ public interface Graph {
 
     Set<Edge> getEdges();
 
-    class UtilityWrapper implements Graph {
-        private final Graph delegateGraph;
+    default Vertex getEntrance() {
+        return getVertexWithState(ENTRANCE);
+    }
 
-        public UtilityWrapper(final Graph delegateGraph) {
-            this.delegateGraph = delegateGraph;
-        }
+    default Vertex getExit() {
+        return getVertexWithState(EXIT);
+    }
 
-        public Vertex getEntrance() {
-            return getVertexWithState(ENTRANCE);
-        }
-
-        public Vertex getExit() {
-            return getVertexWithState(EXIT);
-        }
-
-        public Vertex getVertexWithState(final Object state) {
-            for (final Vertex vertex : getVertices()) {
-                if (vertex.hasState(state)) {
-                    return vertex;
-                }
+    default Vertex getVertexWithState(final Object state) {
+        for (final Vertex vertex : getVertices()) {
+            if (vertex.hasState(state)) {
+                return vertex;
             }
-            return null;
         }
-
-        @Override
-        public Set<Edge> getEdges() {
-            return delegateGraph.getEdges();
-        }
-
-        @Override
-        public Set<Vertex> getVertices() {
-            return delegateGraph.getVertices();
-        }
+        return null;
     }
 }

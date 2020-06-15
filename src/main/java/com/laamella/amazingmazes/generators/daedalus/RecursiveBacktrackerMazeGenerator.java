@@ -37,7 +37,7 @@ public class RecursiveBacktrackerMazeGenerator implements GraphMazeGenerator {
 
     @Override
     public void generateMaze(final Graph graph) {
-        final Vertex entranceVertex = new Graph.UtilityWrapper(graph).getEntrance();
+        final Vertex entranceVertex = graph.getEntrance();
         recurse(entranceVertex);
     }
 

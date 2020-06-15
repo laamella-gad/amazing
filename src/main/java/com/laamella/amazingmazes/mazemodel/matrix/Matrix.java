@@ -10,50 +10,22 @@ public interface Matrix<T> {
 
     Size getSize();
 
-    class UtilityWrapper<T> implements Matrix<T> {
-        private final Matrix<T> delegateMatrix;
+    interface Visitor<T> {
+        void visit(Position position, T value);
 
-        public UtilityWrapper(final Matrix<T> delegateMatrix) {
-            this.delegateMatrix = delegateMatrix;
-        }
+        void endRow();
 
-        public interface MatrixVisitor<T> {
-            void visit(Position position, T value);
+        void startRow();
+    }
 
-            void endRow();
-
-            void startRow();
-        }
-
-        public void visitAllSquares(final MatrixVisitor<T> visitor) {
-            for (int y = 0; y < delegateMatrix.getSize().height; y++) {
-                visitor.startRow();
-                for (int x = 0; x < delegateMatrix.getSize().width; x++) {
-                    final Position position = new Position(x, y);
-                    visitor.visit(position, delegateMatrix.get(position));
-                }
-                visitor.endRow();
+    default void visitAllSquares(final Visitor<T> visitor) {
+        for (int y = 0; y < getSize().height; y++) {
+            visitor.startRow();
+            for (int x = 0; x < getSize().width; x++) {
+                final Position position = new Position(x, y);
+                visitor.visit(position, get(position));
             }
-        }
-
-        @Override
-        public T get(final Position position) {
-            return delegateMatrix.get(position);
-        }
-
-        @Override
-        public Size getSize() {
-            return delegateMatrix.getSize();
-        }
-
-        @Override
-        public void set(final Position position, final T value) {
-            delegateMatrix.set(position, value);
-        }
-
-        @Override
-        public String toString() {
-            return "\n" + delegateMatrix.toString();
+            visitor.endRow();
         }
     }
 }

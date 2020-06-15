@@ -2,8 +2,7 @@ package com.laamella.amazingmazes;
 
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.State.ObservableObjectSetState;
-import com.laamella.amazingmazes.mazemodel.matrix.Matrix;
-import com.laamella.amazingmazes.mazemodel.matrix.Matrix.UtilityWrapper.MatrixVisitor;
+import com.laamella.amazingmazes.mazemodel.matrix.Matrix.Visitor;
 import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
 
 import java.util.AbstractMap;
@@ -41,7 +40,7 @@ class StateMatrixPrettyPrinter {
 
     String getPrintableMaze(final StateMatrix stateMatrix) {
         final StringBuffer maze = new StringBuffer("\n");
-        new Matrix.UtilityWrapper<>(stateMatrix).visitAllSquares(new MatrixVisitor<>() {
+        stateMatrix.visitAllSquares(new Visitor<>() {
             public void endRow() {
                 maze.append("-\n");
             }

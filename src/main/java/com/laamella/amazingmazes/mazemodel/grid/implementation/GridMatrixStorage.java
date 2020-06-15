@@ -9,13 +9,13 @@ import com.laamella.amazingmazes.mazemodel.matrix.Matrix;
 import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
 
 public class GridMatrixStorage implements GridStateStorage {
-    private final Matrix.UtilityWrapper<ObservableObjectSetState> mazeMatrix;
+    private final Matrix<ObservableObjectSetState> mazeMatrix;
     private final Size size;
 
     public GridMatrixStorage(final Matrix<ObservableObjectSetState> mazeMatrix) {
-        this.mazeMatrix = new Matrix.UtilityWrapper<>(mazeMatrix);
+        this.mazeMatrix = mazeMatrix;
         this.size = new Size((mazeMatrix.getSize().width - 1) / 2, (mazeMatrix.getSize().height - 1) / 2);
-        this.mazeMatrix.visitAllSquares(new Matrix.UtilityWrapper.MatrixVisitor<>() {
+        this.mazeMatrix.visitAllSquares(new Matrix.Visitor<>() {
             @Override
             public void endRow() {
             }
