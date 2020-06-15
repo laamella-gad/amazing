@@ -8,9 +8,6 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
 public class GridRowGenerator implements RowGenerator {
     private final Grid grid;
     private int currentRow;

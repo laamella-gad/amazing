@@ -4,19 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The old observer pattern from java.util. It was deprecated by Oracle, so the essence has been copied here.
+ */
 public class Observable {
     private boolean changed = false;
     private final List<Observer> observers = new ArrayList<>();
 
-    /**
-     * Adds an observer to the set of observers for this object, provided
-     * that it is not the same as some observer already in the set.
-     * The order in which notifications will be delivered to multiple
-     * observers is not specified. See the class comment.
-     *
-     * @param o an observer to be added.
-     * @throws NullPointerException if the parameter o is null.
-     */
     public synchronized void addObserver(Observer o) {
         Objects.requireNonNull(o);
         if (!observers.contains(o)) {
