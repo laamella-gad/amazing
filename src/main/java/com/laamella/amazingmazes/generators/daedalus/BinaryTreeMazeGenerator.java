@@ -46,9 +46,8 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
     }
 
     @Override
-    public void generateMaze(final Grid plainGrid) {
+    public void generateMaze(final Grid grid) {
         log.debug("generateMaze");
-        final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
 
         grid.forAllSquares((position, square) -> {
             if (grid.isBorderSquare(LEFT, position)) {

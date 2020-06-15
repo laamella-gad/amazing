@@ -32,20 +32,16 @@ public class MazeGeneratorTester {
     static Logger log = LoggerFactory.getLogger(MazeGeneratorTester.class);
 
     private StateMatrix mazeMatrix;
-    private Grid.UtilityWrapper grid;
-    private GridMatrixStorage stateStorage;
-
+    private Grid grid;
     private Randomizer.Default randomGenerator;
 
     @BeforeEach
     public void before() {
         mazeMatrix = new StateMatrix(new Size(19, 19));
-        stateStorage = new GridMatrixStorage(mazeMatrix);
-        grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
+        grid = new GridWithDecoupledState(new GridMatrixStorage(mazeMatrix));
         randomGenerator = new Randomizer.Default();
 
         mazeMatrix.addObserver(new PrettyPrintObserver(mazeMatrix));
-
     }
 
     @Test

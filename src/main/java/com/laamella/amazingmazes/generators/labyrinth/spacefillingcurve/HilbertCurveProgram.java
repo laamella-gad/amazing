@@ -2,7 +2,7 @@ package com.laamella.amazingmazes.generators.labyrinth.spacefillingcurve;
 
 import com.laamella.amazingmazes.generators.labyrinth.GridLogoProgram;
 import com.laamella.amazingmazes.mazemodel.Turtle;
-import com.laamella.amazingmazes.mazemodel.grid.Grid.UtilityWrapper;
+import com.laamella.amazingmazes.mazemodel.grid.Grid;
 import com.laamella.amazingmazes.mazemodel.grid.Square;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +100,7 @@ public class HilbertCurveProgram implements GridLogoProgram {
     }
 
     @Override
-    public Square getStartSquare(final UtilityWrapper grid) {
+    public Square getStartSquare(final Grid grid) {
         return grid.getTopLeftSquare();
     }
 

@@ -57,7 +57,7 @@ public class HuntAndKillMazeGenerator implements GridMazeGenerator {
         class ReadingDirectionHunter implements Hunter {
             @Override
             public Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare) {
-                return new Grid.UtilityWrapper(grid).forAllSquares((position, square) -> {
+                return grid.forAllSquares((position, square) -> {
                     if (!square.hasState(VISITED_WHILE_GENERATING)) {
                         return square;
                     }

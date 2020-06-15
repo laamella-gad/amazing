@@ -11,5 +11,5 @@ import com.laamella.amazingmazes.mazemodel.grid.Square;
 public interface GridLogoProgram {
     void run(Turtle turtle);
 
-    Square getStartSquare(Grid.UtilityWrapper grid);
+    Square getStartSquare(Grid grid);
 }

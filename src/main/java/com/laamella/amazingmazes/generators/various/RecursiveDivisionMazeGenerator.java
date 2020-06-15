@@ -34,8 +34,7 @@ public class RecursiveDivisionMazeGenerator extends Observable implements GridMa
     }
 
     @Override
-    public void generateMaze(final Grid plainGrid) {
-        final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
+    public void generateMaze(final Grid grid) {
         grid.openAllWalls();
         grid.drawHorizontalWall(0, 0, grid.getSize().width - 1);
         grid.drawHorizontalWall(grid.getSize().height, 0, grid.getSize().width - 1);
@@ -46,7 +45,7 @@ public class RecursiveDivisionMazeGenerator extends Observable implements GridMa
         subdivide(grid, grid.getTopLeftSquare().getPosition(), grid.getBottomRightSquare().getPosition().move(1, 1));
     }
 
-    private void subdivide(final Grid.UtilityWrapper grid, final Position topLeft, final Position bottomRight) {
+    private void subdivide(final Grid grid, final Position topLeft, final Position bottomRight) {
         log.debug("Subdividing [" + topLeft + "]-[" + bottomRight + "]");
         if (bottomRight.x - topLeft.x < 2 || bottomRight.y - topLeft.y < 2) {
             // Too little space to subdivide

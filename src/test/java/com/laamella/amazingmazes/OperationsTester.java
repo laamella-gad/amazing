@@ -5,7 +5,6 @@ import com.laamella.amazingmazes.generators.daedalus.PrimMazeGenerator;
 import com.laamella.amazingmazes.mazemodel.MazeDefinitionState;
 import com.laamella.amazingmazes.mazemodel.Position;
 import com.laamella.amazingmazes.mazemodel.Size;
-import com.laamella.amazingmazes.mazemodel.grid.Grid;
 import com.laamella.amazingmazes.mazemodel.grid.implementation.GridMatrixStorage;
 import com.laamella.amazingmazes.mazemodel.grid.implementation.GridWithDecoupledState;
 import com.laamella.amazingmazes.mazemodel.matrix.implementation.StateMatrix;
@@ -24,7 +23,7 @@ public class OperationsTester {
     private static final Logger log = LoggerFactory.getLogger(OperationsTester.class);
 
     private StateMatrix mazeStateMatrix;
-    private Grid.UtilityWrapper grid;
+    private GridWithDecoupledState grid;
 
     private final StateMatrixPrettyPrinter defaultStateMatrixPrettyPrinter = new StateMatrixPrettyPrinter();
 
@@ -32,7 +31,7 @@ public class OperationsTester {
     public void before() {
         mazeStateMatrix = new StateMatrix(new Size(149, 41));
         GridMatrixStorage stateStorage = new GridMatrixStorage(mazeStateMatrix);
-        grid = new Grid.UtilityWrapper(new GridWithDecoupledState(stateStorage));
+        grid = new GridWithDecoupledState(stateStorage);
         Randomizer.Default randomGenerator = new Randomizer.Default();
         PrimMazeGenerator mazeGenerator = new PrimMazeGenerator(randomGenerator);
         grid.getTopLeftSquare().setState(MazeDefinitionState.ENTRANCE, true);

@@ -2,7 +2,7 @@ package com.laamella.amazingmazes.generators.labyrinth.spacefillingcurve;
 
 import com.laamella.amazingmazes.generators.labyrinth.GridLogoProgram;
 import com.laamella.amazingmazes.mazemodel.Turtle;
-import com.laamella.amazingmazes.mazemodel.grid.Grid.UtilityWrapper;
+import com.laamella.amazingmazes.mazemodel.grid.Grid;
 import com.laamella.amazingmazes.mazemodel.grid.Square;
 
 /**
@@ -19,7 +19,7 @@ public class MooreCurveProgram implements GridLogoProgram {
     }
 
     @Override
-    public Square getStartSquare(UtilityWrapper grid) {
+    public Square getStartSquare(Grid grid) {
         return grid.getTopLeftSquare();
     }
 }

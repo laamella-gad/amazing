@@ -24,9 +24,8 @@ public class GridLogoProgramRunnerMazeGenerator implements GridMazeGenerator {
     }
 
     @Override
-    public void generateMaze(final Grid plainGrid) {
+    public void generateMaze(final Grid grid) {
         log.debug("generateMaze");
-        final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
         final Square startSquare = program.getStartSquare(grid);
         startSquare.setState(MazeDefinitionState.ENTRANCE, true);
         final Turtle turtle = new GridTurtle(startSquare, Direction.RIGHT);

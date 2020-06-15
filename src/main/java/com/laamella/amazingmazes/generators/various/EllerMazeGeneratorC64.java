@@ -103,8 +103,7 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
     }
 
     @Override
-    public void generateMaze(final Grid plainGrid) {
-        final Grid.UtilityWrapper grid = new Grid.UtilityWrapper(plainGrid);
+    public void generateMaze(final Grid grid) {
         log.debug("generateMaze");
 
         final int width = grid.getSize().width;
