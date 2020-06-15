@@ -23,8 +23,8 @@ public interface Graph {
         return getVertexWithState(EXIT);
     }
 
-    default Vertex getVertexWithState(final MazeState state) {
-        for (final Vertex vertex : getVertices()) {
+    default Vertex getVertexWithState(MazeState state) {
+        for (Vertex vertex : getVertices()) {
             if (vertex.hasState(state)) {
                 return vertex;
             }

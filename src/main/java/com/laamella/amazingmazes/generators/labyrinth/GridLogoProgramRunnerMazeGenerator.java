@@ -18,17 +18,17 @@ public class GridLogoProgramRunnerMazeGenerator implements GridMazeGenerator {
 
     private final GridLogoProgram program;
 
-    public GridLogoProgramRunnerMazeGenerator(final GridLogoProgram program) {
+    public GridLogoProgramRunnerMazeGenerator(GridLogoProgram program) {
         log.debug("GridLogoProgramRunnerMazeGenerator");
         this.program = program;
     }
 
     @Override
-    public void generateMaze(final Grid grid) {
+    public void generateMaze(Grid grid) {
         log.debug("generateMaze");
-        final Square startSquare = program.getStartSquare(grid);
+        Square startSquare = program.getStartSquare(grid);
         startSquare.setState(MazeDefinitionState.ENTRANCE, true);
-        final Turtle turtle = new GridTurtle(startSquare, Direction.RIGHT);
+        Turtle turtle = new GridTurtle(startSquare, Direction.RIGHT);
         program.run(turtle);
     }
 }

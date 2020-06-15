@@ -27,12 +27,12 @@ public class PeanoCurveProgram implements GridLogoProgram {
     private final int degree;
     private final boolean mirror;
 
-    public PeanoCurveProgram(final int degree, final boolean mirror) {
+    public PeanoCurveProgram(int degree, boolean mirror) {
         this.degree = degree;
         this.mirror = mirror;
     }
 
-    private void right(final Turtle turtle, final boolean mirror) {
+    private void right(Turtle turtle, boolean mirror) {
         if (mirror) {
             turtle.left();
         } else {
@@ -40,7 +40,7 @@ public class PeanoCurveProgram implements GridLogoProgram {
         }
     }
 
-    private void left(final Turtle turtle, final boolean mirror) {
+    private void left(Turtle turtle, boolean mirror) {
         if (mirror) {
             turtle.right();
         } else {
@@ -52,7 +52,7 @@ public class PeanoCurveProgram implements GridLogoProgram {
      * @param rightTurning specifies the orientation of the maze: false: left-turning,
      * true: right-turning
      */
-    public void drawCurve(final Turtle turtle, final int degree, final boolean rightTurning) {
+    public void drawCurve(Turtle turtle, int degree, boolean rightTurning) {
         if (degree == 0) {
             return;
         }
@@ -81,12 +81,12 @@ public class PeanoCurveProgram implements GridLogoProgram {
     }
 
     @Override
-    public void run(final Turtle turtle) {
+    public void run(Turtle turtle) {
         drawCurve(turtle, degree, mirror);
     }
 
     @Override
-    public Square getStartSquare(final Grid grid) {
+    public Square getStartSquare(Grid grid) {
         return grid.getTopLeftSquare();
     }
 }

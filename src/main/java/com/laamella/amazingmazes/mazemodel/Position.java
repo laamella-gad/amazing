@@ -7,20 +7,20 @@ public class Position {
     public final int x;
     public final int y;
 
-    public Position(final int x, final int y) {
+    public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public Position move(final int dx, final int dy) {
+    public Position move(int dx, int dy) {
         return new Position(x + dx, y + dy);
     }
 
-    public Position move(final Position position) {
+    public Position move(Position position) {
         return new Position(x + position.x, y + position.y);
     }
 
-    public Position scale(final int multiplier) {
+    public Position scale(int multiplier) {
         return new Position(x * multiplier, y * multiplier);
     }
 
@@ -32,7 +32,7 @@ public class Position {
         return new Position(y, x);
     }
 
-    public boolean isInside(final Size size) {
+    public boolean isInside(Size size) {
         return x >= 0 && y >= 0 && x < size.width && y < size.height;
     }
 

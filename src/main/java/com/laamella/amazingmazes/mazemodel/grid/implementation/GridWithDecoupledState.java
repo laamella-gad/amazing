@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.laamella.amazingmazes.generators.MazeGenerator.*;
 import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
 import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
 import static com.laamella.amazingmazes.mazemodel.matrix.ArrayUtilities.visit2dArray;
@@ -36,7 +37,7 @@ public class GridWithDecoupledState implements Grid {
     private final Set<Edge> edges = new HashSet<>();
     private final Set<Vertex> vertices = new HashSet<>();
 
-    public GridWithDecoupledState(final GridStateStorage stateStorage) {
+    public GridWithDecoupledState(GridStateStorage stateStorage) {
         this.size = stateStorage.getSize();
 
         squares = new SquareDefault[size.width][size.height];
@@ -47,27 +48,27 @@ public class GridWithDecoupledState implements Grid {
         connectGraphObjects();
     }
 
-    private void createGraphObjects(final GridStateStorage stateStorage) {
+    private void createGraphObjects(GridStateStorage stateStorage) {
         visit2dArray(horizontalWalls, position -> {
-            final WallDefault wall = new WallDefault(stateStorage, position, true, GridWithDecoupledState.this);
+            WallDefault wall = new WallDefault(stateStorage, position, true, GridWithDecoupledState.this);
             horizontalWalls[position.x][position.y] = wall;
             if (position.y > 0 && position.y < getSize().height) {
                 edges.add(wall);
             }
         });
         visit2dArray(verticalWalls, position -> {
-            final WallDefault wall = new WallDefault(stateStorage, position, false, GridWithDecoupledState.this);
+            WallDefault wall = new WallDefault(stateStorage, position, false, GridWithDecoupledState.this);
             verticalWalls[position.x][position.y] = wall;
             if (position.x > 0 && position.x < getSize().width) {
                 edges.add(wall);
             }
         });
         visit2dArray(squares, position -> {
-            final SquareDefault square = new SquareDefault(stateStorage, position, GridWithDecoupledState.this);
+            SquareDefault square = new SquareDefault(stateStorage, position, GridWithDecoupledState.this);
             squares[position.x][position.y] = square;
             vertices.add(square);
             if (position.x == 0 || position.y == 0 || position.x == size.width - 1 || position.y == size.height - 1) {
-                square.setState(MazeGenerator.POSSIBLE_EXIT, true);
+                square.setState(POSSIBLE_EXIT, true);
             }
         });
     }
@@ -82,31 +83,31 @@ public class GridWithDecoupledState implements Grid {
             if (position.y == 0 || position.y == getSize().height) {
                 return;
             }
-            final Square squareAbove = getSquare(position.move(UP.getMove()));
-            final Square squareBelow = getSquare(position);
+            Square squareAbove = getSquare(position.move(UP.getMove()));
+            Square squareBelow = getSquare(position);
             horizontalWalls[position.x][position.y].connect(squareAbove, squareBelow);
         });
         visit2dArray(verticalWalls, position -> {
             if (position.x == 0 || position.x == getSize().width) {
                 return;
             }
-            final Square squareLeft = getSquare(position.move(LEFT.getMove()));
-            final Square squareRight = getSquare(position);
+            Square squareLeft = getSquare(position.move(LEFT.getMove()));
+            Square squareRight = getSquare(position);
             verticalWalls[position.x][position.y].connect(squareLeft, squareRight);
         });
         visit2dArray(squares, position -> squares[position.x][position.y].connect());
     }
 
     @Override
-    public Square getSquare(final Position position) {
+    public Square getSquare(Position position) {
         return squares[position.x][position.y];
     }
 
-    public Wall getHorizontalWall(final int x, final int y) {
+    public Wall getHorizontalWall(int x, int y) {
         return horizontalWalls[x][y];
     }
 
-    public Wall getVerticalWall(final int x, final int y) {
+    public Wall getVerticalWall(int x, int y) {
         return verticalWalls[x][y];
     }
 
@@ -129,8 +130,8 @@ public class GridWithDecoupledState implements Grid {
         private final Stateful stateStorage;
         private final int id;
 
-        public SquareDefault(final GridStateStorage stateStorage, final Position position,
-                             final GridWithDecoupledState grid) {
+        public SquareDefault(GridStateStorage stateStorage, Position position,
+                             GridWithDecoupledState grid) {
             this.stateStorage = stateStorage.getSquareState(position);
             this.position = position;
             this.grid = grid;
@@ -162,12 +163,12 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public Wall getWall(final Direction wall) {
+        public Wall getWall(Direction wall) {
             return wallMap.get(wall);
         }
 
         @Override
-        public Square getSquare(final Direction direction) {
+        public Square getSquare(Direction direction) {
             return squareMap.get(direction);
         }
 
@@ -177,12 +178,12 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public boolean hasState(final MazeState state) {
+        public boolean hasState(MazeState state) {
             return stateStorage.hasState(state);
         }
 
         @Override
-        public void setState(final MazeState newState, final boolean mustBeSet) {
+        public void setState(MazeState newState, boolean mustBeSet) {
             stateStorage.setState(newState, mustBeSet);
         }
 
@@ -197,12 +198,12 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public Integer getState(final MazeState state) {
+        public Integer getState(MazeState state) {
             return stateStorage.getState(state);
         }
 
         @Override
-        public void setState(final MazeState state, final int value) {
+        public void setState(MazeState state, int value) {
             stateStorage.setState(state, value);
         }
 
@@ -220,14 +221,14 @@ public class GridWithDecoupledState implements Grid {
         private final GridWithDecoupledState grid;
         private final int id;
 
-        public WallDefault(final GridStateStorage stateStorage, final Position position, final boolean horizontal,
-                           final GridWithDecoupledState grid) {
+        public WallDefault(GridStateStorage stateStorage, Position position, boolean horizontal,
+                           GridWithDecoupledState grid) {
             this.stateStorage = stateStorage.getWallState(position, horizontal);
             this.grid = grid;
             this.id = DEBUG_ID++;
         }
 
-        void connect(final Square squareA, final Square squareB) {
+        void connect(Square squareA, Square squareB) {
             this.squareA = squareA;
             this.squareB = squareB;
         }
@@ -238,7 +239,7 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public void setOpened(final boolean open) {
+        public void setOpened(boolean open) {
             stateStorage.setState(PASSAGE, open);
         }
 
@@ -253,12 +254,12 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public boolean hasState(final MazeState state) {
+        public boolean hasState(MazeState state) {
             return stateStorage.hasState(state);
         }
 
         @Override
-        public void setState(final MazeState newState, final boolean mustBeSet) {
+        public void setState(MazeState newState, boolean mustBeSet) {
             stateStorage.setState(newState, mustBeSet);
         }
 
@@ -273,7 +274,7 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public Vertex travel(final Vertex sourceVertex) {
+        public Vertex travel(Vertex sourceVertex) {
             if (sourceVertex.equals(squareA)) {
                 return squareB;
             }
@@ -289,12 +290,12 @@ public class GridWithDecoupledState implements Grid {
         }
 
         @Override
-        public Integer getState(final MazeState state) {
+        public Integer getState(MazeState state) {
             return stateStorage.getState(state);
         }
 
         @Override
-        public void setState(final MazeState state, final int value) {
+        public void setState(MazeState state, int value) {
             stateStorage.setState(state, value);
         }
 

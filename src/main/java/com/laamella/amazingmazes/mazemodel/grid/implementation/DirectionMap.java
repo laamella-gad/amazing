@@ -11,7 +11,7 @@ public class DirectionMap<T> {
     public DirectionMap() {
     }
 
-    public DirectionMap(final T up, final T right, final T down, final T left) {
+    public DirectionMap(T up, T right, T down, T left) {
         this.left = left;
         this.right = right;
         this.up = up;
@@ -24,7 +24,6 @@ public class DirectionMap<T> {
             case RIGHT -> right;
             case UP -> up;
             case DOWN -> down;
-            default -> throw new IllegalStateException();
         };
     }
 }

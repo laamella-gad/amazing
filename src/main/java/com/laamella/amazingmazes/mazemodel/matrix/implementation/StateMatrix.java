@@ -10,11 +10,11 @@ import com.laamella.amazingmazes.observe.Observer;
 public class StateMatrix extends Observable implements Observer, Matrix<ObservableObjectSetState> {
     private final ListMatrix<ObservableObjectSetState> matrix;
 
-    public StateMatrix(final Size size) {
+    public StateMatrix(Size size) {
         matrix = new ListMatrix<>(size) {
             @Override
             protected ObservableObjectSetState newItem() {
-                final ObservableObjectSetState state = new ObservableObjectSetState();
+                ObservableObjectSetState state = new ObservableObjectSetState();
                 state.addObserver(StateMatrix.this);
                 return state;
             }
@@ -28,7 +28,7 @@ public class StateMatrix extends Observable implements Observer, Matrix<Observab
     }
 
     @Override
-    public ObservableObjectSetState get(final Position position) {
+    public ObservableObjectSetState get(Position position) {
         return matrix.get(position);
     }
 
@@ -38,7 +38,7 @@ public class StateMatrix extends Observable implements Observer, Matrix<Observab
     }
 
     @Override
-    public void set(final Position position, final ObservableObjectSetState value) {
+    public void set(Position position, ObservableObjectSetState value) {
         matrix.set(position, value);
     }
 

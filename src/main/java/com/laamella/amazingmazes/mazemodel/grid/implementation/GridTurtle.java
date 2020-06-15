@@ -14,7 +14,7 @@ public class GridTurtle implements Turtle {
     private Square currentSquare;
     private Direction direction;
 
-    public GridTurtle(final Square currentSquare, final Direction direction) {
+    public GridTurtle(Square currentSquare, Direction direction) {
         this.currentSquare = currentSquare;
         this.direction = direction;
     }
@@ -49,7 +49,7 @@ public class GridTurtle implements Turtle {
     }
 
     @Override
-    public void setAngle(final int angle) {
+    public void setAngle(int angle) {
         this.direction = switch (angle) {
             case 0 -> UP;
             case 90 -> RIGHT;

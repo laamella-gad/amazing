@@ -60,20 +60,20 @@ public class AldousBroderMazeGenerator implements GraphMazeGenerator {
 
     private final Randomizer randomizer;
 
-    public AldousBroderMazeGenerator(final Randomizer randomGenerator) {
+    public AldousBroderMazeGenerator(Randomizer randomGenerator) {
         this.randomizer = randomGenerator;
     }
 
     @Override
-    public void generateMaze(final Graph graph) {
+    public void generateMaze(Graph graph) {
         log.debug("generateMaze()");
-        final Set<Vertex> visitedVertices = new HashSet<>();
+        Set<Vertex> visitedVertices = new HashSet<>();
         Vertex currentVertex = graph.getEntrance();
         visitedVertices.add(currentVertex);
 
         while (visitedVertices.size() < graph.getVertices().size()) {
-            final Edge randomEdge = randomizer.pickOne(currentVertex.getEdges());
-            final Vertex randomVertex = randomEdge.travel(currentVertex);
+            Edge randomEdge = randomizer.pickOne(currentVertex.getEdges());
+            Vertex randomVertex = randomEdge.travel(currentVertex);
             if (!visitedVertices.contains(randomVertex)) {
                 randomEdge.setState(PASSAGE, true);
                 visitedVertices.add(randomVertex);

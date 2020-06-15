@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A state of anything in the maze. Used by generators.
+ * Something that contains MazeStates. Used by generators.
  */
 public interface Stateful {
     boolean hasState(MazeState state);
@@ -18,16 +18,16 @@ public interface Stateful {
     void setState(MazeState state, int value);
 
     class ObservableObjectSetState extends Observable implements Stateful {
-        private final Map<Object, Integer> states = new HashMap<>(4);
+        private final Map<MazeState, Integer> states = new HashMap<>(4);
 
         @Override
-        public boolean hasState(final MazeState state) {
+        public boolean hasState(MazeState state) {
             return states.containsKey(state);
         }
 
         @Override
-        public void setState(final MazeState newState, final boolean mustBeSet) {
-            final boolean alreadyHas = hasState(newState);
+        public void setState(MazeState newState, boolean mustBeSet) {
+            boolean alreadyHas = hasState(newState);
 
             if (alreadyHas && mustBeSet) {
                 return;
@@ -46,12 +46,12 @@ public interface Stateful {
         }
 
         @Override
-        public Integer getState(final MazeState state) {
+        public Integer getState(MazeState state) {
             return states.get(state);
         }
 
         @Override
-        public void setState(final MazeState state, final int value) {
+        public void setState(MazeState state, int value) {
             states.put(state, value);
         }
 

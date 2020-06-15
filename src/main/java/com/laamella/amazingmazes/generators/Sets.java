@@ -1,7 +1,7 @@
 package com.laamella.amazingmazes.generators;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +15,7 @@ public class Sets<T> {
     private final List<Set<T>> sets;
 
     public Sets() {
-        this.sets = new LinkedList<>();
+        this.sets = new ArrayList<>();
     }
 
     /**
@@ -24,7 +24,7 @@ public class Sets<T> {
      * @param set the set to delete the element from.
      * @param element the element to remove.
      */
-    public void removeFromSet(final Set<T> set, final T element) {
+    public void removeFromSet(Set<T> set, T element) {
         set.remove(element);
         if (set.size() == 0) {
             sets.remove(set);
@@ -37,8 +37,8 @@ public class Sets<T> {
      * @param element the element to put in the new set.
      * @return the new set.
      */
-    public Set<T> putInNewSet(final T element) {
-        final Set<T> set = new HashSet<>();
+    public Set<T> putInNewSet(T element) {
+        Set<T> set = new HashSet<>();
         set.add(element);
         sets.add(set);
         return set;
@@ -48,8 +48,8 @@ public class Sets<T> {
      * @param element the element to look for. It must be in on of the sets.
      * @return the set which contains element.
      */
-    public Set<T> findSetContaining(final T element) {
-        for (final Set<T> set : sets) {
+    public Set<T> findSetContaining(T element) {
+        for (Set<T> set : sets) {
             if (set.contains(element)) {
                 return set;
             }
@@ -60,7 +60,7 @@ public class Sets<T> {
     /**
      * Put set B in set A, the delete set B.
      */
-    public Set<T> unionSets(final Set<T> setA, final Set<T> setB) {
+    public Set<T> unionSets(Set<T> setA, Set<T> setB) {
         setA.addAll(setB);
         sets.remove(setB);
         return setA;

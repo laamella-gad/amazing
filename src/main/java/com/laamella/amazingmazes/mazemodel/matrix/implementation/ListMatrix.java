@@ -11,7 +11,7 @@ public abstract class ListMatrix<T> implements Matrix<T> {
     private final List<T> matrix;
     private final Size size;
 
-    public ListMatrix(final Size size) {
+    public ListMatrix(Size size) {
         this.size = size;
         this.matrix = new ArrayList<>();
         for (int i = 0; i < size.area; i++) {
@@ -22,7 +22,7 @@ public abstract class ListMatrix<T> implements Matrix<T> {
     protected abstract T newItem();
 
     @Override
-    public T get(final Position position) {
+    public T get(Position position) {
         if (position.x >= size.width) {
             throw new IndexOutOfBoundsException("x " + position.x + " >= " + size.width);
         }
@@ -44,7 +44,7 @@ public abstract class ListMatrix<T> implements Matrix<T> {
     }
 
     @Override
-    public void set(final Position position, final T value) {
+    public void set(Position position, T value) {
         matrix.set(position.x + position.y * size.width, value);
     }
 

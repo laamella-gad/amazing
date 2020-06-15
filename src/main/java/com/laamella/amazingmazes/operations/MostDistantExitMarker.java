@@ -14,15 +14,15 @@ import static com.laamella.amazingmazes.operations.VertexDistanceMarker.*;
  * the grid that is the most distant from the entrance.
  */
 public class MostDistantExitMarker {
-    public void findMostDistantExit(final Graph graph) {
-        final Vertex entrance = graph.getEntrance();
+    public void findMostDistantExit(Graph graph) {
+        Vertex entrance = graph.getEntrance();
         new VertexDistanceMarker().mark(entrance);
 
         Vertex mostDistantExit = null;
         int largestDistance = 0;
-        for (final Vertex vertex : graph.getVertices()) {
+        for (Vertex vertex : graph.getVertices()) {
             if (vertex.hasState(POSSIBLE_EXIT)) {
-                final int distance = vertex.getState(DISTANCE);
+                int distance = vertex.getState(DISTANCE);
                 if (distance > largestDistance) {
                     largestDistance = distance;
                     mostDistantExit = vertex;

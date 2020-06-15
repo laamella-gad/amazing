@@ -29,12 +29,12 @@ public class RecursiveDivisionMazeGenerator extends Observable implements GridMa
 
     private final Randomizer randomizer;
 
-    public RecursiveDivisionMazeGenerator(final Randomizer randomGenerator) {
+    public RecursiveDivisionMazeGenerator(Randomizer randomGenerator) {
         this.randomizer = randomGenerator;
     }
 
     @Override
-    public void generateMaze(final Grid grid) {
+    public void generateMaze(Grid grid) {
         grid.openAllWalls();
         grid.drawHorizontalWall(0, 0, grid.getSize().width - 1);
         grid.drawHorizontalWall(grid.getSize().height, 0, grid.getSize().width - 1);
@@ -45,39 +45,39 @@ public class RecursiveDivisionMazeGenerator extends Observable implements GridMa
         subdivide(grid, grid.getTopLeftSquare().getPosition(), grid.getBottomRightSquare().getPosition().move(1, 1));
     }
 
-    private void subdivide(final Grid grid, final Position topLeft, final Position bottomRight) {
+    private void subdivide(Grid grid, Position topLeft, Position bottomRight) {
         log.debug("Subdividing [" + topLeft + "]-[" + bottomRight + "]");
         if (bottomRight.x - topLeft.x < 2 || bottomRight.y - topLeft.y < 2) {
             // Too little space to subdivide
             return;
         }
-        final Position crossing = new Position(randomizer.between(topLeft.x, bottomRight.x - 1) + 1,
+        Position crossing = new Position(randomizer.between(topLeft.x, bottomRight.x - 1) + 1,
                 randomizer.between(topLeft.y, bottomRight.y - 1) + 1);
 
         grid.drawVerticalWall(crossing.x, topLeft.y, bottomRight.y - 1);
         grid.drawHorizontalWall(crossing.y, topLeft.x, bottomRight.x - 1);
 
-        final int wallToIgnore = randomizer.random(4);
+        int wallToIgnore = randomizer.random(4);
         if (wallToIgnore != 0) {
             // make hole in wall pointing up.
-            final int y = randomizer.between(topLeft.y, crossing.y);
+            int y = randomizer.between(topLeft.y, crossing.y);
             grid.getHorizontalWall(new Position(crossing.x, y)).open();
         }
         if (wallToIgnore != 1) {
             // make hole in wall pointing down.
-            final int y = randomizer.between(crossing.y, bottomRight.y);
+            int y = randomizer.between(crossing.y, bottomRight.y);
             grid.getHorizontalWall(new Position(crossing.x, y)).open();
         }
 
         if (wallToIgnore != 2) {
             // make hole in wall pointing right.
-            final int x = randomizer.between(crossing.x, bottomRight.x);
+            int x = randomizer.between(crossing.x, bottomRight.x);
             grid.getVerticalWall(new Position(x, crossing.y)).open();
         }
 
         if (wallToIgnore != 3) {
             // make hole in wall pointing left.
-            final int x = randomizer.between(topLeft.x, crossing.x);
+            int x = randomizer.between(topLeft.x, crossing.x);
             grid.getVerticalWall(new Position(x, crossing.y)).open();
         }
 

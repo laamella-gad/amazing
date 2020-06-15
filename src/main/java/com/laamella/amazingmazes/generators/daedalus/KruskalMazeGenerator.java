@@ -10,6 +10,8 @@ import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 
 import java.util.Set;
 
+import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
+
 /**
  * This algorithm is interesting because it doesn't "grow" the Maze like a tree,
  * but rather carves passage segments all over the Maze at random, but yet still
@@ -41,34 +43,34 @@ public class KruskalMazeGenerator implements GraphMazeGenerator {
 
     private final Randomizer randomizer;
 
-    public KruskalMazeGenerator(final Randomizer randomizer) {
+    public KruskalMazeGenerator(Randomizer randomizer) {
         this.randomizer = randomizer;
     }
 
     @Override
-    public void generateMaze(final Graph graph) {
-        final Vertex entranceVertex = graph.getEntrance();
+    public void generateMaze(Graph graph) {
+        Vertex entranceVertex = graph.getEntrance();
 
         // Put all vertices in a set by themselves.
-        final Sets<Vertex> sets = new Sets<>();
-        for (final Vertex vertex : entranceVertex.getGraph().getVertices()) {
+        Sets<Vertex> sets = new Sets<>();
+        for (Vertex vertex : entranceVertex.getGraph().getVertices()) {
             sets.putInNewSet(vertex);
         }
 
         do {
             // Pick a random edge.
             // (Normal Kruskal would take the edge with the lowest weight here.)
-            final Edge edge = randomizer.pickOne(graph.getEdges());
+            Edge edge = randomizer.pickOne(graph.getEdges());
 
             // See in which sets the corresponding vertices are.
-            final Vertex vertexA = edge.getVertexA();
-            final Vertex vertexB = edge.getVertexB();
-            final Set<Vertex> setA = sets.findSetContaining(vertexA);
-            final Set<Vertex> setB = sets.findSetContaining(vertexB);
+            Vertex vertexA = edge.getVertexA();
+            Vertex vertexB = edge.getVertexB();
+            Set<Vertex> setA = sets.findSetContaining(vertexA);
+            Set<Vertex> setB = sets.findSetContaining(vertexB);
 
             // If they are in different sets, we can connect them.
             if (setA != setB) {
-                edge.setState(MazeDefinitionState.PASSAGE, true);
+                edge.setState(PASSAGE, true);
                 sets.unionSets(setA, setB);
             }
             // Stop when all vertices are in the same set

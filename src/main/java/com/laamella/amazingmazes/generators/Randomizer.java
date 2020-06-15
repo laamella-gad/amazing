@@ -46,13 +46,13 @@ public interface Randomizer {
             reset();
         }
 
-        public Default(final long seed) {
+        public Default(long seed) {
             this.seed = seed;
             reset();
         }
 
         @Override
-        public boolean chance(final double d) {
+        public boolean chance(double d) {
             return random.nextDouble() < d;
         }
 
@@ -62,31 +62,31 @@ public interface Randomizer {
         }
 
         @Override
-        public int random(final int max) {
+        public int random(int max) {
             return random.nextInt(max);
         }
 
         @Override
-        public Position randomPosition(final Size size) {
-            final int x = random(size.width);
-            final int y = random(size.height);
+        public Position randomPosition(Size size) {
+            int x = random(size.width);
+            int y = random(size.height);
             return new Position(x, y);
         }
 
         @Override
-        public int between(final int a, final int b) {
+        public int between(int a, int b) {
             return a + random(b - a);
         }
 
         @Override
-        public <T> List<T> shuffle(final Collection<T> collection) {
-            final List<T> list = new ArrayList<>(collection);
+        public <T> List<T> shuffle(Collection<T> collection) {
+            List<T> list = new ArrayList<>(collection);
             Collections.shuffle(list);
             return list;
         }
 
         @Override
-        public <T> T pickOne(final Collection<T> collection) {
+        public <T> T pickOne(Collection<T> collection) {
             if (collection.size() > 0) {
                 return shuffle(collection).get(0);
             }

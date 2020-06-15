@@ -31,23 +31,23 @@ class StateMatrixPrettyPrinter {
         this.defaultCharacter = defaultCharacter;
     }
 
-    void map(final MazeState state, final Character character) {
+    void map(MazeState state, Character character) {
         mappings.add(new AbstractMap.SimpleEntry<>(state, character));
     }
 
-    void map(final MazeState state) {
+    void map(MazeState state) {
         map(state, null);
     }
 
-    String getPrintableMaze(final StateMatrix stateMatrix) {
-        final StringBuffer maze = new StringBuffer("\n");
+    String getPrintableMaze(StateMatrix stateMatrix) {
+        StringBuffer maze = new StringBuffer("\n");
         stateMatrix.visitAllSquares(new Visitor<>() {
             public void endRow() {
                 maze.append("-\n");
             }
 
-            public void visit(final Position position, final ObservableObjectSetState states) {
-                for (final Map.Entry<MazeState, Character> mapping : mappings) {
+            public void visit(Position position, ObservableObjectSetState states) {
+                for (Map.Entry<MazeState, Character> mapping : mappings) {
                     if (states.hasState(mapping.getKey())) {
                         if (mapping.getValue() == null) {
                             maze.append(states.getState(mapping.getKey()) % 10);

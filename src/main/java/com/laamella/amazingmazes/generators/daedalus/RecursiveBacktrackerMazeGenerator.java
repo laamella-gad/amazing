@@ -31,20 +31,20 @@ import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.PASSAGE;
 public class RecursiveBacktrackerMazeGenerator implements GraphMazeGenerator {
     private final Randomizer randomizer;
 
-    public RecursiveBacktrackerMazeGenerator(final Randomizer randomGenerator) {
+    public RecursiveBacktrackerMazeGenerator(Randomizer randomGenerator) {
         this.randomizer = randomGenerator;
     }
 
     @Override
-    public void generateMaze(final Graph graph) {
-        final Vertex entranceVertex = graph.getEntrance();
+    public void generateMaze(Graph graph) {
+        Vertex entranceVertex = graph.getEntrance();
         recurse(entranceVertex);
     }
 
-    private void recurse(final Vertex currentVertex) {
+    private void recurse(Vertex currentVertex) {
         currentVertex.setState(VISITED_WHILE_GENERATING, true);
-        for (final Edge edge : randomizer.shuffle(currentVertex.getEdges())) {
-            final Vertex otherVertex = edge.travel(currentVertex);
+        for (Edge edge : randomizer.shuffle(currentVertex.getEdges())) {
+            Vertex otherVertex = edge.travel(currentVertex);
             if (!otherVertex.hasState(VISITED_WHILE_GENERATING)) {
                 edge.setState(PASSAGE, true);
                 recurse(otherVertex);

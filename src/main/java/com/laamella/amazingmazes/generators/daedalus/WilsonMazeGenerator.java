@@ -60,7 +60,7 @@ import com.laamella.amazingmazes.mazemodel.graph.Graph;
 public class WilsonMazeGenerator implements GraphMazeGenerator {
 
     @Override
-    public void generateMaze(final Graph graph) {
+    public void generateMaze(Graph graph) {
         // TODO create Wilson algorithm
 
     }

@@ -69,11 +69,11 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
 
     private final double steepness;
 
-    public EllerMazeGeneratorC64(final double steepness) {
+    public EllerMazeGeneratorC64(double steepness) {
         this.steepness = steepness;
     }
 
-    private void messWithLR_0(final int x, final int[] l, final int[] r) {
+    private void messWithLR_0(int x, int[] l, int[] r) {
         int pos = x - 1;
 
         while (r[pos] != 0) {
@@ -84,7 +84,7 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
         r[pos] = r[x];
     }
 
-    private void messWithLR_1(final int x, final int[] l, final int[] r) {
+    private void messWithLR_1(int x, int[] l, int[] r) {
         int pos = x;
 
         while (l[pos] != 0) {
@@ -95,21 +95,21 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
         l[pos] = l[x - 1];
     }
 
-    private void setSquareOpenRightAndBottom(final Grid grid, final int x, final int y, final boolean openRight,
-                                             final boolean openBottom) {
-        final Square square = grid.getSquare(new Position(x, y));
+    private void setSquareOpenRightAndBottom(Grid grid, int x, int y, boolean openRight,
+                                             boolean openBottom) {
+        Square square = grid.getSquare(new Position(x, y));
         square.getWall(RIGHT).setOpened(openRight);
         square.getWall(DOWN).setOpened(openBottom);
     }
 
     @Override
-    public void generateMaze(final Grid grid) {
+    public void generateMaze(Grid grid) {
         log.debug("generateMaze");
 
-        final int width = grid.getSize().width;
-        final int height = grid.getSize().height;
-        final int[] left = new int[width + 1];
-        final int[] right = new int[width + 1];
+        int width = grid.getSize().width;
+        int height = grid.getSize().height;
+        int[] left = new int[width + 1];
+        int[] right = new int[width + 1];
 
         log.debug("Top entrance");
         grid.getSquare(new Position(random(width), 0)).getWall(UP).open();
@@ -118,15 +118,15 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
         for (int y = 1; y < height; y++) {
             log.debug("New row");
             for (int x = width; x >= 1; x--) {
-                final boolean openRight = isOpenToTheRight(steepness, left, right, x);
-                final boolean openBottom = isOpenAtTheBottom(steepness, left, right, x);
+                boolean openRight = isOpenToTheRight(steepness, left, right, x);
+                boolean openBottom = isOpenAtTheBottom(steepness, left, right, x);
                 setSquareOpenRightAndBottom(grid, width - x, y - 1, openRight, openBottom);
             }
         }
 
         log.debug("Finishing maze with last row");
         setSquareOpenRightAndBottom(grid, 0, height - 1, false, true);
-        final int exitX = random(width) + 1;
+        int exitX = random(width) + 1;
 
         for (int x = width; x >= 1; x--) {
             if (right[x] == x - 1 || (right[x] != 0) && randomVertical(steepness)) {
@@ -138,7 +138,7 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
         }
     }
 
-    private boolean isOpenAtTheBottom(final double steepness, final int[] l, final int[] r, final int x) {
+    private boolean isOpenAtTheBottom(double steepness, int[] l, int[] r, int x) {
         if ((l[x] + r[x] != 0) && randomHorizontal(steepness)) {
             l[r[x]] = l[x];
             r[l[x]] = r[x];
@@ -149,7 +149,7 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
         return true;
     }
 
-    private boolean isOpenToTheRight(final double steepness, final int[] l, final int[] r, final int x) {
+    private boolean isOpenToTheRight(double steepness, int[] l, int[] r, int x) {
         if (r[x] == x - 1 || randomVertical(steepness)) {
             return false;
         }
@@ -164,15 +164,15 @@ public class EllerMazeGeneratorC64 implements GridMazeGenerator {
         return true;
     }
 
-    private int random(final int width) {
+    private int random(int width) {
         return (int) (Math.random() * width);
     }
 
-    private boolean randomHorizontal(final double steepness) {
+    private boolean randomHorizontal(double steepness) {
         return Math.random() > steepness;
     }
 
-    private boolean randomVertical(final double steepness) {
+    private boolean randomVertical(double steepness) {
         return Math.random() < steepness;
     }
 }

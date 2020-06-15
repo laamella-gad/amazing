@@ -10,19 +10,21 @@ public interface Matrix<T> {
 
     Size getSize();
 
-    interface Visitor<T> {
-        void visit(Position position, T value);
+    abstract class Visitor<T> {
+        protected abstract void visit(Position position, T value);
 
-        void endRow();
+        protected void endRow() {
+        }
 
-        void startRow();
+        protected void startRow() {
+        }
     }
 
-    default void visitAllSquares(final Visitor<T> visitor) {
+    default void visitAllSquares(Visitor<T> visitor) {
         for (int y = 0; y < getSize().height; y++) {
             visitor.startRow();
             for (int x = 0; x < getSize().width; x++) {
-                final Position position = new Position(x, y);
+                Position position = new Position(x, y);
                 visitor.visit(position, get(position));
             }
             visitor.endRow();

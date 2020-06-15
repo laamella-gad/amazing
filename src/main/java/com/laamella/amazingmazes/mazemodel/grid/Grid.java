@@ -10,6 +10,8 @@ import com.laamella.amazingmazes.mazemodel.graph.Vertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
+
 public interface Grid extends Graph {
     Square getSquare(Position position);
 
@@ -21,10 +23,10 @@ public interface Grid extends Graph {
     default void closeAllWalls() {
         log.debug("closeAllWalls");
         forAllSquares((position, square) -> {
-            square.getWall(Direction.UP).close();
-            square.getWall(Direction.RIGHT).close();
-            square.getWall(Direction.DOWN).close();
-            square.getWall(Direction.LEFT).close();
+            square.getWall(UP).close();
+            square.getWall(RIGHT).close();
+            square.getWall(DOWN).close();
+            square.getWall(LEFT).close();
             return null;
         });
     }
@@ -32,10 +34,10 @@ public interface Grid extends Graph {
     default void openAllWalls() {
         log.debug("openAllWalls");
         forAllSquares((position, square) -> {
-            square.getWall(Direction.UP).open();
-            square.getWall(Direction.RIGHT).open();
-            square.getWall(Direction.DOWN).open();
-            square.getWall(Direction.LEFT).open();
+            square.getWall(UP).open();
+            square.getWall(RIGHT).open();
+            square.getWall(DOWN).open();
+            square.getWall(LEFT).open();
             return null;
         });
     }
@@ -45,11 +47,11 @@ public interface Grid extends Graph {
         T visitSquare(Position position, Square square);
     }
 
-    default <T> T forAllSquares(final SquareVisitor<T> visitor) {
+    default <T> T forAllSquares(SquareVisitor<T> visitor) {
         for (int y = 0; y < getSize().height; y++) {
             for (int x = 0; x < getSize().width; x++) {
-                final Position position = new Position(x, y);
-                final T t = visitor.visitSquare(position, getSquare(position));
+                Position position = new Position(x, y);
+                T t = visitor.visitSquare(position, getSquare(position));
                 if (t != null) {
                     return t;
                 }
@@ -58,14 +60,14 @@ public interface Grid extends Graph {
         return null;
     }
 
-    default boolean isBorderSquare(final Position position) {
-        return isBorderSquare(Direction.UP, position) || //
-                isBorderSquare(Direction.RIGHT, position) || //
-                isBorderSquare(Direction.LEFT, position) || //
-                isBorderSquare(Direction.DOWN, position);
+    default boolean isBorderSquare(Position position) {
+        return isBorderSquare(UP, position) || //
+                isBorderSquare(RIGHT, position) || //
+                isBorderSquare(LEFT, position) || //
+                isBorderSquare(DOWN, position);
     }
 
-    default boolean isBorderSquare(final Direction direction, final Position position) {
+    default boolean isBorderSquare(Direction direction, Position position) {
         return switch (direction) {
             case UP -> position.y == 0;
             case DOWN -> position.y == getSize().height - 1;
@@ -74,7 +76,7 @@ public interface Grid extends Graph {
         };
     }
 
-    default Square randomSquare(final Randomizer randomGenerator) {
+    default Square randomSquare(Randomizer randomGenerator) {
         return getSquare(randomGenerator.randomPosition(getSize()));
     }
 
@@ -86,37 +88,37 @@ public interface Grid extends Graph {
         return getSquare(new Position(getSize().width - 1, getSize().height - 1));
     }
 
-    default void drawVerticalWall(final int x, final int y1, final int y2) {
+    default void drawVerticalWall(int x, int y1, int y2) {
         for (int y = y1; y <= y2; y++) {
             getHorizontalWall(new Position(x, y)).close();
         }
     }
 
-    default void drawHorizontalWall(final int y, final int x1, final int x2) {
+    default void drawHorizontalWall(int y, int x1, int x2) {
         for (int x = x1; x <= x2; x++) {
             getVerticalWall(new Position(x, y)).close();
         }
     }
 
-    default Wall getHorizontalWall(final Position position) {
+    default Wall getHorizontalWall(Position position) {
         if (position.x < getSize().width) {
-            return getSquare(position).getWall(Direction.LEFT);
+            return getSquare(position).getWall(LEFT);
         }
-        return getSquare(position.move(Direction.LEFT.getMove())).getWall(Direction.RIGHT);
+        return getSquare(position.move(LEFT.getMove())).getWall(RIGHT);
     }
 
-    default Wall getVerticalWall(final Position position) {
+    default Wall getVerticalWall(Position position) {
         if (position.y < getSize().height) {
-            return getSquare(position).getWall(Direction.UP);
+            return getSquare(position).getWall(UP);
         }
-        return getSquare(position.move(Direction.UP.getMove())).getWall(Direction.DOWN);
+        return getSquare(position.move(UP.getMove())).getWall(DOWN);
     }
 
-    default void clearState(final MazeState state) {
-        for (final Edge edge : getEdges()) {
+    default void clearState(MazeState state) {
+        for (Edge edge : getEdges()) {
             edge.setState(state, false);
         }
-        for (final Vertex vertex : getVertices()) {
+        for (Vertex vertex : getVertices()) {
             vertex.setState(state, false);
         }
     }

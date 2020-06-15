@@ -22,7 +22,7 @@ public abstract class RandomWalkerWithLoopRemoval {
         public final Vertex from;
         public final Vertex to;
 
-        public Step(final Vertex from, final Vertex to, final Edge edge) {
+        public Step(Vertex from, Vertex to, Edge edge) {
             this.from = from;
             this.to = to;
             this.edge = edge;
@@ -36,33 +36,33 @@ public abstract class RandomWalkerWithLoopRemoval {
 
     private final Randomizer randomizer;
 
-    public RandomWalkerWithLoopRemoval(final Randomizer randomizer) {
+    public RandomWalkerWithLoopRemoval(Randomizer randomizer) {
         this.randomizer = randomizer;
     }
 
-    public List<Step> walk(final Vertex startVertex) {
+    public List<Step> walk(Vertex startVertex) {
         List<Step> steps = new ArrayList<>();
         Vertex currentVertex = startVertex;
         do {
-            final Set<Edge> walkableEdges = new HashSet<>();
-            for (final Edge edge : currentVertex.getEdges()) {
+            Set<Edge> walkableEdges = new HashSet<>();
+            for (Edge edge : currentVertex.getEdges()) {
                 if (isWalkable(edge)) {
                     walkableEdges.add(edge);
                 }
             }
-            final Edge randomEdge = randomizer.pickOne(walkableEdges);
-            final Vertex nextVertex = randomEdge.travel(currentVertex);
+            Edge randomEdge = randomizer.pickOne(walkableEdges);
+            Vertex nextVertex = randomEdge.travel(currentVertex);
             steps = removeLoopWhenCreatingOne(steps, currentVertex);
-            final Step step = new Step(currentVertex, nextVertex, randomEdge);
+            Step step = new Step(currentVertex, nextVertex, randomEdge);
             steps.add(step);
             currentVertex = nextVertex;
         } while (!endCondition(currentVertex));
         return steps;
     }
 
-    private List<Step> removeLoopWhenCreatingOne(final List<Step> steps, final Vertex vertex) {
+    private List<Step> removeLoopWhenCreatingOne(List<Step> steps, Vertex vertex) {
         List<Step> looplessSteps = new ArrayList<>();
-        for (final Step step : steps) {
+        for (Step step : steps) {
             if (step.from == vertex) {
                 return looplessSteps;
             }
@@ -71,7 +71,7 @@ public abstract class RandomWalkerWithLoopRemoval {
         return looplessSteps;
     }
 
-    protected abstract boolean endCondition(final Vertex currentVertex);
+    protected abstract boolean endCondition(Vertex currentVertex);
 
     protected abstract boolean isWalkable(Edge edge);
 }

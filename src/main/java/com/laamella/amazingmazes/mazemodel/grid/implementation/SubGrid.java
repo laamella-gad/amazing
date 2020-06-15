@@ -18,7 +18,7 @@ public class SubGrid implements Grid {
     private final Position topLeft;
     private final Size size;
 
-    public SubGrid(final Grid delegateGrid, final Position topLeft, final Size size) {
+    public SubGrid(Grid delegateGrid, Position topLeft, Size size) {
         this.delegateGrid = delegateGrid;
         this.topLeft = topLeft;
         this.size = size;

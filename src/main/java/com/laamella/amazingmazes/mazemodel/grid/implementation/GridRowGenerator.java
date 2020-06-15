@@ -12,14 +12,14 @@ public class GridRowGenerator implements RowGenerator {
     private final Grid grid;
     private int currentRow;
 
-    public GridRowGenerator(final Grid grid) {
+    public GridRowGenerator(Grid grid) {
         this.grid = grid;
         currentRow = 0;
     }
 
     @Override
     public List<Square> nextRow() {
-        final List<Square> row = new ArrayList<>();
+        List<Square> row = new ArrayList<>();
         for (int x = 0; x < grid.getSize().width; x++) {
             row.add(grid.getSquare(new Position(x, currentRow)));
         }

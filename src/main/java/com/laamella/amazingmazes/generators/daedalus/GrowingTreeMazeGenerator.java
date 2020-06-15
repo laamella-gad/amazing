@@ -40,38 +40,38 @@ import static com.laamella.amazingmazes.mazemodel.MazeDefinitionState.*;
 public class GrowingTreeMazeGenerator implements GraphMazeGenerator {
     private final Randomizer randomizer;
 
-    public GrowingTreeMazeGenerator(final Randomizer randomizer) {
+    public GrowingTreeMazeGenerator(Randomizer randomizer) {
         this.randomizer = randomizer;
     }
 
     @Override
-    public void generateMaze(final Graph graph) {
-        final List<Vertex> vertexList = new ArrayList<>();
+    public void generateMaze(Graph graph) {
+        List<Vertex> vertexList = new ArrayList<>();
         putAStartVertexInTheList(graph, vertexList);
         do {
-            final Vertex randomVertex = pickAVertexFromTheList(vertexList, randomizer);
-            final Edge edge = pickEdgeToUnvisitedVertex(randomVertex);
+            Vertex randomVertex = pickAVertexFromTheList(vertexList, randomizer);
+            Edge edge = pickEdgeToUnvisitedVertex(randomVertex);
             if (edge == null) {
                 vertexList.remove(randomVertex);
             } else {
                 edge.setState(PASSAGE, true);
-                final Vertex destinationVertex = edge.travel(randomVertex);
+                Vertex destinationVertex = edge.travel(randomVertex);
                 destinationVertex.setState(VISITED_WHILE_GENERATING, true);
                 vertexList.add(destinationVertex);
             }
         } while (vertexList.size() > 0);
     }
 
-    private void putAStartVertexInTheList(final Graph graph, final List<Vertex> vertexList) {
-        final Vertex startVertex = randomizer.pickOne(graph.getVertices());
+    private void putAStartVertexInTheList(Graph graph, List<Vertex> vertexList) {
+        Vertex startVertex = randomizer.pickOne(graph.getVertices());
         vertexList.add(startVertex);
         startVertex.setState(VISITED_WHILE_GENERATING, true);
     }
 
-    private Edge pickEdgeToUnvisitedVertex(final Vertex randomVertex) {
-        final Set<Edge> possibleEdges = new HashSet<>();
-        for (final Edge edge : randomVertex.getEdges()) {
-            final Vertex destinationVertex = edge.travel(randomVertex);
+    private Edge pickEdgeToUnvisitedVertex(Vertex randomVertex) {
+        Set<Edge> possibleEdges = new HashSet<>();
+        for (Edge edge : randomVertex.getEdges()) {
+            Vertex destinationVertex = edge.travel(randomVertex);
             if (!destinationVertex.hasState(VISITED_WHILE_GENERATING)) {
                 possibleEdges.add(edge);
             }
@@ -87,7 +87,7 @@ public class GrowingTreeMazeGenerator implements GraphMazeGenerator {
      * @param randomizer useful for randomizing your pick.
      * @return a vertex from the list.
      */
-    protected Vertex pickAVertexFromTheList(final List<Vertex> vertexList, final Randomizer randomizer) {
+    protected Vertex pickAVertexFromTheList(List<Vertex> vertexList, Randomizer randomizer) {
         return randomizer.pickOne(vertexList);
     }
 

@@ -33,13 +33,13 @@ public class HuntAndKillMazeGenerator implements GridMazeGenerator {
     private final Randomizer randomizer;
     private final Hunter hunter;
 
-    public HuntAndKillMazeGenerator(final Randomizer randomizer, final Hunter hunter) {
+    public HuntAndKillMazeGenerator(Randomizer randomizer, Hunter hunter) {
         this.randomizer = randomizer;
         this.hunter = hunter;
     }
 
     @Override
-    public void generateMaze(final Grid grid) {
+    public void generateMaze(Grid grid) {
         randomizer.randomPosition(grid.getSize());
 
     }
@@ -48,7 +48,7 @@ public class HuntAndKillMazeGenerator implements GridMazeGenerator {
      * Interface for hunt algorithms.
      */
     public interface Hunter {
-        Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare);
+        Square huntForUnmadeSquare(Grid grid, Square lastMadeSquare);
 
         /**
          * Scans the grid from left to right, top to bottom, for an unmade
@@ -56,7 +56,7 @@ public class HuntAndKillMazeGenerator implements GridMazeGenerator {
          */
         class ReadingDirectionHunter implements Hunter {
             @Override
-            public Square huntForUnmadeSquare(final Grid grid, final Square lastMadeSquare) {
+            public Square huntForUnmadeSquare(Grid grid, Square lastMadeSquare) {
                 return grid.forAllSquares((position, square) -> {
                     if (!square.hasState(VISITED_WHILE_GENERATING)) {
                         return square;

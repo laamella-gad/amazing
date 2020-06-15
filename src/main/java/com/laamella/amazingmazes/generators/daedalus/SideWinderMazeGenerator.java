@@ -45,21 +45,21 @@ import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
 public class SideWinderMazeGenerator implements RowMazeGenerator {
     private final Randomizer randomizer;
 
-    public SideWinderMazeGenerator(final Randomizer randomizer) {
+    public SideWinderMazeGenerator(Randomizer randomizer) {
         this.randomizer = randomizer;
     }
 
     @Override
-    public void generateMaze(final RowGenerator rowGenerator) {
+    public void generateMaze(RowGenerator rowGenerator) {
         generateFirstRow(rowGenerator.nextRow());
         while (rowGenerator.rowsToGo() > 0) {
             generateRow(rowGenerator.nextRow());
         }
     }
 
-    private void generateRow(final List<Square> row) {
-        final Set<Square> currentRun = new HashSet<>();
-        for (final Square square : row) {
+    private void generateRow(List<Square> row) {
+        Set<Square> currentRun = new HashSet<>();
+        for (Square square : row) {
             currentRun.add(square);
             if (thereIsASquareToTheRight(square) && randomizer.chance(0.5)) {
                 square.getWall(RIGHT).open();
@@ -70,17 +70,17 @@ public class SideWinderMazeGenerator implements RowMazeGenerator {
         }
     }
 
-    private boolean thereIsASquareToTheRight(final Square square) {
+    private boolean thereIsASquareToTheRight(Square square) {
         return square.getSquare(RIGHT) != null;
     }
 
-    private void generateFirstRow(final List<Square> row) {
-        for (final Square square : row) {
+    private void generateFirstRow(List<Square> row) {
+        for (Square square : row) {
             if (thereIsASquareToTheRight(square)) {
                 square.getWall(RIGHT).open();
             }
         }
-        final Square startSquare = row.get(randomizer.random(row.size()));
+        Square startSquare = row.get(randomizer.random(row.size()));
         startSquare.getWall(UP).open();
         startSquare.setState(ENTRANCE, true);
     }

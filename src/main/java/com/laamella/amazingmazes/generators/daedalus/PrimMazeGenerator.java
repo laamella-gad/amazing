@@ -44,19 +44,19 @@ public class PrimMazeGenerator implements GraphMazeGenerator {
 
     private final Randomizer randomizer;
 
-    public PrimMazeGenerator(final Randomizer randomizer) {
+    public PrimMazeGenerator(Randomizer randomizer) {
         this.randomizer = randomizer;
     }
 
     @Override
-    public void generateMaze(final Graph graph) {
+    public void generateMaze(Graph graph) {
         log.debug("generateMaze");
 
-        final Set<Vertex> in = new HashSet<>();
-        final Set<Vertex> frontier = new HashSet<>();
-        final Set<Vertex> out = new HashSet<>(graph.getVertices());
+        Set<Vertex> in = new HashSet<>();
+        Set<Vertex> frontier = new HashSet<>();
+        Set<Vertex> out = new HashSet<>(graph.getVertices());
 
-        final Vertex startVertex = randomizer.pickOne(out);
+        Vertex startVertex = randomizer.pickOne(out);
         in.add(startVertex);
         out.remove(startVertex);
 
@@ -64,9 +64,9 @@ public class PrimMazeGenerator implements GraphMazeGenerator {
 
         while (frontier.size() > 0) {
             log.debug("in: " + in.size() + ", frontier: " + frontier.size() + ", out: " + out.size());
-            final Vertex currentFrontierVertex = randomizer.pickOne(frontier);
-            for (final Edge edge : currentFrontierVertex.getEdges()) {
-                final Vertex possibleInVertex = edge.travel(currentFrontierVertex);
+            Vertex currentFrontierVertex = randomizer.pickOne(frontier);
+            for (Edge edge : currentFrontierVertex.getEdges()) {
+                Vertex possibleInVertex = edge.travel(currentFrontierVertex);
                 if (in.contains(possibleInVertex)) {
                     edge.setState(PASSAGE, true);
                     in.add(currentFrontierVertex);
@@ -78,9 +78,9 @@ public class PrimMazeGenerator implements GraphMazeGenerator {
         }
     }
 
-    private void makeFrontier(final Vertex vertex, final Set<Vertex> frontier, final Set<Vertex> out) {
-        for (final Edge edge : vertex.getEdges()) {
-            final Vertex possibleFrontierVertex = edge.travel(vertex);
+    private void makeFrontier(Vertex vertex, Set<Vertex> frontier, Set<Vertex> out) {
+        for (Edge edge : vertex.getEdges()) {
+            Vertex possibleFrontierVertex = edge.travel(vertex);
             if (out.contains(possibleFrontierVertex)) {
                 out.remove(possibleFrontierVertex);
                 frontier.add(possibleFrontierVertex);

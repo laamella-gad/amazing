@@ -41,12 +41,12 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
     private static final Logger log = LoggerFactory.getLogger(BinaryTreeMazeGenerator.class);
     private final Randomizer randomGenerator;
 
-    public BinaryTreeMazeGenerator(final Randomizer randomGenerator) {
+    public BinaryTreeMazeGenerator(Randomizer randomGenerator) {
         this.randomGenerator = randomGenerator;
     }
 
     @Override
-    public void generateMaze(final Grid grid) {
+    public void generateMaze(Grid grid) {
         log.debug("generateMaze");
 
         grid.forAllSquares((position, square) -> {
@@ -73,7 +73,7 @@ public class BinaryTreeMazeGenerator implements GridMazeGenerator {
             return null;
         });
 
-        final Square exit = grid.getSquare(new Position(grid.getSize().width - 1, grid.getSize().height - 1));
+        Square exit = grid.getSquare(new Position(grid.getSize().width - 1, grid.getSize().height - 1));
         exit.getWall(RIGHT).open();
         exit.setState(EXIT, true);
 

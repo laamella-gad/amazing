@@ -8,12 +8,12 @@ final class PrettyPrintObserver implements Observer {
     private final StateMatrixPrettyPrinter prettyPrinter;
     private final StateMatrix matrix;
 
-    PrettyPrintObserver(final StateMatrix observableMatrix) {
+    PrettyPrintObserver(StateMatrix observableMatrix) {
         this.prettyPrinter = new StateMatrixPrettyPrinter();
         this.matrix = observableMatrix;
     }
 
-    PrettyPrintObserver(final StateMatrix observableMatrix, final StateMatrixPrettyPrinter prettyPrinter) {
+    PrettyPrintObserver(StateMatrix observableMatrix, StateMatrixPrettyPrinter prettyPrinter) {
         this.matrix = observableMatrix;
         this.prettyPrinter = prettyPrinter;
     }

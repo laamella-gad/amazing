@@ -58,13 +58,13 @@ import static com.laamella.amazingmazes.mazemodel.grid.Direction.*;
 public class EllerMazeGenerator implements RowMazeGenerator {
     private final Randomizer randomizer;
 
-    public EllerMazeGenerator(final Randomizer randomizer) {
+    public EllerMazeGenerator(Randomizer randomizer) {
         this.randomizer = randomizer;
     }
 
     @Override
-    public void generateMaze(final RowGenerator rowGenerator) {
-        final Sets<Integer> squareSets = new Sets<>();
+    public void generateMaze(RowGenerator rowGenerator) {
+        Sets<Integer> squareSets = new Sets<>();
         generateFirstRow(rowGenerator.nextRow(), squareSets);
         do {
             generateRow(rowGenerator.nextRow(), squareSets);
@@ -72,19 +72,19 @@ public class EllerMazeGenerator implements RowMazeGenerator {
         generateLastRow(rowGenerator.nextRow(), squareSets);
     }
 
-    private void generateLastRow(final List<Square> squares, final Sets<Integer> squareSets) {
+    private void generateLastRow(List<Square> squares, Sets<Integer> squareSets) {
         for (int x = 0; x < squares.size() - 1; x++) {
-            final Square square = squares.get(x);
-            final Set<Integer> thisSet = squareSets.findSetContaining(x);
+            Square square = squares.get(x);
+            Set<Integer> thisSet = squareSets.findSetContaining(x);
             // remove horizontal walls where squares in different sets
             makeHorizontalPassage(squareSets, x, thisSet, square, true);
         }
     }
 
-    private void generateRow(final List<Square> squares, final Sets<Integer> squareSets) {
+    private void generateRow(List<Square> squares, Sets<Integer> squareSets) {
         for (int x = 0; x < squares.size(); x++) {
-            final Square square = squares.get(x);
-            final Set<Integer> thisSet = squareSets.findSetContaining(x);
+            Square square = squares.get(x);
+            Set<Integer> thisSet = squareSets.findSetContaining(x);
 
             if (x < squares.size() - 1) {
                 makeHorizontalPassage(squareSets, x, thisSet, square, false);
@@ -93,8 +93,8 @@ public class EllerMazeGenerator implements RowMazeGenerator {
         }
     }
 
-    private void makeVerticalPassage(final Sets<Integer> squareSets, int x, final Set<Integer> thisSet, final Square square) {
-        final Wall downWall = square.getWall(DOWN);
+    private void makeVerticalPassage(Sets<Integer> squareSets, int x, Set<Integer> thisSet, Square square) {
+        Wall downWall = square.getWall(DOWN);
 
         // When square is alone in a set, connect it vertically
         if (thisSet.size() == 1) {
@@ -112,9 +112,9 @@ public class EllerMazeGenerator implements RowMazeGenerator {
         }
     }
 
-    private void makeHorizontalPassage(final Sets<Integer> squareSets, final int x, final Set<Integer> thisSet, final Square square, final boolean force) {
-        final Set<Integer> nextSet = squareSets.findSetContaining(x + 1);
-        final Wall rightWall = square.getWall(RIGHT);
+    private void makeHorizontalPassage(Sets<Integer> squareSets, int x, Set<Integer> thisSet, Square square, boolean force) {
+        Set<Integer> nextSet = squareSets.findSetContaining(x + 1);
+        Wall rightWall = square.getWall(RIGHT);
 
         // Don't connect squares in the same set
         if (thisSet != nextSet) {
@@ -127,12 +127,12 @@ public class EllerMazeGenerator implements RowMazeGenerator {
         }
     }
 
-    private void generateFirstRow(final List<Square> squares, final Sets<Integer> squareSets) {
+    private void generateFirstRow(List<Square> squares, Sets<Integer> squareSets) {
         for (int x = 0; x < squares.size(); x++) {
             squareSets.putInNewSet(x);
         }
         generateRow(squares, squareSets);
-        final Square entrance = randomizer.pickOne(squares);
+        Square entrance = randomizer.pickOne(squares);
         entrance.getWall(UP).setState(PASSAGE, true);
         entrance.setState(ENTRANCE, true);
     }
