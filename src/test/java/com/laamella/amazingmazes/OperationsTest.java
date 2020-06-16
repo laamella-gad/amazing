@@ -23,55 +23,55 @@ import static com.laamella.amazingmazes.operations.VertexDistanceMarker.*;
 public class OperationsTest {
     private static final Logger log = LoggerFactory.getLogger(OperationsTest.class);
 
-    private final MarkableMatrix mazeMarkableMatrix = new MarkableMatrix(new Size(149, 41));
-    private final GridMatrixStorage matrixStorage = new GridMatrixStorage(mazeMarkableMatrix);
+    private final MarkableMatrix mazeMatrix = new MarkableMatrix(new Size(149, 41));
+    private final GridMatrixStorage matrixStorage = new GridMatrixStorage(mazeMatrix);
     private final GridWithDecoupledMarkers grid = new GridWithDecoupledMarkers(matrixStorage);
 
-    private final MarkableMatrixPrettyPrinter defaultMarkableMatrixPrettyPrinter = new MarkableMatrixPrettyPrinter();
+    private final MarkableMatrixPrettyPrinter defaultPrinter = new MarkableMatrixPrettyPrinter();
 
     @BeforeEach
      void before() {
-        Randomizer.Default randomGenerator = new Randomizer.Default();
-        PrimMazeGenerator mazeGenerator = new PrimMazeGenerator(randomGenerator);
+        Randomizer randomGenerator = new Randomizer.Default();
+        PrimMazeGenerator generator = new PrimMazeGenerator(randomGenerator);
         grid.getTopLeftSquare().mark(ENTRANCE);
-        mazeGenerator.generateMaze(grid);
-        mazeMarkableMatrix.addObserver(new PrettyPrintObserver(mazeMarkableMatrix));
+        generator.generateMaze(grid);
+        mazeMatrix.addObserver(new PrettyPrintObserver(mazeMatrix));
     }
 
     @Test
      void testDistanceMarkingOperation() {
         new VertexDistanceMarker().mark(grid.getSquare(new Position(5, 5)));
 
-        MarkableMatrixPrettyPrinter markableMatrixPrettyPrinter = new MarkableMatrixPrettyPrinter('#');
-        markableMatrixPrettyPrinter.map(DISTANCE);
-        markableMatrixPrettyPrinter.map(PASSAGE, ' ');
-        log.debug(markableMatrixPrettyPrinter.getPrintableMaze(mazeMarkableMatrix));
+        MarkableMatrixPrettyPrinter printer = new MarkableMatrixPrettyPrinter('#');
+        printer.map(DISTANCE);
+        printer.map(PASSAGE, ' ');
+        log.debug(printer.getPrintableMaze(mazeMatrix));
     }
 
     @Test
      void testMostDistanceExitMarkingOperation() {
         new MostDistantExitMarker().findMostDistantExit(grid);
 
-        MarkableMatrixPrettyPrinter markableMatrixPrettyPrinter = new MarkableMatrixPrettyPrinter('#');
-        markableMatrixPrettyPrinter.map(DISTANCE);
-        markableMatrixPrettyPrinter.map(PASSAGE, ' ');
-        log.debug(markableMatrixPrettyPrinter.getPrintableMaze(mazeMarkableMatrix));
-        log.debug(defaultMarkableMatrixPrettyPrinter.getPrintableMaze(mazeMarkableMatrix));
+        MarkableMatrixPrettyPrinter printer = new MarkableMatrixPrettyPrinter('#');
+        printer.map(DISTANCE);
+        printer.map(PASSAGE, ' ');
+        log.debug(printer.getPrintableMaze(mazeMatrix));
+        log.debug(defaultPrinter.getPrintableMaze(mazeMatrix));
     }
 
     @Test
      void testDistanceFromDeadEndMarkerOperation() {
-        DistanceFromDeadEndMarker longestPathFinderOperation = new DistanceFromDeadEndMarker();
+        DistanceFromDeadEndMarker longestPathFinder = new DistanceFromDeadEndMarker();
 
-        MarkableMatrixPrettyPrinter markableMatrixPrettyPrinter = new MarkableMatrixPrettyPrinter('#');
-        markableMatrixPrettyPrinter.map(DISTANCE_FROM_DEAD_END);
-        markableMatrixPrettyPrinter.map(PASSAGE, ' ');
+        MarkableMatrixPrettyPrinter printer = new MarkableMatrixPrettyPrinter('#');
+        printer.map(DISTANCE_FROM_DEAD_END);
+        printer.map(PASSAGE, ' ');
 
-        longestPathFinderOperation.addObserver(new PrettyPrintObserver(mazeMarkableMatrix, markableMatrixPrettyPrinter));
+        longestPathFinder.addObserver(new PrettyPrintObserver(mazeMatrix, printer));
 
-        longestPathFinderOperation.execute(grid);
+        longestPathFinder.execute(grid);
 
-        log.debug(markableMatrixPrettyPrinter.getPrintableMaze(mazeMarkableMatrix));
+        log.debug(printer.getPrintableMaze(mazeMatrix));
     }
 
     @Test
