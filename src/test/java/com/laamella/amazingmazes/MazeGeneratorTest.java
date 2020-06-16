@@ -29,8 +29,8 @@ import static com.laamella.amazingmazes.mazemodel.grid.Direction.RIGHT;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MazeGeneratorTester {
-    static Logger log = LoggerFactory.getLogger(MazeGeneratorTester.class);
+public class MazeGeneratorTest {
+    static Logger log = LoggerFactory.getLogger(MazeGeneratorTest.class);
 
     private MarkableMatrix mazeMatrix;
     private Grid grid;

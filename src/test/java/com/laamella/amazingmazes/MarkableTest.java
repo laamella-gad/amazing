@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MarkableTester {
+public class MarkableTest {
     @Test
     void test1() {
         Marker key = Marker.singletonInstance();

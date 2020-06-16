@@ -1,5 +1,5 @@
 package com.laamella.amazingmazes;
 
-public class SolversTester {
+public class SolversTest {
 
 }

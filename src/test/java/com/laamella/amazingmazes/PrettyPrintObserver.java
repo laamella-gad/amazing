@@ -19,6 +19,6 @@ final class PrettyPrintObserver implements Observer {
 
     @Override
     public void update() {
-        MazeGeneratorTester.log.debug(prettyPrinter.getPrintableMaze(matrix));
+        MazeGeneratorTest.log.debug(prettyPrinter.getPrintableMaze(matrix));
     }
 }

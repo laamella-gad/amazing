@@ -20,8 +20,8 @@ import static com.laamella.amazingmazes.mazemodel.MazeDefinitionMarker.*;
 import static com.laamella.amazingmazes.operations.DistanceFromDeadEndMarker.*;
 import static com.laamella.amazingmazes.operations.VertexDistanceMarker.*;
 
-public class OperationsTester {
-    private static final Logger log = LoggerFactory.getLogger(OperationsTester.class);
+public class OperationsTest {
+    private static final Logger log = LoggerFactory.getLogger(OperationsTest.class);
 
     private final MarkableMatrix mazeMarkableMatrix = new MarkableMatrix(new Size(149, 41));
     private final GridMatrixStorage matrixStorage = new GridMatrixStorage(mazeMarkableMatrix);
